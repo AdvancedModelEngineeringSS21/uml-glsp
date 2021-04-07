@@ -67,9 +67,9 @@ import { EditLabelUI } from "sprotty/lib";
 import { EditLabelUIAutocomplete } from "./features/edit-label";
 import umlToolPaletteModule from "./features/tool-palette/di.config";
 import { LabelSelectionFeedback } from "./feedback";
-import { IconClass, LabeledNode, SEditableLabel, SLabelNodeProperty } from "./model";
+import { IconActor, IconClass, IconUseCase, LabeledNode, SEditableLabel, SLabelNodeProperty } from "./model";
 import { BaseTypes, UmlTypes } from "./utils";
-import { ClassNodeView, IconView, LabelNodeView } from "./views";
+import { ActorNodeView, ClassNodeView, IconView, LabelNodeView, UseCaseNodeView } from "./views";
 
 export default (containerId: string): Container => {
     const classDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -94,6 +94,14 @@ export default (containerId: string): Container => {
         configureModelElement(context, BaseTypes.ROUTING_POINT, SRoutingHandle, SRoutingHandleView);
         configureModelElement(context, BaseTypes.VOLATILE_ROUTING_POINT, SRoutingHandle, SRoutingHandleView);
         configureModelElement(context, UmlTypes.ASSOCIATION, SEdge, PolylineEdgeView);
+
+        // #region UML USE CASE DIAGRAM
+        configureModelElement(context, UmlTypes.ACTOR, LabeledNode, ActorNodeView);
+        configureModelElement(context, UmlTypes.ICON_ACTOR, IconActor, IconView);
+        configureModelElement(context, UmlTypes.USECASE, LabeledNode, UseCaseNodeView);
+        configureModelElement(context, UmlTypes.ICON_USECASE, IconUseCase, IconView);
+        // #endregion
+
         configureViewerOptions(context, {
             needsClientLayout: true,
             baseDiv: containerId

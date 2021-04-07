@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_7nsuUJe_EeuLXYO0ImXnqA" name="test2">
-  <packagedElement xmi:type="uml:Actor" xmi:id="_1hDGII_dEeupuIIxvGowtg" name="Peter"/>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_RmPLEJGSEeuYCvCjbwsvdA" name="UseCaseDiagramm-Test">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_R65McJGSEeuYCvCjbwsvdA">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_YjobAJGSEeuYCvCjbwsvdA" name="Actor2"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_obBKcJGSEeuYCvCjbwsvdA" name="Class3" useCase="_pJJbwJGSEeuYCvCjbwsvdA">
+    <ownedUseCase xmi:type="uml:UseCase" xmi:id="_pJJbwJGSEeuYCvCjbwsvdA" name="UseCase1" subject="_obBKcJGSEeuYCvCjbwsvdA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_pwzRoJGSEeuYCvCjbwsvdA" memberEnd="_pw2U8JGSEeuYCvCjbwsvdA _pw4xMJGSEeuYCvCjbwsvdA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_pw1G0JGSEeuYCvCjbwsvdA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_pw1G0ZGSEeuYCvCjbwsvdA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_pw2U8JGSEeuYCvCjbwsvdA" name="usecase1" type="_pJJbwJGSEeuYCvCjbwsvdA" association="_pwzRoJGSEeuYCvCjbwsvdA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_pw4xMJGSEeuYCvCjbwsvdA" name="actor2" type="_YjobAJGSEeuYCvCjbwsvdA" association="_pwzRoJGSEeuYCvCjbwsvdA"/>
+  </packagedElement>
 </uml:Model>

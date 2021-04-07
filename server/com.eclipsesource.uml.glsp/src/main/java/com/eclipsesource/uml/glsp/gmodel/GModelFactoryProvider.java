@@ -10,18 +10,24 @@
  ********************************************************************************/
 package com.eclipsesource.uml.glsp.gmodel;
 
+import org.apache.log4j.Logger;
+
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.modelserver.unotation.Representation;
 
 public class GModelFactoryProvider {
 
+   private static Logger LOGGER = Logger.getLogger(GModelFactoryProvider.class.getSimpleName());
+
    public static GModelFactory get(final UmlModelState modelState) {
       Representation diagramType = modelState.getUmlFacade().getDiagram().getDiagramType();
       switch (diagramType) {
          case CLASS: {
+            LOGGER.info("Providing UmlClassDiagramModelFactory");
             return new UmlClassDiagramModelFactory(modelState);
          }
          case USECASE: {
+            LOGGER.info("Providing UmlUseCaseDiagramModelFactory");
             return new UmlUseCaseDiagramModelFactory(modelState);
          }
       }

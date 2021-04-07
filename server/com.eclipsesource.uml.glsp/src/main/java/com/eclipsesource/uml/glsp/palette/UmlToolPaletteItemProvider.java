@@ -20,6 +20,7 @@ import org.eclipse.glsp.server.features.toolpalette.PaletteItem;
 import org.eclipse.glsp.server.features.toolpalette.ToolPaletteItemProvider;
 import org.eclipse.glsp.server.model.GModelState;
 
+import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 import com.google.common.collect.Lists;
 
@@ -30,7 +31,27 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
    @Override
    public List<PaletteItem> getItems(final Map<String, String> args, final GModelState modelState) {
       LOGGER.info("Create palette");
+
+      var diagramType = ((UmlModelState) modelState).getUmlFacade().getDiagram().getDiagramType();
+
+      switch (diagramType) {
+         case USECASE: {
+            return Lists.newArrayList(usecase_elements());
+         }
+         case CLASS: {
+            return Lists.newArrayList(classifiers(), relations(), features());
+         }
+      }
       return Lists.newArrayList(classifiers(), relations(), features());
+   }
+
+   private PaletteItem usecase_elements() {
+      PaletteItem createSystem = node(Types.CLASS, "Class", "umlclass");
+      PaletteItem createActor = node(Types.ACTOR, "Actor", "umlactor");
+      PaletteItem createUsecase = node(Types.USECASE, "Usecase", "umlusecase");
+
+      List<PaletteItem> classifiers = Lists.newArrayList(createSystem, createActor, createUsecase);
+      return PaletteItem.createPaletteGroup("uml.classifier", "Classifier", classifiers, "fa-hammer");
    }
 
    private PaletteItem classifiers() {
