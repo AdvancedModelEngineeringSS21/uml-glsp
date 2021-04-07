@@ -34,9 +34,6 @@ public final class UmlConfig {
       public static final String ICON_ACTOR = "icon:actor";
       public static final String ACTOR = "node:actor";
 
-      public static final String ICON_SYSTEMCONTEXT = "icon:systemcontext";
-      public static final String SYSTEMCONTEXT = "node:systemcontext";
-
       private Types() {}
    }
 

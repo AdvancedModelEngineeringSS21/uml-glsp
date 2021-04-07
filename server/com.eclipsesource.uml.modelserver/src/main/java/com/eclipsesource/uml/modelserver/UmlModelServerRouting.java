@@ -59,11 +59,8 @@ public class UmlModelServerRouting extends ModelServerRoutingV1 {
          param -> {
             // FIXME use getParam() modelserver dependency gets updated
             String typeParam = "";
-            if (ctx.queryParamMap().containsKey("DIAGRAM_TYPE")) { // TODO: Was a Parameter
-                                                                   // (UMLModelServerPathParameters.DIAGRAM_TYPE)
-                                                                   // instead of a hard coded string, but class not
-                                                                   // found
-               typeParam = ctx.queryParamMap().get("DIAGRAM_TYPE").get(0);
+            if (ctx.queryParamMap().containsKey(UmlModelServerPathsParameters.DIAGRAM_TYPE)) {
+               typeParam = ctx.queryParamMap().get(UmlModelServerPathsParameters.DIAGRAM_TYPE).get(0);
             }
             boolean result = ((UmlModelResourceManager) resourceManager).addUmlResources(param, typeParam);
             ctx.json(result ? JsonResponse.success() : JsonResponse.error());

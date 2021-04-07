@@ -21,9 +21,11 @@ import org.eclipse.glsp.graph.builder.impl.GLayoutOptions;
 import org.eclipse.glsp.graph.builder.impl.GNodeBuilder;
 import org.eclipse.glsp.graph.util.GConstants;
 import org.eclipse.glsp.graph.util.GraphUtil;
+import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.util.UmlConfig.CSS;
@@ -43,7 +45,12 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
    public GNode create(final Classifier classifier) {
       if (classifier instanceof Class) {
          return create((Class) classifier);
+      } else if (classifier instanceof Actor) {
+         return create((Actor) classifier);
+      } else if (classifier instanceof UseCase) {
+         return create((UseCase) classifier);
       }
+
       return null;
    }
 
@@ -93,10 +100,42 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .build();
    }
 
+   // region Use Case Diagram
+
+   // TODO: FELIX Changes made here
+
+   protected GNode create(final UseCase umlUseCase) {
+      GNodeBuilder b = new GNodeBuilder(Types.USECASE) //
+         .id(toId(umlUseCase)) //
+         .layout(GConstants.Layout.VBOX) //
+         .addCssClass(CSS.NODE)
+         .addCssClass(CSS.ELLIPSE);
+
+      applyShapeData(umlUseCase, b);
+      return b.build();
+   }
+
+   protected GNode create(final Actor umlActor) {
+      GNodeBuilder b = new GNodeBuilder(Types.ACTOR) //
+         .id(toId(umlActor)) //
+         .layout(GConstants.Layout.VBOX) //
+         .addCssClass(CSS.NODE);
+
+      applyShapeData(umlActor, b);
+      return b.build();
+   }
+
+   // endregion
+
    protected static String getType(final Classifier classifier) {
       if (classifier instanceof Class) {
          return Types.ICON_CLASS;
+      } else if (classifier instanceof Actor) {
+         return Types.ICON_ACTOR;
+      } else if (classifier instanceof UseCase) {
+         return Types.ICON_USECASE;
       }
+
       return "Classifier not found";
    }
 }
