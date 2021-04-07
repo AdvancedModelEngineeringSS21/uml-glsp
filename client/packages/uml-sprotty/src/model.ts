@@ -85,3 +85,17 @@ export class SLabelNode extends SLabel implements EditableLabel {
 export class SLabelNodeProperty extends SLabelNode {
     imageName = "Property.svg";
 }
+
+// #region UML Use Case Diagram
+
+// TODO: FELIX insert correct icon
+export class IconUseCase extends Icon {
+    iconImageName = "Class.svg";
+}
+
+// TODO: LUKAS insert correct icon
+export class IconActor extends Icon {
+    iconImageName = "Class.svg";
+}
+
+// #endregion

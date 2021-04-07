@@ -26,6 +26,17 @@ public final class UmlConfig {
       public static final String PROPERTY = "node:property";
       public static final String ASSOCIATION = "edge:association";
 
+      /* region USE CASE DIAGRAM ELEMENTS */
+
+      public static final String ICON_USECASE = "icon:usecase";
+      public static final String USECASE = "node:usecase";
+
+      public static final String ICON_ACTOR = "icon:actor";
+      public static final String ACTOR = "node:actor";
+
+      public static final String ICON_SYSTEMCONTEXT = "icon:systemcontext";
+      public static final String SYSTEMCONTEXT = "node:systemcontext";
+
       private Types() {}
    }
 
@@ -33,6 +44,11 @@ public final class UmlConfig {
 
       public static final String NODE = "uml-node";
       public static final String EDGE = "uml-edge";
+
+      // region USE CASE DIAGRAM CSS classes
+      // TODO: FELIX Check if needed
+
+      public static final String ELLIPSE = "uml-ellipse";
 
       private CSS() {}
    }

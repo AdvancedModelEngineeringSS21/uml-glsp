@@ -22,4 +22,11 @@ export namespace UmlTypes {
     export const ASSOCIATION = `${BaseTypes.EDGE}:association`;
     export const PROPERTY = `${BaseTypes.NODE}:property`;
 
+    // #region UML USE CASE DIAGRAM
+    export const ACTOR = `${BaseTypes.NODE}:actor`;
+    export const ICON_ACTOR = `${BaseTypes.ICON}:actor`;
+    export const USECASE = `${BaseTypes.NODE}:usecase`;
+    export const ICON_USECASE = `${BaseTypes.ICON}:usecase`;
+    // #endregion
+
 }
