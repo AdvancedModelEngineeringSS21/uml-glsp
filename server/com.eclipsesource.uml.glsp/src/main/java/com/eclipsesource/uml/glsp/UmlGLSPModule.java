@@ -40,7 +40,6 @@ import com.eclipsesource.uml.glsp.actions.UmlGetTypesActionHandler;
 import com.eclipsesource.uml.glsp.actions.UmlSaveModelActionHandler;
 import com.eclipsesource.uml.glsp.actions.UmlUndoRedoActionHandler;
 import com.eclipsesource.uml.glsp.diagram.UmlDiagramConfiguration;
-import com.eclipsesource.uml.glsp.diagram.UmlUseCaseDiagramConfiguration;
 import com.eclipsesource.uml.glsp.layout.UmlLayoutEngine;
 import com.eclipsesource.uml.glsp.layout.UmlServerLayoutConfiguration;
 import com.eclipsesource.uml.glsp.model.UmlModelFactory;
@@ -121,7 +120,6 @@ public class UmlGLSPModule extends DefaultGLSPModule {
    @Override
    protected void configureDiagramConfigurations(final MultiBinding<DiagramConfiguration> bindings) {
       bindings.add(UmlDiagramConfiguration.class);
-      bindings.add(UmlUseCaseDiagramConfiguration.class);
    }
 
    @SuppressWarnings("rawtypes")

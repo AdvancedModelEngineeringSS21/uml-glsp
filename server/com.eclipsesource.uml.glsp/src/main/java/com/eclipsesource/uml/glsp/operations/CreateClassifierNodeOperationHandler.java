@@ -29,7 +29,7 @@ public class CreateClassifierNodeOperationHandler
       super(handledElementTypeIds);
    }
 
-   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.CLASS);
+   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE);
 
    @Override
    public boolean handles(final Operation execAction) {
@@ -54,6 +54,26 @@ public class CreateClassifierNodeOperationHandler
                });
             break;
          }
+         case Types.ACTOR: {
+            modelAccess.addActor(UmlModelState.getModelState(modelState), operation.getLocation())
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not execute create operation on new Actor node");
+                  }
+               });
+            break;
+         }
+         /*
+          * case Types.USECASE: {
+          * modelAccess.addUseCase(UmlModelState.getModelState(modelState), operation.getLocation())
+          * .thenAccept(response -> {
+          * if (!response.body()) {
+          * throw new GLSPServerException("Could not execute create operation on new Usecase node");
+          * }
+          * });
+          * break;
+          * }
+          */
       }
    }
 

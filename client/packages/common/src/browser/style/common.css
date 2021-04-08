@@ -55,3 +55,9 @@
 .umlproperty {
     background-image: var(--uml-icon-property);
 }
+
+/* USE CASE DIAGRAM */
+
+.umlactor {
+    background-image: var(--uml-icon-actor);
+}

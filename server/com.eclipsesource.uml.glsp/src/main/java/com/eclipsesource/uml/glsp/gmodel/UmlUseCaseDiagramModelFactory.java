@@ -64,6 +64,12 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
          graph.setId(toId(useCaseModel));
 
          graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()//
+            .filter(Class.class::isInstance)//
+            .map(Class.class::cast)//
+            .map(this::create)//
+            .collect(Collectors.toList()));
+
+         graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()//
             .filter(UseCase.class::isInstance)//
             .map(UseCase.class::cast)//
             .map(this::create)//

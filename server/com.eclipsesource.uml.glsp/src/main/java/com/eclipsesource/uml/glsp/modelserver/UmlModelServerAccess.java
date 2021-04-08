@@ -31,6 +31,7 @@ import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.glsp.server.types.ElementAndBounds;
 import org.eclipse.glsp.server.types.ElementAndRoutingPoints;
+import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.NamedElement;
@@ -211,6 +212,49 @@ public class UmlModelServerAccess {
          getSemanticUriFragment(associationEnd), newBounds);
       return this.edit(setClassNameCommand);
    }
+
+   /*
+    * UML USE CASE DIAGRAM
+    */
+
+   /*
+    * ACTOR
+    */
+
+   /**
+    * This method is called when in the frontend tool palette a new actor is created.
+    *
+    * @param modelState
+    * @param newPosition
+    * @return
+    */
+   public CompletableFuture<Response<Boolean>> addActor(final UmlModelState modelState,
+      final Optional<GPoint> newPosition) {
+
+      CCompoundCommand addClassCompoundCommand = AddClassCommandContribution
+         .create(newPosition.orElse(GraphUtil.point(0, 0)));
+      return this.edit(addClassCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> removeActor(final UmlModelState modelState,
+      final Actor actorToRemove) {
+
+      String semanticProxyUri = getSemanticUriFragment(actorToRemove);
+      CCompoundCommand compoundCommand = RemoveClassCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> setActorName(final UmlModelState modelState,
+      final Actor actorToRename, final String newName) {
+
+      CCommand setClassNameCommand = SetClassNameCommandContribution.create(getSemanticUriFragment(actorToRename),
+         newName);
+      return this.edit(setClassNameCommand);
+   }
+
+   /*
+    * END UML USE CASE DIAGRAM
+    */
 
    /*
     * Change Bounds

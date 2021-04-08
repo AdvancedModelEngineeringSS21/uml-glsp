@@ -43,9 +43,16 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
    @Override
    public List<ShapeTypeHint> getNodeTypeHints() {
       List<ShapeTypeHint> hints = new ArrayList<>();
-      hints.add(new ShapeTypeHint(DefaultTypes.GRAPH, false, false, false, false, List.of(Types.CLASS)));
-      hints.add(new ShapeTypeHint(Types.CLASS, true, true, false, false, List.of(Types.PROPERTY)));
+      hints.add(new ShapeTypeHint(DefaultTypes.GRAPH, false, false, false, false,
+         List.of(Types.CLASS, Types.ACTOR, Types.USECASE)));
+      hints.add(
+         new ShapeTypeHint(Types.CLASS, true, true, false, false, List.of(Types.PROPERTY, Types.ACTOR, Types.USECASE)));
       hints.add(new ShapeTypeHint(Types.PROPERTY, false, true, false, true));
+
+      // UML USE CASE DIAGRAM
+      hints.add(new ShapeTypeHint(Types.USECASE, true, true, false, false));
+      hints.add(new ShapeTypeHint(Types.ACTOR, true, true, false, false)); // TODO: LUKAS: Check Values!
+
       return hints;
    }
 
@@ -68,6 +75,13 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
       mappings.put(Types.PROPERTY, GraphPackage.Literals.GLABEL);
       // UML Associations
       mappings.put(Types.ASSOCIATION, GraphPackage.Literals.GEDGE);
+
+      // UML Use Case Diagram UseCases
+      mappings.put(Types.ICON_USECASE, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.USECASE, GraphPackage.Literals.GNODE);
+
+      mappings.put(Types.ICON_ACTOR, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.ACTOR, GraphPackage.Literals.GNODE);
       return mappings;
    }
 

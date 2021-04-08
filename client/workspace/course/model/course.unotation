@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<unotation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:unotation="http://www.eclipsesource.com/glsp/uml/notation" diagramType="CLASS">
+<unotation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:unotation="http://www.eclipsesource.com/glsp/uml/notation">
   <semanticElement uri="_YahsEICsEeuZ-81mmATQSA"/>
   <elements xsi:type="unotation:Shape">
     <semanticElement uri="_Y_ah0ICsEeuZ-81mmATQSA"/>
@@ -13,5 +13,9 @@
     <semanticElement uri="_gistEICsEeuZ-81mmATQSA"/>
     <bendPoints x="499.3984375" y="370.0"/>
     <bendPoints x="499.3984375" y="370.0"/>
+  </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_bMzEoJhAEeuYsdaN8qJ2VA"/>
+    <position x="300.0" y="377.0"/>
   </elements>
 </unotation:Diagram>
