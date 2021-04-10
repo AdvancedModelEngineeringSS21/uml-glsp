@@ -47,6 +47,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandC
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPointsCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
@@ -241,7 +242,7 @@ public class UmlModelServerAccess {
       final Actor actorToRemove) {
 
       String semanticProxyUri = getSemanticUriFragment(actorToRemove);
-      CCompoundCommand compoundCommand = RemoveClassCommandContribution.create(semanticProxyUri);
+      CCompoundCommand compoundCommand = RemoveActorCommandContribution.create(semanticProxyUri);
       return this.edit(compoundCommand);
    }
 
