@@ -26,6 +26,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandC
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPointsCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
@@ -76,6 +77,7 @@ public class UmlModelServerModule extends DefaultModelServerModule {
        */
       // Actor
       binding.put(AddActorCommandContribution.TYPE, AddActorCommandContribution.class);
+      binding.put(RemoveActorCommandContribution.TYPE, RemoveActorCommandContribution.class);
 
    }
 
