@@ -51,6 +51,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorComma
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetActorNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
@@ -249,9 +250,9 @@ public class UmlModelServerAccess {
    public CompletableFuture<Response<Boolean>> setActorName(final UmlModelState modelState,
       final Actor actorToRename, final String newName) {
 
-      CCommand setClassNameCommand = SetClassNameCommandContribution.create(getSemanticUriFragment(actorToRename),
+      CCommand setActorNameCommand = SetActorNameCommandContribution.create(getSemanticUriFragment(actorToRename),
          newName);
-      return this.edit(setClassNameCommand);
+      return this.edit(setActorNameCommand);
    }
 
    /*

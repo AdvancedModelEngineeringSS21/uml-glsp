@@ -30,6 +30,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorComma
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetActorNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
@@ -78,6 +79,7 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       // Actor
       binding.put(AddActorCommandContribution.TYPE, AddActorCommandContribution.class);
       binding.put(RemoveActorCommandContribution.TYPE, RemoveActorCommandContribution.class);
+      binding.put(SetActorNameCommandContribution.TYPE, SetActorNameCommandContribution.class);
 
    }
 
