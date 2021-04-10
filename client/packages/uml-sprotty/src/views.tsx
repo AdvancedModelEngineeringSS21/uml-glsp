@@ -82,7 +82,7 @@ export class LabelNodeView extends SLabelView {
 @injectable()
 export class ActorNodeView extends RectangularNodeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
-        const rhombStr = "M 0,38  L " + node.bounds.width + ",38";
+        // const rhombStr = "M 0,38  L " + node.bounds.width + ",38";
 
         return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
             <defs>
@@ -93,8 +93,8 @@ export class ActorNodeView extends RectangularNodeView {
 
             <rect x={0} y={0} rx={2} ry={2} width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)} />
             {context.renderChildren(node)}
-            {(node.children[1] && node.children[1].children.length > 0) ?
-                <path class-uml-comp-separator={true} d={rhombStr}></path> : ""}
+            {/* {(node.children[1] && node.children[1].children.length > 0) ?
+                <path class-uml-comp-separator={true} d={rhombStr}></path> : ""} */}
         </g>;
     }
 }

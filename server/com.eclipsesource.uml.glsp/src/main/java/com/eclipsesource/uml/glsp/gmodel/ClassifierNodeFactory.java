@@ -119,7 +119,8 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       GNodeBuilder b = new GNodeBuilder(Types.ACTOR) //
          .id(toId(umlActor)) //
          .layout(GConstants.Layout.VBOX) //
-         .addCssClass(CSS.NODE);
+         .addCssClass(CSS.NODE) //
+         .add(buildHeader(umlActor));
 
       applyShapeData(umlActor, b);
       return b.build();

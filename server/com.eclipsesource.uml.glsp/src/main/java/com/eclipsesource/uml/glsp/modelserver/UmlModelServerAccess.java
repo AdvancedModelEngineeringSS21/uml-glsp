@@ -41,6 +41,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.modelserver.UmlModelServerClient;
 import com.eclipsesource.uml.modelserver.UmlNotationUtil;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
@@ -231,9 +232,9 @@ public class UmlModelServerAccess {
    public CompletableFuture<Response<Boolean>> addActor(final UmlModelState modelState,
       final Optional<GPoint> newPosition) {
 
-      CCompoundCommand addClassCompoundCommand = AddClassCommandContribution
+      CCompoundCommand addActorCompoundCommand = AddActorCommandContribution
          .create(newPosition.orElse(GraphUtil.point(0, 0)));
-      return this.edit(addClassCompoundCommand);
+      return this.edit(addActorCompoundCommand);
    }
 
    public CompletableFuture<Response<Boolean>> removeActor(final UmlModelState modelState,
