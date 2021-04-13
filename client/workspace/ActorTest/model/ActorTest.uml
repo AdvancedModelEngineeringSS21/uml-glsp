@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_7j8gcJoUEeuPopZPJdj94w" name="ActorTest">
-  <packagedElement xmi:type="uml:Class" xmi:id="_8FGFsJoUEeuPopZPJdj94w" name="NewClass0"/>
-  <packagedElement xmi:type="uml:Actor" xmi:id="_9hi1kJoUEeuPopZPJdj94w" name="NewActor0"/>
-  <packagedElement xmi:type="uml:Actor" xmi:id="_-jZ7MJoUEeuPopZPJdj94w" name="NewActor1"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_CGeZUJoVEeuPopZPJdj94w" name="NewClass1"/>
-  <packagedElement xmi:type="uml:Actor" xmi:id="_C_0cIJoVEeuPopZPJdj94w" name="NewActor2"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_L2_4MJoVEeuPopZPJdj94w" name="NewClass2"/>
-</uml:Model>
