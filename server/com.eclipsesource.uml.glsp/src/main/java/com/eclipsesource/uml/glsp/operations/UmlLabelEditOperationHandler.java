@@ -23,6 +23,7 @@ import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.glsp.model.UmlModelIndex;
 import com.eclipsesource.uml.glsp.model.UmlModelState;
@@ -56,6 +57,13 @@ public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperation
                   });
             } else if (semanticElement instanceof Actor) {
                modelAccess.setActorName(modelState, (Actor) semanticElement, inputText)
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException("Could not rename Class to: " + inputText);
+                     }
+                  });
+            } else if (semanticElement instanceof UseCase) {
+               modelAccess.setUsecaseName(modelState, (UseCase) semanticElement, inputText)
                   .thenAccept(response -> {
                      if (!response.body()) {
                         throw new GLSPServerException("Could not rename Class to: " + inputText);

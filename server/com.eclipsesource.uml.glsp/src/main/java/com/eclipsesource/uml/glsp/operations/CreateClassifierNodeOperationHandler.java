@@ -63,17 +63,15 @@ public class CreateClassifierNodeOperationHandler
                });
             break;
          }
-         /*
-          * case Types.USECASE: {
-          * modelAccess.addUseCase(UmlModelState.getModelState(modelState), operation.getLocation())
-          * .thenAccept(response -> {
-          * if (!response.body()) {
-          * throw new GLSPServerException("Could not execute create operation on new Usecase node");
-          * }
-          * });
-          * break;
-          * }
-          */
+         case Types.USECASE: {
+            modelAccess.addUsecase(UmlModelState.getModelState(modelState), operation.getLocation())
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not execute create operation on new Usecase node");
+                  }
+               });
+            break;
+         }
       }
    }
 

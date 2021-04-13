@@ -21,6 +21,7 @@ import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.modelserver.UmlModelServerAccess;
@@ -64,7 +65,14 @@ public class UmlDeleteOperationHandler extends ModelServerAwareBasicOperationHan
             modelAccess.removeActor(modelState, (Actor) semanticElement).thenAccept(response -> {
                if (!response.body()) {
                   throw new GLSPServerException(
-                     "Could not execute delete operation on Property: " + semanticElement.toString());
+                     "Could not execute delete operation on Actor: " + semanticElement.toString());
+               }
+            });
+         } else if (semanticElement instanceof UseCase) {
+            modelAccess.removeUsecase(modelState, (UseCase) semanticElement).thenAccept(response -> {
+               if (!response.body()) {
+                  throw new GLSPServerException(
+                     "Could not execute delete operation on UseCase: " + semanticElement.toString());
                }
             });
          }

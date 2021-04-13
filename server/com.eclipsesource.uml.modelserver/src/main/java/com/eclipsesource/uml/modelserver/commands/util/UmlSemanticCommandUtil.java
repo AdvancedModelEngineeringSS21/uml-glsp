@@ -32,6 +32,7 @@ import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.UseCase;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
 public final class UmlSemanticCommandUtil {
@@ -99,6 +100,10 @@ public final class UmlSemanticCommandUtil {
 
    public static String getNewActorName(final Model umlModel) {
       return UmlSemanticCommandUtil.getNewPackageableElementName(Actor.class, umlModel);
+   }
+
+   public static String getNewUsecaseName(final Model umlModel) {
+      return UmlSemanticCommandUtil.getNewPackageableElementName(UseCase.class, umlModel);
    }
 
    private static String getNewPackageableElementName(final java.lang.Class<? extends PackageableElement> umlClassifier,

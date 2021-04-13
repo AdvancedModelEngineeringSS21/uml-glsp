@@ -24,17 +24,20 @@ import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandC
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddUsecaseCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPointsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveUsecaseCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetActorNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetUsecaseNameCommandContribution;
 
 public class UmlModelServerModule extends DefaultModelServerModule {
 
@@ -80,6 +83,11 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       binding.put(AddActorCommandContribution.TYPE, AddActorCommandContribution.class);
       binding.put(RemoveActorCommandContribution.TYPE, RemoveActorCommandContribution.class);
       binding.put(SetActorNameCommandContribution.TYPE, SetActorNameCommandContribution.class);
+
+      // UseCase
+      binding.put(AddUsecaseCommandContribution.TYPE, AddUsecaseCommandContribution.class);
+      binding.put(RemoveUsecaseCommandContribution.TYPE, RemoveUsecaseCommandContribution.class);
+      binding.put(SetUsecaseNameCommandContribution.TYPE, SetUsecaseNameCommandContribution.class);
 
    }
 

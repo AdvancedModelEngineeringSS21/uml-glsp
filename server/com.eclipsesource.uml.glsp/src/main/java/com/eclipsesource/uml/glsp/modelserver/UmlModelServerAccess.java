@@ -36,6 +36,7 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.UseCase;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
@@ -45,17 +46,20 @@ import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandC
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddUsecaseCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPointsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveUsecaseCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetActorNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetUsecaseNameCommandContribution;
 import com.eclipsesource.uml.modelserver.unotation.Edge;
 import com.eclipsesource.uml.modelserver.unotation.Shape;
 import com.google.common.base.Preconditions;
@@ -253,6 +257,41 @@ public class UmlModelServerAccess {
       CCommand setActorNameCommand = SetActorNameCommandContribution.create(getSemanticUriFragment(actorToRename),
          newName);
       return this.edit(setActorNameCommand);
+   }
+
+   /*
+    * USECASE
+    */
+
+   /**
+    * This method is called when in the frontend tool palette a new use case is created.
+    *
+    * @param modelState
+    * @param newPosition
+    * @return
+    */
+   public CompletableFuture<Response<Boolean>> addUsecase(final UmlModelState modelState,
+      final Optional<GPoint> newPosition) {
+
+      CCompoundCommand addUsecaseCompoundCommand = AddUsecaseCommandContribution
+         .create(newPosition.orElse(GraphUtil.point(0, 0)));
+      return this.edit(addUsecaseCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> removeUsecase(final UmlModelState modelState,
+      final UseCase usecaseToRemove) {
+
+      String semanticProxyUri = getSemanticUriFragment(usecaseToRemove);
+      CCompoundCommand compoundCommand = RemoveUsecaseCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> setUsecaseName(final UmlModelState modelState,
+      final UseCase useCaseToRename, final String newName) {
+
+      CCommand setUsecaseNameCommand = SetUsecaseNameCommandContribution.create(getSemanticUriFragment(useCaseToRename),
+         newName);
+      return this.edit(setUsecaseNameCommand);
    }
 
    /*

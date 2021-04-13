@@ -27,8 +27,8 @@ public class RemoveActorCommand extends UmlSemanticElementCommand {
 
    @Override
    protected void doExecute() {
-      Actor classToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Actor.class);
-      umlModel.getPackagedElements().remove(classToRemove);
+      Actor actorToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Actor.class);
+      umlModel.getPackagedElements().remove(actorToRemove);
    }
 
 }
