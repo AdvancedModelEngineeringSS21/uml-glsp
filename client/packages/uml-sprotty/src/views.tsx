@@ -8,8 +8,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-/** @jsx svg */
-/* eslint-disable react/jsx-key */
 import { injectable } from "inversify";
 import { svg } from "snabbdom-jsx";
 import { VNode } from "snabbdom/vnode";
@@ -25,6 +23,8 @@ import {
 
 import { Icon, LabeledNode, SLabelNode } from "./model";
 
+/** @jsx svg */
+/* eslint-disable react/jsx-key */
 @injectable()
 export class ClassNodeView extends RectangularNodeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
@@ -87,61 +87,28 @@ export class LabelNodeView extends SLabelView {
     }
 }
 
-// @injectable()
-// export class ActorNodeView extends RectangularNodeView {
-//     render(node: LabeledNode, context: RenderingContext): VNode {
-//         // const rhombStr = "M 0,38  L " + node.bounds.width + ",38";
-
-//         return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
-//             <defs>
-//                 <filter id="dropShadow">
-//                     <feDropShadow dx="1.5" dy="1.5" stdDeviation="0.5" style-flood-color="var(--uml-drop-shadow)" style-flood-opacity="0.5" />
-//                 </filter>
-//             </defs>
-
-//             <rect x={0} y={0} rx={2} ry={2} width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)} />
-//             {context.renderChildren(node)}
-//             {/* {(node.children[1] && node.children[1].children.length > 0) ?
-//                 <path class-uml-comp-separator={true} d={rhombStr}></path> : ""} */}
-//         </g>;
-//     }
-// }
-
 @injectable()
 export class ActorNodeView extends RectangularNodeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
-        // const rhombStr = "M 0,38  L " + node.bounds.width + ",38";
-
-        // return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
-        //     <defs>
-        //         <filter id="dropShadow">
-        //             <feDropShadow dx="1.5" dy="1.5" stdDeviation="0.5" style-flood-color="var(--uml-drop-shadow)" style-flood-opacity="0.5" />
-        //         </filter>
-        //     </defs>
-
-        //     <rect x={0} y={0} rx={2} ry={2} width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)} />
-        //     {context.renderChildren(node)}
-        //     {/* {(node.children[1] && node.children[1].children.length > 0) ?
-        //         <path class-uml-comp-separator={true} d={rhombStr}></path> : ""} */}
-        // </g>;
-
         return <g>
             <defs>
                 <filter id="dropShadow">
                     <feDropShadow dx="1.5" dy="1.5" stdDeviation="0.5" style-flood-color="var(--uml-drop-shadow)" style-flood-opacity="0.5" />
                 </filter>
             </defs>
-            <path d="m 91.166271,19.719835 a 13.195118,13.068849 0 1 1 -26.390236,0 13.195118,13.068849 0 1 1 26.390236,0 z" transform="matrix(1.131591,0,0,1.1425243,281.27172,471.26198)" />
-            <path d="m 77.497641,34.903691 0,46.056642 M 77.497641,80.392123 58.052204,96.933371 M 77.529208,80.392123 98.868681,95.860084 M 57.073619,47.49903 98.931815,47.46746" transform="translate(292,474.36218)" />
-        </g>
+            <path d="m 91.166271,19.719835 a 13.195118,13.068849 0 1 1 -26.390236,0 13.195118,13.068849 0 1 1 26.390236,0 z" />
+            <path d="m 77.497641,34.903691 0,46.056642 M 77.497641,80.392123 58.052204,96.933371 M 77.529208,80.392123 98.868681,
+                95.860084 M 57.073619,47.49903 98.931815,47.46746"/>
+            {context.renderChildren(node)}
+        </g>;
     }
 }
 
 @injectable()
 export class UseCaseNodeView extends CircularNodeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
-        const rX = Math.max(node.size.width, node.size.height) / 2
-        const rY = Math.min(node.size.width, node.size.height) / 2
+        const rX = Math.max(node.size.width, node.size.height) / 2;
+        const rY = Math.min(node.size.width, node.size.height) / 2;
 
         return <g>
             <ellipse class-sprotty-node={node.selected} class-sprotty-port={node.selected}
@@ -151,5 +118,3 @@ export class UseCaseNodeView extends CircularNodeView {
         </g >;
     }
 }
-
-

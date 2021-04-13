@@ -1,3 +1,13 @@
+/********************************************************************************
+ * Copyright (c) 2021 EclipseSource and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0, or the MIT License which is
+ * available at https://opensource.org/licenses/MIT.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR MIT
+ ********************************************************************************/
 import { SChildElement } from "@eclipse-glsp/client";
 import {
     boundsFeature,
@@ -20,16 +30,6 @@ import {
     withEditLabelFeature
 } from "sprotty/lib";
 
-/********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v. 2.0 which is available at
- * https://www.eclipse.org/legal/epl-2.0, or the MIT License which is
- * available at https://opensource.org/licenses/MIT.
- *
- * SPDX-License-Identifier: EPL-2.0 OR MIT
- ********************************************************************************/
 export class LabeledNode extends RectangularNode implements WithEditableLabel, Nameable {
 
     get editableLabel(): (SChildElement & EditableLabel) | undefined {
@@ -88,7 +88,7 @@ export class SLabelNodeProperty extends SLabelNode {
 
 // #region UML Use Case Diagram
 
-//TODO: FELIX insert correct icon
+// TODO: FELIX insert correct icon
 export class IconUseCase extends Icon {
     iconImageName = "Class.svg";
 }
