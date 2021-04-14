@@ -29,7 +29,8 @@ public class CreateClassifierNodeOperationHandler
       super(handledElementTypeIds);
    }
 
-   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE);
+   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.CLASS, Types.PACKAGE, Types.ACTOR,
+      Types.USECASE);
 
    @Override
    public boolean handles(final Operation execAction) {
@@ -50,6 +51,15 @@ public class CreateClassifierNodeOperationHandler
                .thenAccept(response -> {
                   if (!response.body()) {
                      throw new GLSPServerException("Could not execute create operation on new Class node");
+                  }
+               });
+            break;
+         }
+         case Types.PACKAGE: {
+            modelAccess.addPackage(UmlModelState.getModelState(modelState), operation.getLocation())
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not execute create operation on new Package node");
                   }
                });
             break;

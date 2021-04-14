@@ -31,7 +31,7 @@ import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
  */
 public class AddActorCommandContribution extends UmlCompoundCommandContribution {
 
-   public static final String TYPE = "addActorContributuion";
+   public static final String TYPE = "addActorContribution";
 
    public static CCompoundCommand create(final GPoint position) {
       CCompoundCommand addActorCommand = CCommandFactory.eINSTANCE.createCompoundCommand();

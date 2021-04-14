@@ -19,30 +19,30 @@ import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 import org.eclipse.glsp.graph.GPoint;
 
-import com.eclipsesource.uml.modelserver.commands.compound.AddClassCompoundCommand;
+import com.eclipsesource.uml.modelserver.commands.compound.AddPackageCompoundCommand;
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
 
-public class AddClassCommandContribution extends UmlCompoundCommandContribution {
+public class AddPackageCommandContribution extends UmlCompoundCommandContribution {
 
-   public static final String TYPE = "addClassContribution";
+   public static final String TYPE = "addPackageContribution";
 
    public static CCompoundCommand create(final GPoint position) {
-      CCompoundCommand addClassCommand = CCommandFactory.eINSTANCE.createCompoundCommand();
-      addClassCommand.setType(TYPE);
-      addClassCommand.getProperties().put(UmlNotationCommandContribution.POSITION_X, String.valueOf(position.getX()));
-      addClassCommand.getProperties().put(UmlNotationCommandContribution.POSITION_Y, String.valueOf(position.getY()));
-      return addClassCommand;
+      CCompoundCommand addPackageCommand = CCommandFactory.eINSTANCE.createCompoundCommand();
+      addPackageCommand.setType(TYPE);
+      addPackageCommand.getProperties().put(UmlNotationCommandContribution.POSITION_X, String.valueOf(position.getX()));
+      addPackageCommand.getProperties().put(UmlNotationCommandContribution.POSITION_Y, String.valueOf(position.getY()));
+      return addPackageCommand;
    }
 
    @Override
    protected CompoundCommand toServer(final URI modelUri, final EditingDomain domain, final CCommand command)
       throws DecodingException {
 
-      GPoint classPosition = UmlNotationCommandUtil.getGPoint(
+      GPoint packagePosition = UmlNotationCommandUtil.getGPoint(
          command.getProperties().get(UmlNotationCommandContribution.POSITION_X),
          command.getProperties().get(UmlNotationCommandContribution.POSITION_Y));
 
-      return new AddClassCompoundCommand(domain, modelUri, classPosition);
+      return new AddPackageCompoundCommand(domain, modelUri, packagePosition);
    }
 
 }

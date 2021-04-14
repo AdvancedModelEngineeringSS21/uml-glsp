@@ -69,7 +69,7 @@ import umlToolPaletteModule from "./features/tool-palette/di.config";
 import { LabelSelectionFeedback } from "./feedback";
 import { IconActor, IconClass, IconUseCase, LabeledNode, SEditableLabel, SLabelNodeProperty } from "./model";
 import { BaseTypes, UmlTypes } from "./utils";
-import { ActorNodeView, ClassNodeView, IconView, LabelNodeView, UseCaseNodeView } from "./views";
+import { ActorNodeView, ClassNodeView, IconView, LabelNodeView, PackageNodeView, UseCaseNodeView } from "./views";
 
 export default (containerId: string): Container => {
     const classDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -96,6 +96,8 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.ASSOCIATION, SEdge, PolylineEdgeView);
 
         // #region UML USE CASE DIAGRAM
+        configureModelElement(context, UmlTypes.PACKAGE, LabeledNode, PackageNodeView);
+        configureModelElement(context, UmlTypes.ICON_PACKAGE, IconActor, IconView);
         configureModelElement(context, UmlTypes.ACTOR, LabeledNode, ActorNodeView);
         configureModelElement(context, UmlTypes.ICON_ACTOR, IconActor, IconView);
         configureModelElement(context, UmlTypes.USECASE, LabeledNode, UseCaseNodeView);

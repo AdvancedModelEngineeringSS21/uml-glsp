@@ -24,6 +24,7 @@ import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UseCase;
 
@@ -45,6 +46,8 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
    public GNode create(final Classifier classifier) {
       if (classifier instanceof Class) {
          return create((Class) classifier);
+      } else if (classifier instanceof Package) {
+         return create((Package) classifier);
       } else if (classifier instanceof Actor) {
          return create((Actor) classifier);
       } else if (classifier instanceof UseCase) {
@@ -104,6 +107,31 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
    // TODO: FELIX Changes made here
 
+   protected GNode create(final Package umlPackage) {
+      GNodeBuilder b = new GNodeBuilder(Types.PACKAGE) //
+         .id(toId(umlPackage)) //
+         .layout(GConstants.Layout.VBOX) //
+         .addCssClass(CSS.NODE)
+         .add(new GCompartmentBuilder(Types.COMP_HEADER) //
+            .layout("hbox") //
+            .id(toId(umlPackage) + "_header").add(new GCompartmentBuilder(getType(umlPackage)) //
+               .id(toId(umlPackage) + "_header_icon").build()) //
+            .add(new GLabelBuilder(Types.LABEL_NAME) //
+               .id(toId(umlPackage) + "_header_label").text(umlPackage.getName()) //
+               .build()) //
+            .build());
+
+      modelState.getIndex().getNotation(umlPackage, Shape.class).ifPresent(shape -> {
+         if (shape.getPosition() != null) {
+            b.position(GraphUtil.copy(shape.getPosition()));
+         } else if (shape.getSize() != null) {
+            b.size(GraphUtil.copy(shape.getSize()));
+         }
+      });
+
+      return b.build();
+   }
+
    protected GNode create(final UseCase umlUseCase) {
       GNodeBuilder b = new GNodeBuilder(Types.USECASE) //
          .id(toId(umlUseCase)) //
@@ -139,5 +167,9 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       }
 
       return "Classifier not found";
+   }
+
+   protected static String getType(final Package p) {
+      return Types.ICON_PACKAGE;
    }
 }

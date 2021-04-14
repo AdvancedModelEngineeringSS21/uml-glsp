@@ -28,6 +28,7 @@ import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.StructuralFeature;
@@ -92,6 +93,10 @@ public final class UmlSemanticCommandUtil {
          .collect(Collectors.toList()).size();
 
       return nameProvider.apply(attributeCounter);
+   }
+
+   public static String getNewPackageName(final Model umlModel) {
+      return UmlSemanticCommandUtil.getNewPackageableElementName(Package.class, umlModel);
    }
 
    public static String getNewClassName(final Model umlModel) {

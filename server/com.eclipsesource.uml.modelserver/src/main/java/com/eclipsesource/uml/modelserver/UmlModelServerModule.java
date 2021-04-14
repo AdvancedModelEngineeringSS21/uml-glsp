@@ -23,6 +23,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddPackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddUsecaseCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsCommandContribution;
@@ -79,6 +80,8 @@ public class UmlModelServerModule extends DefaultModelServerModule {
        * UML Use Case Diagram
        * HERE: Registering Command Contributions to make them accessible from the outside
        */
+      // Package
+      binding.put(AddPackageCommandContribution.TYPE, AddPackageCommandContribution.class);
       // Actor
       binding.put(AddActorCommandContribution.TYPE, AddActorCommandContribution.class);
       binding.put(RemoveActorCommandContribution.TYPE, RemoveActorCommandContribution.class);

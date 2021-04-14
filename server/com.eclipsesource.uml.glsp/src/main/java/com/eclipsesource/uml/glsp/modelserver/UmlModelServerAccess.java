@@ -45,6 +45,7 @@ import com.eclipsesource.uml.modelserver.UmlNotationUtil;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddPackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddUsecaseCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsCommandContribution;
@@ -223,6 +224,43 @@ public class UmlModelServerAccess {
    /*
     * UML USE CASE DIAGRAM
     */
+   
+   /*
+    * Package
+    */
+   /**
+    * This method is called when in the frontend tool palette a new package is created.
+    *
+    * @param modelState
+    * @param newPosition
+    * @return
+    */
+   public CompletableFuture<Response<Boolean>> addPackage(final UmlModelState modelState,
+      final Optional<GPoint> newPosition) {
+
+      CCompoundCommand addPackageCompoundCommand = AddPackageCommandContribution
+         .create(newPosition.orElse(GraphUtil.point(0, 0)));
+      return this.edit(addPackageCompoundCommand);
+   }
+
+   /* TODO: Implement 
+   public CompletableFuture<Response<Boolean>> removeActor(final UmlModelState modelState,
+      final Actor actorToRemove) {
+
+      String semanticProxyUri = getSemanticUriFragment(actorToRemove);
+      CCompoundCommand compoundCommand = RemoveActorCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> setActorName(final UmlModelState modelState,
+      final Actor actorToRename, final String newName) {
+
+      CCommand setActorNameCommand = SetActorNameCommandContribution.create(getSemanticUriFragment(actorToRename),
+         newName);
+      return this.edit(setActorNameCommand);
+   }
+   */
+   
 
    /*
     * ACTOR
