@@ -36,7 +36,7 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
 
       switch (diagramType) {
          case USECASE: {
-            return Lists.newArrayList(usecase_elements());
+            return Lists.newArrayList(usecase_classifiers(), usecase_edges());
          }
          case CLASS: {
             return Lists.newArrayList(classifiers(), relations(), features());
@@ -45,7 +45,7 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
       return Lists.newArrayList(classifiers(), relations(), features());
    }
 
-   private PaletteItem usecase_elements() {
+   private PaletteItem usecase_classifiers() {
       PaletteItem createPackage = node(Types.PACKAGE, "Package", "umlpackage");
       PaletteItem createClass = node(Types.CLASS, "Class", "umlclass");
       PaletteItem createActor = node(Types.ACTOR, "Actor", "umlactor");
@@ -53,6 +53,13 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
 
       List<PaletteItem> classifiers = Lists.newArrayList(createPackage, createClass, createActor, createUsecase);
       return PaletteItem.createPaletteGroup("uml.classifier", "Classifier", classifiers, "fa-hammer");
+   }
+
+   private PaletteItem usecase_edges() {
+      PaletteItem createAssociation = edge(Types.ASSOCIATION, "Association", "umlassociation");
+
+      List<PaletteItem> edges = Lists.newArrayList(createAssociation);
+      return PaletteItem.createPaletteGroup("uml.relation", "Relation", edges, "fa-hammer");
    }
 
    private PaletteItem classifiers() {

@@ -32,7 +32,8 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       super(handledElementTypeIds);
    }
 
-   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.ASSOCIATION);
+   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.ASSOCIATION, Types.EXTENSION,
+      Types.INCLUSION);
 
    @Override
    public boolean handles(final Operation execAction) {
@@ -63,6 +64,26 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
                   throw new GLSPServerException("Could not execute create operation on new Association edge");
                }
             });
+      } else if (elementTypeId.equals(Types.EXTENSION)) {
+         throw new UnsupportedOperationException();
+         /*
+          * modelAccess.addAssociation(modelState, sourceClass, targetClass)
+          * .thenAccept(response -> {
+          * if (!response.body()) {
+          * throw new GLSPServerException("Could not execute create operation on new Extension edge");
+          * }
+          * });
+          */
+      } else if (elementTypeId.equals(Types.INCLUSION)) {
+         throw new UnsupportedOperationException();
+         /*
+          * modelAccess.addAssociation(modelState, sourceClass, targetClass)
+          * .thenAccept(response -> {
+          * if (!response.body()) {
+          * throw new GLSPServerException("Could not execute create operation on new INCLUSION edge");
+          * }
+          * });
+          */
       }
    }
 
