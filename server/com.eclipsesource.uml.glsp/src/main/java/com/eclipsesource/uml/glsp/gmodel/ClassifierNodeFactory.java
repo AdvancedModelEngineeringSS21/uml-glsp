@@ -71,35 +71,35 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       });
    }
 
-   protected GNode createClassNode(final Class umlClass) {
+   protected GNode createClassNode(final Class umClass) {
       GNodeBuilder classNodeBuilder = new GNodeBuilder(Types.CLASS)
-         .id(toId(umlClass))
+         .id(toId(umClass))
          .layout(GConstants.Layout.VBOX)
          .addCssClass(CSS.NODE);
 
-      applyShapeData(umlClass, classNodeBuilder);
+      applyShapeData(umClass, classNodeBuilder);
 
-      GCompartment classHeader = buildClassHeader(umlClass);
+      GCompartment classHeader = buildHeader(umClass);
       classNodeBuilder.add(classHeader);
 
-      GCompartment classPropertiesCompartment = buildClassPropertiesCompartment(umlClass.getAttributes(), umlClass);
+      GCompartment classPropertiesCompartment = buildClassPropertiesCompartment(umClass.getAttributes(), umClass);
       classNodeBuilder.add(classPropertiesCompartment);
 
       return classNodeBuilder.build();
    }
 
-   protected GCompartment buildClassHeader(final Class umlClass) {
+   protected GCompartment buildHeader(final Classifier classifier) {
       GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
          .layout(GConstants.Layout.HBOX)
-         .id(UmlIDUtil.createHeaderId(toId(umlClass)));
+         .id(UmlIDUtil.createHeaderId(toId(classifier)));
 
       GCompartment classHeaderIcon = new GCompartmentBuilder(Types.ICON_CLASS)
-         .id(UmlIDUtil.createHeaderIconId(toId(umlClass))).build();
+         .id(UmlIDUtil.createHeaderIconId(toId(classifier))).build();
       classHeaderBuilder.add(classHeaderIcon);
 
       GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
-         .id(UmlIDUtil.createHeaderLabelId(toId(umlClass)))
-         .text(umlClass.getName()).build();
+         .id(UmlIDUtil.createHeaderLabelId(toId(classifier)))
+         .text(classifier.getName()).build();
       classHeaderBuilder.add(classHeaderLabel);
 
       return classHeaderBuilder.build();
@@ -174,6 +174,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
    protected static String getType(final Package p) {
       return Types.ICON_PACKAGE;
    }
+
    protected GCompartment buildClassPropertiesCompartment(final Collection<? extends Property> properties,
       final Classifier parent) {
       GCompartmentBuilder classPropertiesBuilder = new GCompartmentBuilder(Types.COMP)
