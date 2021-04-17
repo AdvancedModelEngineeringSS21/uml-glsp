@@ -10,12 +10,17 @@
  ********************************************************************************/
 package com.eclipsesource.uml.glsp.operations;
 
+import static org.eclipse.glsp.server.protocol.GLSPServerException.getOrThrow;
+
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.operations.CreateNodeOperation;
 import org.eclipse.glsp.server.operations.Operation;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.PackageableElement;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.modelserver.UmlModelServerAccess;
@@ -24,6 +29,8 @@ import com.google.common.collect.Lists;
 
 public class CreateClassifierNodeOperationHandler
    extends ModelServerAwareBasicCreateOperationHandler<CreateNodeOperation> {
+
+   private static Logger LOGGER = Logger.getLogger(CreateClassifierNodeOperationHandler.class);
 
    public CreateClassifierNodeOperationHandler() {
       super(handledElementTypeIds);
@@ -65,12 +72,33 @@ public class CreateClassifierNodeOperationHandler
             break;
          }
          case Types.ACTOR: {
-            modelAccess.addActor(UmlModelState.getModelState(modelState), operation.getLocation())
-               .thenAccept(response -> {
-                  if (!response.body()) {
-                     throw new GLSPServerException("Could not execute create operation on new Actor node");
-                  }
-               });
+            PackageableElement container = null;
+            try {
+               container = getOrThrow(
+                  UmlModelState.getModelState(modelState).getIndex().getSemantic(operation.getContainerId()),
+                  PackageableElement.class, "No valid container with id " + operation.getContainerId() + " found");
+            } catch (GLSPServerException ex) {
+               LOGGER.error("Could not find container", ex);
+            }
+            if (container != null && container instanceof org.eclipse.uml2.uml.internal.impl.ModelImpl) {
+               modelAccess.addActor(UmlModelState.getModelState(modelState), operation.getLocation())
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException("Could not execute create operation on new Actor node");
+                     }
+                  });
+            } else {
+               modelAccess
+                  .addActorInPackage(UmlModelState.getModelState(modelState), (Package) container,
+                     operation.getLocation())
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException("Could not execute create operation on new Property node");
+                     }
+                  });
+            }
+
+            /* WHY ALSO TRUE FOR ModelImpl??? if (container != null && container instanceof Package) */
             break;
          }
          case Types.USECASE: {

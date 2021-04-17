@@ -14,6 +14,7 @@ import static org.eclipse.glsp.server.protocol.GLSPServerException.getOrThrow;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.operations.CreateNodeOperation;
 import org.eclipse.glsp.server.operations.Operation;
@@ -27,6 +28,8 @@ import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 
 public class CreateClassifierChildNodeOperationHandler
    extends ModelServerAwareBasicCreateOperationHandler<CreateNodeOperation> {
+
+   private static Logger LOGGER = Logger.getLogger(CreateClassifierChildNodeOperationHandler.class);
 
    public CreateClassifierChildNodeOperationHandler() {
       super(handledElementTypeIds);

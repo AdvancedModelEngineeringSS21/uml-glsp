@@ -35,6 +35,7 @@ import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UseCase;
 import org.eclipse.uml2.uml.resource.UMLResource;
@@ -224,7 +225,7 @@ public class UmlModelServerAccess {
    /*
     * UML USE CASE DIAGRAM
     */
-   
+
    /*
     * Package
     */
@@ -243,24 +244,21 @@ public class UmlModelServerAccess {
       return this.edit(addPackageCompoundCommand);
    }
 
-   /* TODO: Implement 
-   public CompletableFuture<Response<Boolean>> removeActor(final UmlModelState modelState,
-      final Actor actorToRemove) {
-
-      String semanticProxyUri = getSemanticUriFragment(actorToRemove);
-      CCompoundCommand compoundCommand = RemoveActorCommandContribution.create(semanticProxyUri);
-      return this.edit(compoundCommand);
-   }
-
-   public CompletableFuture<Response<Boolean>> setActorName(final UmlModelState modelState,
-      final Actor actorToRename, final String newName) {
-
-      CCommand setActorNameCommand = SetActorNameCommandContribution.create(getSemanticUriFragment(actorToRename),
-         newName);
-      return this.edit(setActorNameCommand);
-   }
-   */
-   
+   /*
+    * TODO: Implement
+    * public CompletableFuture<Response<Boolean>> removeActor(final UmlModelState modelState,
+    * final Actor actorToRemove) {
+    * String semanticProxyUri = getSemanticUriFragment(actorToRemove);
+    * CCompoundCommand compoundCommand = RemoveActorCommandContribution.create(semanticProxyUri);
+    * return this.edit(compoundCommand);
+    * }
+    * public CompletableFuture<Response<Boolean>> setActorName(final UmlModelState modelState,
+    * final Actor actorToRename, final String newName) {
+    * CCommand setActorNameCommand = SetActorNameCommandContribution.create(getSemanticUriFragment(actorToRename),
+    * newName);
+    * return this.edit(setActorNameCommand);
+    * }
+    */
 
    /*
     * ACTOR
@@ -275,9 +273,15 @@ public class UmlModelServerAccess {
     */
    public CompletableFuture<Response<Boolean>> addActor(final UmlModelState modelState,
       final Optional<GPoint> newPosition) {
-
       CCompoundCommand addActorCompoundCommand = AddActorCommandContribution
          .create(newPosition.orElse(GraphUtil.point(0, 0)));
+      return this.edit(addActorCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> addActorInPackage(final UmlModelState modelState,
+      final Package parent, final Optional<GPoint> newPosition) {
+      CCommand addActorCompoundCommand = AddActorCommandContribution.create(newPosition.orElse(GraphUtil.point(0, 0)),
+         getSemanticUriFragment(parent));
       return this.edit(addActorCompoundCommand);
    }
 

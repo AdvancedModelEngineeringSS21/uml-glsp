@@ -1,14 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_hFZuYJ0wEeunKp2iHuxGOg" name="usecase-test">
-  <packagedElement xmi:type="uml:Class" xmi:id="_kCqJsJ0wEeunKp2iHuxGOg" name="NewClass0"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_2TWS0J0wEeunKp2iHuxGOg" name="NewClass1"/>
-  <packagedElement xmi:type="uml:Actor" xmi:id="_3iPH0J0wEeunKp2iHuxGOg" name="NewActor0"/>
-  <packagedElement xmi:type="uml:UseCase" xmi:id="_4ESE8J0wEeunKp2iHuxGOg" name="NewUseCase0"/>
-  <packagedElement xmi:type="uml:Actor" xmi:id="_BhSa0J1FEeudIcxyI2cgXQ" name="NewActor1"/>
-  <packagedElement xmi:type="uml:Actor" xmi:id="_VHj20J1FEeudIcxyI2cgXQ" name="NewActor2"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_nbNicJ1HEeupc-rLAJD_Tw" name="NewClass2"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_ohTAwJ1HEeupc-rLAJD_Tw" name="NewClass3"/>
-  <packagedElement xmi:type="uml:Package" xmi:id="_VWqF8J1JEeuny8J8VjTrvQ" name="NewPackage0">
-    <packagedElement xmi:type="uml:Actor" xmi:id="_WAMyMJ1JEeuny8J8VjTrvQ" name="NewActor3"/>
-  </packagedElement>
-</uml:Model>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_X6j8AJ-MEeuQEoa88uSISg" name="usecase-test"/>

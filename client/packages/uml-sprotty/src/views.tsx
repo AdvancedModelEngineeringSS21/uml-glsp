@@ -93,8 +93,8 @@ export class LabelNodeView extends SLabelView {
 @injectable()
 export class PackageNodeView extends RectangularNodeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
+        console.log(`wir sind hier2 - ${node.bounds.width} - ${node.bounds.height} - ${node.bounds.x} - ${node.bounds.y}`);
         const rhombStr = "M 0,38  L " + node.bounds.width + ",38";
-
         return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
             <defs>
                 <filter id="dropShadow">

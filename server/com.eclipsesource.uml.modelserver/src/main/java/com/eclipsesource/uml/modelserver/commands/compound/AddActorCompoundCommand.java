@@ -12,6 +12,7 @@ package com.eclipsesource.uml.modelserver.commands.compound;
 
 import java.util.function.Supplier;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -30,10 +31,23 @@ import com.eclipsesource.uml.modelserver.commands.semantic.AddActorCommand;
  */
 public class AddActorCompoundCommand extends CompoundCommand {
 
-   public AddActorCompoundCommand(final EditingDomain domain, final URI modelUri, final GPoint classPosition) {
+   private static Logger LOGGER = Logger.getLogger(AddActorCompoundCommand.class);
 
+   public AddActorCompoundCommand(final EditingDomain domain, final URI modelUri, final GPoint classPosition) {
       // Chain semantic and notation command
       AddActorCommand command = new AddActorCommand(domain, modelUri);
+      this.append(command);
+      Supplier<Actor> semanticResultSupplier = () -> command.getNewActor();
+      this.append(new AddActorShapeCommand(domain, modelUri, classPosition, semanticResultSupplier));
+   }
+
+   /*
+    * Adding Actor inside other element
+    */
+   public AddActorCompoundCommand(final EditingDomain domain, final URI modelUri, final GPoint classPosition,
+      final String parentSemanticUri) {
+      // Chain semantic and notation command
+      AddActorCommand command = new AddActorCommand(domain, modelUri, parentSemanticUri);
       this.append(command);
       Supplier<Actor> semanticResultSupplier = () -> command.getNewActor();
       this.append(new AddActorShapeCommand(domain, modelUri, classPosition, semanticResultSupplier));
