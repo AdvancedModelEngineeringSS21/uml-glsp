@@ -130,8 +130,8 @@ export class ActorNodeView extends RectangularNodeView {
 @injectable()
 export class UseCaseNodeView extends CircularNodeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
-        const rX = Math.max(node.size.width, node.size.height) / 2;
-        const rY = Math.min(node.size.width, node.size.height) / 2;
+        const rX = ((Math.max(node.size.width, node.size.height) < 0) ? 0 : Math.max(node.size.width, node.size.height) / 2);
+        const rY = ((Math.min(node.size.width, node.size.height) < 0) ? 0 : Math.min(node.size.width, node.size.height) / 2);
 
         return <g>
             <ellipse class-sprotty-node={node.selected} class-sprotty-port={node.selected}
