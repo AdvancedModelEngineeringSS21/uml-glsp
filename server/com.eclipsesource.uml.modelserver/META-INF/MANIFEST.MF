@@ -33,4 +33,6 @@ Bundle-ActivationPolicy: lazy
 Export-Package: com.eclipsesource.uml.modelserver,
  com.eclipsesource.uml.modelserver.commands.compound,
  com.eclipsesource.uml.modelserver.commands.contributions,
- com.eclipsesource.uml.modelserver.unotation
+ com.eclipsesource.uml.modelserver.unotation,
+ com.eclipsesource.uml.modelserver.unotation.impl,
+ com.eclipsesource.uml.modelserver.unotation.util
