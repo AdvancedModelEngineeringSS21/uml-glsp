@@ -54,12 +54,14 @@ import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPoi
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemovePackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveUsecaseCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetActorNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetPackageNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetUsecaseNameCommandContribution;
 import com.eclipsesource.uml.modelserver.unotation.Edge;
@@ -244,21 +246,19 @@ public class UmlModelServerAccess {
       return this.edit(addPackageCompoundCommand);
    }
 
-   /*
-    * TODO: Implement
-    * public CompletableFuture<Response<Boolean>> removeActor(final UmlModelState modelState,
-    * final Actor actorToRemove) {
-    * String semanticProxyUri = getSemanticUriFragment(actorToRemove);
-    * CCompoundCommand compoundCommand = RemoveActorCommandContribution.create(semanticProxyUri);
-    * return this.edit(compoundCommand);
-    * }
-    * public CompletableFuture<Response<Boolean>> setActorName(final UmlModelState modelState,
-    * final Actor actorToRename, final String newName) {
-    * CCommand setActorNameCommand = SetActorNameCommandContribution.create(getSemanticUriFragment(actorToRename),
-    * newName);
-    * return this.edit(setActorNameCommand);
-    * }
-    */
+   public CompletableFuture<Response<Boolean>> removePackage(final UmlModelState modelState,
+      final Package packageToRemove) {
+      String semanticProxyUri = getSemanticUriFragment(packageToRemove);
+      CCompoundCommand compoundCommand = RemovePackageCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> setPackageName(final UmlModelState modelState,
+      final Package packageToRename, final String newName) {
+      CCommand setPackageNameCommand = SetPackageNameCommandContribution.create(getSemanticUriFragment(packageToRename),
+         newName);
+      return this.edit(setPackageNameCommand);
+   }
 
    /*
     * ACTOR
@@ -318,6 +318,14 @@ public class UmlModelServerAccess {
       CCompoundCommand addUsecaseCompoundCommand = AddUsecaseCommandContribution
          .create(newPosition.orElse(GraphUtil.point(0, 0)));
       return this.edit(addUsecaseCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> addUsecaseInPackage(final UmlModelState modelState,
+      final Package parent, final Optional<GPoint> newPosition) {
+      CCommand addUseCaseCompoundCommand = AddUsecaseCommandContribution.create(
+         newPosition.orElse(GraphUtil.point(0, 0)),
+         getSemanticUriFragment(parent));
+      return this.edit(addUseCaseCompoundCommand);
    }
 
    public CompletableFuture<Response<Boolean>> removeUsecase(final UmlModelState modelState,

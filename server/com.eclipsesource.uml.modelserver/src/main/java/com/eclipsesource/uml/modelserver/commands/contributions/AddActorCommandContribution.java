@@ -48,7 +48,6 @@ public class AddActorCommandContribution extends UmlCompoundCommandContribution 
     * Adding Actor inside other element
     */
    public static CCompoundCommand create(final GPoint position, final String parentSemanticUri) {
-      LOGGER.info("PARENT URI: " + parentSemanticUri);
       CCompoundCommand addActorCommand = CCommandFactory.eINSTANCE.createCompoundCommand();
       addActorCommand.setType(TYPE);
       addActorCommand.getProperties().put(UmlNotationCommandContribution.POSITION_X, String.valueOf(position.getX()));

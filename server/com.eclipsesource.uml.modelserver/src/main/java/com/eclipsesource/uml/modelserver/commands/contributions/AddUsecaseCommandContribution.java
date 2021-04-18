@@ -33,11 +33,33 @@ public class AddUsecaseCommandContribution extends UmlCompoundCommandContributio
 
    public static final String TYPE = "addUsecaseContributuion";
 
+   /**
+    * Add a new UseCase in the model root.
+    *
+    * @param position
+    * @return
+    */
    public static CCompoundCommand create(final GPoint position) {
       CCompoundCommand addUsecaseCommand = CCommandFactory.eINSTANCE.createCompoundCommand();
       addUsecaseCommand.setType(TYPE);
       addUsecaseCommand.getProperties().put(UmlNotationCommandContribution.POSITION_X, String.valueOf(position.getX()));
       addUsecaseCommand.getProperties().put(UmlNotationCommandContribution.POSITION_Y, String.valueOf(position.getY()));
+      return addUsecaseCommand;
+   }
+
+   /**
+    * Add a new Usecase inside a parent package
+    *
+    * @param position
+    * @param parentSemanticUri
+    * @return
+    */
+   public static CCompoundCommand create(final GPoint position, final String parentSemanticUri) {
+      CCompoundCommand addUsecaseCommand = CCommandFactory.eINSTANCE.createCompoundCommand();
+      addUsecaseCommand.setType(TYPE);
+      addUsecaseCommand.getProperties().put(UmlNotationCommandContribution.POSITION_X, String.valueOf(position.getX()));
+      addUsecaseCommand.getProperties().put(UmlNotationCommandContribution.POSITION_Y, String.valueOf(position.getY()));
+      addUsecaseCommand.getProperties().put(PARENT_SEMANTIC_URI_FRAGMENT, parentSemanticUri);
       return addUsecaseCommand;
    }
 
@@ -49,6 +71,10 @@ public class AddUsecaseCommandContribution extends UmlCompoundCommandContributio
          command.getProperties().get(UmlNotationCommandContribution.POSITION_X),
          command.getProperties().get(UmlNotationCommandContribution.POSITION_Y));
 
+      if (command.getProperties().containsKey(PARENT_SEMANTIC_URI_FRAGMENT)) {
+         String parentUri = command.getProperties().get(PARENT_SEMANTIC_URI_FRAGMENT);
+         return new AddUsecaseCompoundCommand(domain, modelUri, usecasePosition, parentUri);
+      }
       return new AddUsecaseCompoundCommand(domain, modelUri, usecasePosition);
    }
 

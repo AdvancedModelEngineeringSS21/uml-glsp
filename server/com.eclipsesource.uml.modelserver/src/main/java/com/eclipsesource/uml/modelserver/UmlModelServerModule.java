@@ -31,12 +31,14 @@ import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPoi
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemovePackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveUsecaseCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetActorNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetPackageNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetUsecaseNameCommandContribution;
 
@@ -82,6 +84,9 @@ public class UmlModelServerModule extends DefaultModelServerModule {
        */
       // Package
       binding.put(AddPackageCommandContribution.TYPE, AddPackageCommandContribution.class);
+      binding.put(RemovePackageCommandContribution.TYPE, RemovePackageCommandContribution.class);
+      binding.put(SetPackageNameCommandContribution.TYPE, SetPackageNameCommandContribution.class);
+
       // Actor
       binding.put(AddActorCommandContribution.TYPE, AddActorCommandContribution.class);
       binding.put(RemoveActorCommandContribution.TYPE, RemoveActorCommandContribution.class);

@@ -22,10 +22,30 @@ import com.eclipsesource.uml.modelserver.commands.notation.AddUsecaseShapeComman
 import com.eclipsesource.uml.modelserver.commands.semantic.AddUsecaseCommand;
 
 public class AddUsecaseCompoundCommand extends CompoundCommand {
+
+   /**
+    * Adding UseCase in model root
+    *
+    * @param domain
+    * @param modelUri
+    * @param classPosition
+    */
    public AddUsecaseCompoundCommand(final EditingDomain domain, final URI modelUri, final GPoint classPosition) {
 
       // Chain semantic and notation command
       AddUsecaseCommand command = new AddUsecaseCommand(domain, modelUri);
+      this.append(command);
+      Supplier<UseCase> semanticResultSupplier = () -> command.getNewUsecase();
+      this.append(new AddUsecaseShapeCommand(domain, modelUri, classPosition, semanticResultSupplier));
+   }
+
+   /**
+    * Adding UseCase inside other element
+    */
+   public AddUsecaseCompoundCommand(final EditingDomain domain, final URI modelUri, final GPoint classPosition,
+      final String parentSemanticUri) {
+      // Chain semantic and notation command
+      AddUsecaseCommand command = new AddUsecaseCommand(domain, modelUri, parentSemanticUri);
       this.append(command);
       Supplier<UseCase> semanticResultSupplier = () -> command.getNewUsecase();
       this.append(new AddUsecaseShapeCommand(domain, modelUri, classPosition, semanticResultSupplier));

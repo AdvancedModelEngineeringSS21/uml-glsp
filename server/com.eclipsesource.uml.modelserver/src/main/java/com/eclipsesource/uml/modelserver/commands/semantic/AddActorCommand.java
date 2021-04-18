@@ -32,6 +32,13 @@ public class AddActorCommand extends UmlSemanticElementCommand {
       this.parentSemanticUriFragment = null;
    }
 
+   /**
+    * For adding actor inside parent package
+    *
+    * @param domain
+    * @param modelUri
+    * @param parentSemanticUri
+    */
    public AddActorCommand(final EditingDomain domain, final URI modelUri, final String parentSemanticUri) {
       super(domain, modelUri);
       this.newActor = UMLFactory.eINSTANCE.createActor();

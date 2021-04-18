@@ -33,6 +33,13 @@ public class AddActorCompoundCommand extends CompoundCommand {
 
    private static Logger LOGGER = Logger.getLogger(AddActorCompoundCommand.class);
 
+   /**
+    * Adding actor in model root
+    *
+    * @param domain
+    * @param modelUri
+    * @param classPosition
+    */
    public AddActorCompoundCommand(final EditingDomain domain, final URI modelUri, final GPoint classPosition) {
       // Chain semantic and notation command
       AddActorCommand command = new AddActorCommand(domain, modelUri);
@@ -41,7 +48,7 @@ public class AddActorCompoundCommand extends CompoundCommand {
       this.append(new AddActorShapeCommand(domain, modelUri, classPosition, semanticResultSupplier));
    }
 
-   /*
+   /**
     * Adding Actor inside other element
     */
    public AddActorCompoundCommand(final EditingDomain domain, final URI modelUri, final GPoint classPosition,

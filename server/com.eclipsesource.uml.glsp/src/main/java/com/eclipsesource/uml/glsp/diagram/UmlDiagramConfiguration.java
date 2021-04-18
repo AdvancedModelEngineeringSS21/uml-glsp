@@ -36,8 +36,17 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
 
    @Override
    public EdgeTypeHint createDefaultEdgeTypeHint(final String elementId) {
-      List<String> allowed = Lists.newArrayList(Types.CLASS);
+      List<String> allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE);
       return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
+   }
+
+   public List<EdgeTypeHint> getUsecaseEdgeTypeHint(final String elementId) {
+      List<EdgeTypeHint> allowed = new ArrayList<>();
+      allowed.add(new EdgeTypeHint(elementId, true, true, true, Lists.newArrayList(Types.ACTOR),
+         Lists.newArrayList(Types.USECASE)));
+      allowed.add(new EdgeTypeHint(elementId, true, true, true, Lists.newArrayList(Types.USECASE),
+         Lists.newArrayList(Types.ACTOR)));
+      return allowed;
    }
 
    @Override

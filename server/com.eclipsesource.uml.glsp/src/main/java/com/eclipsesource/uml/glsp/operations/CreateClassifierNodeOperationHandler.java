@@ -93,7 +93,7 @@ public class CreateClassifierNodeOperationHandler
                      operation.getLocation())
                   .thenAccept(response -> {
                      if (!response.body()) {
-                        throw new GLSPServerException("Could not execute create operation on new Property node");
+                        throw new GLSPServerException("Could not execute create operation on new nested Actor node");
                      }
                   });
             }
@@ -102,12 +102,31 @@ public class CreateClassifierNodeOperationHandler
             break;
          }
          case Types.USECASE: {
-            modelAccess.addUsecase(UmlModelState.getModelState(modelState), operation.getLocation())
-               .thenAccept(response -> {
-                  if (!response.body()) {
-                     throw new GLSPServerException("Could not execute create operation on new Usecase node");
-                  }
-               });
+            PackageableElement container = null;
+            try {
+               container = getOrThrow(
+                  UmlModelState.getModelState(modelState).getIndex().getSemantic(operation.getContainerId()),
+                  PackageableElement.class, "No valid container with id " + operation.getContainerId() + " found");
+            } catch (GLSPServerException ex) {
+               LOGGER.error("Could not find container", ex);
+            }
+            if (container != null && container instanceof org.eclipse.uml2.uml.internal.impl.ModelImpl) {
+               modelAccess.addUsecase(UmlModelState.getModelState(modelState), operation.getLocation())
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException("Could not execute create operation on new Usecase node");
+                     }
+                  });
+            } else {
+               modelAccess
+                  .addUsecaseInPackage(UmlModelState.getModelState(modelState), (Package) container,
+                     operation.getLocation())
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException("Could not execute create operation on new nested Usecase node");
+                     }
+                  });
+            }
             break;
          }
       }

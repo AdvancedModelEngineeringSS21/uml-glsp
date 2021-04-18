@@ -21,6 +21,7 @@ import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UseCase;
@@ -57,18 +58,25 @@ public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperation
                         throw new GLSPServerException("Could not rename Class to: " + inputText);
                      }
                   });
+            } else if (semanticElement instanceof Package) {
+               modelAccess.setPackageName(modelState, (Package) semanticElement, inputText)
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException("Could not rename Package to: " + inputText);
+                     }
+                  });
             } else if (semanticElement instanceof Actor) {
                modelAccess.setActorName(modelState, (Actor) semanticElement, inputText)
                   .thenAccept(response -> {
                      if (!response.body()) {
-                        throw new GLSPServerException("Could not rename Class to: " + inputText);
+                        throw new GLSPServerException("Could not rename Actor to: " + inputText);
                      }
                   });
             } else if (semanticElement instanceof UseCase) {
                modelAccess.setUsecaseName(modelState, (UseCase) semanticElement, inputText)
                   .thenAccept(response -> {
                      if (!response.body()) {
-                        throw new GLSPServerException("Could not rename Class to: " + inputText);
+                        throw new GLSPServerException("Could not rename UseCase to: " + inputText);
                      }
                   });
             }
