@@ -37,8 +37,8 @@ public final class UmlConfig {
       public static final String ICON_PACKAGE = "icon:package";
       public static final String PACKAGE = "node:package";
 
-      public static final String EXTENSION = "edge:association";
-      public static final String INCLUSION = "edge:inclusion";
+      public static final String EXTEND = "edge:extend";
+      public static final String INCLUDE = "edge:include";
 
       private Types() {}
    }

@@ -31,15 +31,30 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
 
    @Override
    public List<EdgeTypeHint> getEdgeTypeHints() {
-      return Lists.newArrayList(createDefaultEdgeTypeHint(Types.ASSOCIATION));
+      return Lists.newArrayList(createDefaultEdgeTypeHint(Types.ASSOCIATION), createDefaultEdgeTypeHint(Types.EXTEND),
+         createDefaultEdgeTypeHint(Types.INCLUDE));
    }
 
    @Override
    public EdgeTypeHint createDefaultEdgeTypeHint(final String elementId) {
-      List<String> allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE);
-      return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
+      List<String> allowed;
+      switch (elementId) {
+         case Types.ASSOCIATION:
+            allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE);
+            return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
+         case Types.EXTEND:
+            allowed = Lists.newArrayList(Types.USECASE);
+            return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
+         case Types.INCLUDE:
+            allowed = Lists.newArrayList(Types.USECASE);
+            return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
+         default:
+            allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE);
+            return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
+      }
    }
 
+   // TODO: Einbinden irgendwie
    public List<EdgeTypeHint> getUsecaseEdgeTypeHint(final String elementId) {
       List<EdgeTypeHint> allowed = new ArrayList<>();
       allowed.add(new EdgeTypeHint(elementId, true, true, true, Lists.newArrayList(Types.ACTOR),
@@ -97,6 +112,10 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
 
       mappings.put(Types.ICON_ACTOR, GraphPackage.Literals.GCOMPARTMENT);
       mappings.put(Types.ACTOR, GraphPackage.Literals.GNODE);
+
+      mappings.put(Types.EXTEND, GraphPackage.Literals.GEDGE);
+      mappings.put(Types.INCLUDE, GraphPackage.Literals.GEDGE);
+
       return mappings;
    }
 

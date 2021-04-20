@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.UMLFactory;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
@@ -21,21 +22,29 @@ import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 public class AddAssociationCommand extends UmlSemanticElementCommand {
 
    private final Association newAssociation;
-   protected final Class sourceClass;
-   protected final Class targetClass;
+   protected final Classifier sourceClass;
+   protected final Classifier targetClass;
 
    public AddAssociationCommand(final EditingDomain domain, final URI modelUri,
       final String sourceClassUriFragment, final String targetClassUriFragment) {
       super(domain, modelUri);
       this.newAssociation = UMLFactory.eINSTANCE.createAssociation();
-      this.sourceClass = UmlSemanticCommandUtil.getElement(umlModel, sourceClassUriFragment, Class.class);
-      this.targetClass = UmlSemanticCommandUtil.getElement(umlModel, targetClassUriFragment, Class.class);
+      this.sourceClass = UmlSemanticCommandUtil.getElement(umlModel, sourceClassUriFragment, Classifier.class);
+      this.targetClass = UmlSemanticCommandUtil.getElement(umlModel, targetClassUriFragment, Classifier.class);
    }
 
    @Override
    protected void doExecute() {
-      getNewAssociation().createOwnedEnd(UmlSemanticCommandUtil.getNewAssociationEndName(sourceClass), sourceClass);
-      getNewAssociation().createOwnedEnd(UmlSemanticCommandUtil.getNewAssociationEndName(targetClass), targetClass);
+      if (sourceClass instanceof Class && targetClass instanceof Class) {
+         getNewAssociation().createOwnedEnd(UmlSemanticCommandUtil.getNewAssociationEndName((Class) sourceClass),
+            sourceClass);
+         getNewAssociation().createOwnedEnd(UmlSemanticCommandUtil.getNewAssociationEndName((Class) targetClass),
+            targetClass);
+      } else {
+         getNewAssociation().createOwnedEnd(sourceClass.getName().toLowerCase(), sourceClass);
+         getNewAssociation().createOwnedEnd(targetClass.getName().toLowerCase(), targetClass);
+      }
+
       umlModel.getPackagedElements().add(getNewAssociation());
    }
 

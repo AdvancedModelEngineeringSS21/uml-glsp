@@ -1,2 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_X6j8AJ-MEeuQEoa88uSISg" name="usecase-test"/>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_X6j8AJ-MEeuQEoa88uSISg" name="usecase-test">
+  <packagedElement xmi:type="uml:Package" xmi:id="_hEf0cKHbEeuOFLrdBGv9pA" name="NewPackage0">
+    <packagedElement xmi:type="uml:Actor" xmi:id="_iLAJgKHbEeuOFLrdBGv9pA" name="NewActor1"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_i3Z8gKHbEeuOFLrdBGv9pA" name="NewUseCase1"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_hyvagKHbEeuOFLrdBGv9pA" name="NewActor0"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_id86sKHbEeuOFLrdBGv9pA" name="NewUseCase0"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_kcfD8KHbEeuOFLrdBGv9pA" name="dfsfsdfs"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_mq0jwKHbEeuOFLrdBGv9pA" name="NewPackage2"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_DWXokKHkEeuYX9pvJEtJ3g" memberEnd="_DWXokaHkEeuYX9pvJEtJ3g _DWXokqHkEeuYX9pvJEtJ3g">
+    <ownedEnd xmi:id="_DWXokaHkEeuYX9pvJEtJ3g" name="dsdgsf" type="_id86sKHbEeuOFLrdBGv9pA" association="_DWXokKHkEeuYX9pvJEtJ3g">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_75NBgKHlEeu1o-S4WL5CYA" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_75YnsKHlEeu1o-S4WL5CYA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_DWXokqHkEeuYX9pvJEtJ3g" name="test" type="_hyvagKHbEeuOFLrdBGv9pA" association="_DWXokKHkEeuYX9pvJEtJ3g">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_y_AtsKHlEeu1o-S4WL5CYA" value="10"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_y_AtsaHlEeu1o-S4WL5CYA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_OX8DIKHlEeu1o-S4WL5CYA" name="NewActor1"/>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_OqRwUKHlEeu1o-S4WL5CYA" name="NewActor2"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_Nht9EKH2Eeu41Yf3p4MYSg" name="NewUseCase1">
+    <extensionPoint xmi:id="_Oq7n4KH2Eeu41Yf3p4MYSg"/>
+    <extensionPoint xmi:id="_GWZJYKH3EeuByKQoUaSpdg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_ODKdQKH2Eeu41Yf3p4MYSg" name="NewUseCase2">
+    <extend xmi:id="_Oq6ZwKH2Eeu41Yf3p4MYSg" extendedCase="_Nht9EKH2Eeu41Yf3p4MYSg"/>
+    <extend xmi:id="_GWTCwKH3EeuByKQoUaSpdg" extendedCase="_Nht9EKH2Eeu41Yf3p4MYSg" extensionLocation="_GWZJYKH3EeuByKQoUaSpdg"/>
+  </packagedElement>
+</uml:Model>

@@ -1,4 +1,62 @@
 <?xml version="1.0" encoding="ASCII"?>
-<unotation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:unotation="http://www.eclipsesource.com/glsp/uml/notation" diagramType="USECASE">
+<unotation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:unotation="http://www.eclipsesource.com/glsp/uml/notation" diagramType="USECASE">
   <semanticElement uri="_X6j8AJ-MEeuQEoa88uSISg"/>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_hEf0cKHbEeuOFLrdBGv9pA"/>
+    <position x="244.0" y="84.0"/>
+  </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_hyvagKHbEeuOFLrdBGv9pA"/>
+    <position x="620.0" y="127.0"/>
+  </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_iLAJgKHbEeuOFLrdBGv9pA"/>
+    <position x="276.0" y="102.0"/>
+  </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_id86sKHbEeuOFLrdBGv9pA"/>
+    <position x="993.0" y="589.0"/>
+    <size width="173.89999389648438" height="41.0"/>
+  </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_i3Z8gKHbEeuOFLrdBGv9pA"/>
+    <position x="283.0" y="107.0"/>
+  </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_kcfD8KHbEeuOFLrdBGv9pA"/>
+    <position x="393.0" y="498.0"/>
+  </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_mq0jwKHbEeuOFLrdBGv9pA"/>
+    <position x="728.0" y="593.0"/>
+    <size width="169.06666564941406" height="41.0"/>
+  </elements>
+  <elements xsi:type="unotation:Edge">
+    <semanticElement uri="_DWXokKHkEeuYX9pvJEtJ3g"/>
+    <bendPoints x="1079.9499969482422" y="419.5"/>
+    <bendPoints x="778.6833343505859" y="419.5"/>
+    <bendPoints x="778.6833343505859" y="147.5"/>
+  </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_OX8DIKHlEeu1o-S4WL5CYA"/>
+    <position x="202.0" y="348.0"/>
+  </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_OqRwUKHlEeu1o-S4WL5CYA"/>
+    <position x="178.0" y="769.0"/>
+  </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_Nht9EKH2Eeu41Yf3p4MYSg"/>
+    <position x="45.0" y="202.0"/>
+  </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_ODKdQKH2Eeu41Yf3p4MYSg"/>
+    <position x="75.0" y="570.0"/>
+  </elements>
+  <elements xsi:type="unotation:Edge">
+    <semanticElement uri="_Oq6ZwKH2Eeu41Yf3p4MYSg"/>
+  </elements>
+  <elements xsi:type="unotation:Edge">
+    <semanticElement uri="_GWTCwKH3EeuByKQoUaSpdg"/>
+  </elements>
 </unotation:Diagram>

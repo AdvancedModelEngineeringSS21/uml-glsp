@@ -18,7 +18,10 @@ import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.operations.CreateEdgeOperation;
 import org.eclipse.glsp.server.operations.Operation;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
+import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.glsp.model.UmlModelIndex;
 import com.eclipsesource.uml.glsp.model.UmlModelState;
@@ -32,8 +35,8 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       super(handledElementTypeIds);
    }
 
-   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.ASSOCIATION, Types.EXTENSION,
-      Types.INCLUSION);
+   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.ASSOCIATION, Types.EXTEND,
+      Types.INCLUDE);
 
    @Override
    public boolean handles(final Operation execAction) {
@@ -44,6 +47,30 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       return false;
    }
 
+   /**
+    * checks if two Use case diagram elements may be linked using the specified edgeType in the context of the use case
+    * diagram.
+    *
+    * @param edgeType
+    * @param source
+    * @param target
+    * @return
+    */
+   private boolean isLinkableUCD(final String edgeType, final Classifier source, final Classifier target) {
+      switch (edgeType) {
+         case Types.ASSOCIATION:
+            return (source instanceof Actor || source instanceof UseCase)
+               && (target instanceof Actor || target instanceof UseCase)
+               && !(source instanceof Actor && target instanceof Actor);
+         case Types.EXTEND:
+            return (source instanceof UseCase && target instanceof UseCase);
+         case Types.INCLUDE:
+            return (source instanceof UseCase && target instanceof UseCase);
+         default:
+            return false;
+      }
+   }
+
    @Override
    public void executeOperation(final CreateEdgeOperation operation, final GModelState graphicalModelState,
       final UmlModelServerAccess modelAccess) throws Exception {
@@ -52,29 +79,40 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       UmlModelState modelState = UmlModelState.getModelState(graphicalModelState);
       UmlModelIndex modelIndex = modelState.getIndex();
 
-      Class sourceClass = getOrThrow(modelIndex.getSemantic(operation.getSourceElementId(), Class.class),
-         "No semantic Class found for source element with id " + operation.getSourceElementId());
-      Class targetClass = getOrThrow(modelIndex.getSemantic(operation.getTargetElementId(), Class.class),
-         "No semantic Class found for target element with id" + operation.getTargetElementId());
+      Classifier sourceClassifier = getOrThrow(modelIndex.getSemantic(operation.getSourceElementId(), Classifier.class),
+         "No semantic Element found for source element with id " + operation.getSourceElementId());
+      Classifier targetClassifier = getOrThrow(modelIndex.getSemantic(operation.getTargetElementId(), Classifier.class),
+         "No semantic Element found for target element with id" + operation.getTargetElementId());
 
       if (elementTypeId.equals(Types.ASSOCIATION)) {
-         modelAccess.addAssociation(modelState, sourceClass, targetClass)
+         // Case Base Class diagram implementation
+         if (sourceClassifier.getClass().equals(targetClassifier.getClass()) && targetClassifier instanceof Class) {
+            modelAccess.addAssociation(modelState, (Class) sourceClassifier, (Class) targetClassifier)
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not execute create operation on new Association edge");
+                  }
+               });
+         } else if (isLinkableUCD(Types.ASSOCIATION, sourceClassifier, targetClassifier)) {
+            modelAccess.addAssociation(modelState, sourceClassifier, targetClassifier)
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not execute create operation on new UCD Association edge");
+                  }
+               });
+         }
+      } else if (elementTypeId.equals(Types.EXTEND)) {
+         if (!(isLinkableUCD(Types.EXTEND, sourceClassifier, targetClassifier))) {
+            throw new GLSPServerException(
+               "Could not execute create operation on new UCD Extend edge - source and target need to be Usecases!");
+         }
+         modelAccess.addExtend(modelState, (UseCase) sourceClassifier, (UseCase) targetClassifier)
             .thenAccept(response -> {
                if (!response.body()) {
-                  throw new GLSPServerException("Could not execute create operation on new Association edge");
+                  throw new GLSPServerException("Could not execute create operation on new UCD Extend edge");
                }
             });
-      } else if (elementTypeId.equals(Types.EXTENSION)) {
-         throw new UnsupportedOperationException();
-         /*
-          * modelAccess.addAssociation(modelState, sourceClass, targetClass)
-          * .thenAccept(response -> {
-          * if (!response.body()) {
-          * throw new GLSPServerException("Could not execute create operation on new Extension edge");
-          * }
-          * });
-          */
-      } else if (elementTypeId.equals(Types.INCLUSION)) {
+      } else if (elementTypeId.equals(Types.INCLUDE)) {
          throw new UnsupportedOperationException();
          /*
           * modelAccess.addAssociation(modelState, sourceClass, targetClass)

@@ -34,6 +34,7 @@ import org.eclipse.glsp.server.types.ElementAndRoutingPoints;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
@@ -46,6 +47,7 @@ import com.eclipsesource.uml.modelserver.UmlNotationUtil;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddUsecaseCommandContribution;
@@ -342,6 +344,30 @@ public class UmlModelServerAccess {
       CCommand setUsecaseNameCommand = SetUsecaseNameCommandContribution.create(getSemanticUriFragment(useCaseToRename),
          newName);
       return this.edit(setUsecaseNameCommand);
+   }
+
+   /*
+    * Use Case Diagram Association
+    */
+   public CompletableFuture<Response<Boolean>> addAssociation(final UmlModelState modelState,
+      final Classifier sourceClassifier, final Classifier targetClassifier) {
+
+      CCompoundCommand addAssociationCompoundCommand = AddAssociationCommandContribution
+         .create(getSemanticUriFragment(sourceClassifier), getSemanticUriFragment(targetClassifier));
+      return this.edit(addAssociationCompoundCommand);
+   }
+
+   // Removing and changing multiplicity is unchanged from UML Class diagram, naming is not relevant
+
+   /*
+    * Use Case Diagram Extension
+    */
+   public CompletableFuture<Response<Boolean>> addExtend(final UmlModelState modelState,
+      final UseCase extendingUseCase, final UseCase extendedUseCase) {
+
+      CCompoundCommand addExtensionCompoundCommand = AddExtendCommandContribution
+         .create(getSemanticUriFragment(extendingUseCase), getSemanticUriFragment(extendedUseCase));
+      return this.edit(addExtensionCompoundCommand);
    }
 
    /*
