@@ -38,9 +38,9 @@ public class AddExtendEdgeCommand extends UmlNotationElementCommand {
    }
 
    public AddExtendEdgeCommand(final EditingDomain domain, final URI modelUri,
-      final Supplier<Extend> associationSupplier) {
+      final Supplier<Extend> extendSupplier) {
       this(domain, modelUri);
-      this.extendSupplier = associationSupplier;
+      this.extendSupplier = extendSupplier;
    }
 
    @Override
