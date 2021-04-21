@@ -24,6 +24,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandC
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddExtendCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddIncludeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddUsecaseCommandContribution;
@@ -98,9 +99,13 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       binding.put(RemoveUsecaseCommandContribution.TYPE, RemoveUsecaseCommandContribution.class);
       binding.put(SetUsecaseNameCommandContribution.TYPE, SetUsecaseNameCommandContribution.class);
 
-      // UML Association
+      // UML Extend
       binding.put(AddExtendCommandContribution.TYPE, AddExtendCommandContribution.class);
       // binding.put(RemoveExtendCommandContribution.TYPE, RemoveExtendCommandContribution.class);
+
+      // UML Include
+      binding.put(AddIncludeCommandContribution.TYPE, AddIncludeCommandContribution.class);
+      // binding.put(AddIncludeCommandContribution.TYPE, AddIncludeCommandContribution.class));
 
    }
 

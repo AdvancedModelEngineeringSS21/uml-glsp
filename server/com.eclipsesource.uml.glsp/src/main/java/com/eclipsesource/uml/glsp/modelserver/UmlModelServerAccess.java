@@ -48,6 +48,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandC
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddExtendCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddIncludeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddUsecaseCommandContribution;
@@ -360,7 +361,7 @@ public class UmlModelServerAccess {
    // Removing and changing multiplicity is unchanged from UML Class diagram, naming is not relevant
 
    /*
-    * Use Case Diagram Extension
+    * Use Case Diagram Extend
     */
    public CompletableFuture<Response<Boolean>> addExtend(final UmlModelState modelState,
       final UseCase extendingUseCase, final UseCase extendedUseCase) {
@@ -368,6 +369,17 @@ public class UmlModelServerAccess {
       CCompoundCommand addExtensionCompoundCommand = AddExtendCommandContribution
          .create(getSemanticUriFragment(extendingUseCase), getSemanticUriFragment(extendedUseCase));
       return this.edit(addExtensionCompoundCommand);
+   }
+
+   /*
+    * Use Case Diagram Include
+    */
+   public CompletableFuture<Response<Boolean>> addInclude(final UmlModelState modelState,
+      final UseCase includingUseCase, final UseCase includedUseCase) {
+
+      CCompoundCommand addIncludeCompoundCommand = AddIncludeCommandContribution
+         .create(getSemanticUriFragment(includingUseCase), getSemanticUriFragment(includedUseCase));
+      return this.edit(addIncludeCompoundCommand);
    }
 
    /*

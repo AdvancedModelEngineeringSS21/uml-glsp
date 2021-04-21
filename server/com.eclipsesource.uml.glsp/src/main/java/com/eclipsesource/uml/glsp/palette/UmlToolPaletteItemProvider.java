@@ -58,8 +58,9 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
    private PaletteItem usecase_edges() {
       PaletteItem createAssociation = edge(Types.ASSOCIATION, "Association", "umlassociation");
       PaletteItem createExtend = edge(Types.EXTEND, "Extend", "umlextend");
+      PaletteItem createInclude = edge(Types.INCLUDE, "Include", "umlinclud");
 
-      List<PaletteItem> edges = Lists.newArrayList(createAssociation, createExtend);
+      List<PaletteItem> edges = Lists.newArrayList(createAssociation, createExtend, createInclude);
       return PaletteItem.createPaletteGroup("uml.relation", "Relation", edges, "fa-hammer");
    }
 

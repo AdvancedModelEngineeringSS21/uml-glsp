@@ -101,6 +101,7 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
                   }
                });
          }
+
       } else if (elementTypeId.equals(Types.EXTEND)) {
          if (!(isLinkableUCD(Types.EXTEND, sourceClassifier, targetClassifier))) {
             throw new GLSPServerException(
@@ -112,16 +113,18 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
                   throw new GLSPServerException("Could not execute create operation on new UCD Extend edge");
                }
             });
+
       } else if (elementTypeId.equals(Types.INCLUDE)) {
-         throw new UnsupportedOperationException();
-         /*
-          * modelAccess.addAssociation(modelState, sourceClass, targetClass)
-          * .thenAccept(response -> {
-          * if (!response.body()) {
-          * throw new GLSPServerException("Could not execute create operation on new INCLUSION edge");
-          * }
-          * });
-          */
+         if (!(isLinkableUCD(Types.INCLUDE, sourceClassifier, targetClassifier))) {
+            throw new GLSPServerException(
+               "Could not execute create operation on new UCD Include edge - source and target need to be Usecases!");
+         }
+         modelAccess.addInclude(modelState, (UseCase) sourceClassifier, (UseCase) targetClassifier)
+            .thenAccept(response -> {
+               if (!response.body()) {
+                  throw new GLSPServerException("Could not execute create operation on new UCD Include edge");
+               }
+            });
       }
    }
 
