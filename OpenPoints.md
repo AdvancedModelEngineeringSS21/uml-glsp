@@ -8,6 +8,14 @@
 - ownedUseCase vs packagedElement
 - why do we need to have new java classes for every element even if they all do exactly the same
 
+
+## Open Issues
+- Deleting elements connected via a relationships destroys everything
+- Saving not always consitent / consequent
+- Use Case not rendered when placed initially
+- Palett is not always rendered
+
+
 ## ToDos: 
 ### Must Have
 - Visual feedback for association creation (Currently it seems okay, if hovering over second actor)
