@@ -36,7 +36,7 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
    }
 
    private static List<String> handledElementTypeIds = Lists.newArrayList(Types.ASSOCIATION, Types.EXTEND,
-      Types.INCLUDE);
+      Types.INCLUDE, Types.GENERALIZATION);
 
    @Override
    public boolean handles(final Operation execAction) {
