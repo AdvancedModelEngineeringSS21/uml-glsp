@@ -21,6 +21,7 @@ import org.eclipse.glsp.graph.GDimension;
 import org.eclipse.glsp.graph.GPoint;
 import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Relationship;
 
 import com.eclipsesource.uml.modelserver.UmlNotationUtil;
 import com.eclipsesource.uml.modelserver.unotation.Diagram;
@@ -53,6 +54,10 @@ public final class UmlNotationCommandUtil {
    }
 
    public static String getSemanticProxyUri(final NamedElement element) {
+      return EcoreUtil.getURI(element).fragment();
+   }
+
+   public static String getSemanticProxyUri(final Relationship element) {
       return EcoreUtil.getURI(element).fragment();
    }
 

@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Relationship;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
 import com.eclipsesource.uml.modelserver.unotation.Edge;
@@ -51,7 +52,7 @@ public class AddAssociationEdgeCommand extends UmlNotationElementCommand {
       if (this.semanticProxyUri != null) {
          proxy.setUri(this.semanticProxyUri);
       } else {
-         proxy.setUri(UmlNotationCommandUtil.getSemanticProxyUri(associationSupplier.get()));
+         proxy.setUri(UmlNotationCommandUtil.getSemanticProxyUri((Relationship) associationSupplier.get()));
       }
       newEdge.setSemanticElement(proxy);
 
