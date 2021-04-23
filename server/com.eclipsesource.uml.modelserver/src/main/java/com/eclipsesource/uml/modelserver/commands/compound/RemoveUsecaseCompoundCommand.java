@@ -53,12 +53,13 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
             String associationUriFragment = UmlNotationCommandUtil
                .getSemanticProxyUri((Relationship) eObject.eContainer());
             this.append(new RemoveAssociationCompoundCommand(domain, modelUri, associationUriFragment));
-         } else if (isAssociationTypeUsage(setting, eObject)) {
-            String associationUriFragment = UmlNotationCommandUtil
-               .getSemanticProxyUri((Relationship) eObject.eContainer());
-            this.append(new RemoveAssociationCompoundCommand(domain, modelUri, associationUriFragment));
+         } else if (isExtendTypeUsage(setting, eObject)) {
+            String extendUriFragment = UmlSemanticCommandUtil
+               .getSemanticUriFragment((Relationship) eObject);
+            this.append(new RemoveExtendCompoundCommand(domain, modelUri, extendUriFragment));
          }
       }
+
    }
 
    protected boolean isPropertyTypeUsage(final Setting setting, final EObject eObject, final UseCase classToRemove) {
@@ -75,9 +76,9 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
    }
 
    protected boolean isExtendTypeUsage(final Setting setting, final EObject eObject) {
-      return eObject instanceof Property
-         && eObject.eContainer() instanceof Extend
-         && ((Property) eObject).getAssociation() != null;
+      return eObject instanceof Extend
+         && ((Extend) eObject).eContainer() instanceof UseCase
+         && ((Extend) eObject).getExtension() != null;
    }
 
 }
