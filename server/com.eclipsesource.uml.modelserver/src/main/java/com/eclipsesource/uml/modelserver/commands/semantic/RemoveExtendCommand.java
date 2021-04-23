@@ -30,7 +30,10 @@ public class RemoveExtendCommand extends UmlSemanticElementCommand {
    protected void doExecute() {
       Extend extendToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment,
          Extend.class);
-      umlModel.getPackagedElements().remove(extendToRemove);
+      if (extendToRemove == null) {
+         return;
+      }
+      extendToRemove.getExtension().getExtends().remove(extendToRemove);
    }
 
 }

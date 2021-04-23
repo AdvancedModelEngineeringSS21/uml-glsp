@@ -21,6 +21,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.Include;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Relationship;
@@ -53,12 +54,17 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
             String associationUriFragment = UmlNotationCommandUtil
                .getSemanticProxyUri((Relationship) eObject.eContainer());
             this.append(new RemoveAssociationCompoundCommand(domain, modelUri, associationUriFragment));
-         } else if (isAssociationTypeUsage(setting, eObject)) {
-            String associationUriFragment = UmlNotationCommandUtil
-               .getSemanticProxyUri((Relationship) eObject.eContainer());
-            this.append(new RemoveAssociationCompoundCommand(domain, modelUri, associationUriFragment));
+         } else if (isExtendTypeUsage(setting, eObject)) {
+            String extendUriFragment = UmlSemanticCommandUtil
+               .getSemanticUriFragment((Relationship) eObject);
+            this.append(new RemoveExtendCompoundCommand(domain, modelUri, extendUriFragment));
+         } else if (isIncludeTypeUsage(setting, eObject)) {
+            String extendUriFragment = UmlSemanticCommandUtil
+               .getSemanticUriFragment((Relationship) eObject);
+            this.append(new RemoveIncludeCompoundCommand(domain, modelUri, extendUriFragment));
          }
       }
+
    }
 
    protected boolean isPropertyTypeUsage(final Setting setting, final EObject eObject, final UseCase classToRemove) {
@@ -75,9 +81,15 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
    }
 
    protected boolean isExtendTypeUsage(final Setting setting, final EObject eObject) {
-      return eObject instanceof Property
-         && eObject.eContainer() instanceof Extend
-         && ((Property) eObject).getAssociation() != null;
+      return eObject instanceof Extend
+         && ((Extend) eObject).eContainer() instanceof UseCase
+         && ((Extend) eObject).getExtension() != null;
+   }
+
+   protected boolean isIncludeTypeUsage(final Setting setting, final EObject eObject) {
+      return eObject instanceof Include
+         && ((Include) eObject).eContainer() instanceof UseCase
+         && ((Include) eObject).getIncludingCase() != null;
    }
 
 }
