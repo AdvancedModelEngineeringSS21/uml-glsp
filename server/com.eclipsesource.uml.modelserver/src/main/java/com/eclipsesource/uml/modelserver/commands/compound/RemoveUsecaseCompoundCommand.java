@@ -20,8 +20,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Extend;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.UseCase;
 
@@ -49,7 +51,11 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
             this.append(new SetPropertyTypeCommand(domain, modelUri, propertyUriFragment, null));
          } else if (isAssociationTypeUsage(setting, eObject)) {
             String associationUriFragment = UmlNotationCommandUtil
-               .getSemanticProxyUri((Association) eObject.eContainer());
+               .getSemanticProxyUri((Relationship) eObject.eContainer());
+            this.append(new RemoveAssociationCompoundCommand(domain, modelUri, associationUriFragment));
+         } else if (isAssociationTypeUsage(setting, eObject)) {
+            String associationUriFragment = UmlNotationCommandUtil
+               .getSemanticProxyUri((Relationship) eObject.eContainer());
             this.append(new RemoveAssociationCompoundCommand(domain, modelUri, associationUriFragment));
          }
       }
@@ -65,6 +71,12 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
    protected boolean isAssociationTypeUsage(final Setting setting, final EObject eObject) {
       return eObject instanceof Property
          && eObject.eContainer() instanceof Association
+         && ((Property) eObject).getAssociation() != null;
+   }
+
+   protected boolean isExtendTypeUsage(final Setting setting, final EObject eObject) {
+      return eObject instanceof Property
+         && eObject.eContainer() instanceof Extend
          && ((Property) eObject).getAssociation() != null;
    }
 

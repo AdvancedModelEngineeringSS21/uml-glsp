@@ -33,6 +33,8 @@ import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPoi
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveIncludeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveUsecaseCommandContribution;
@@ -101,11 +103,11 @@ public class UmlModelServerModule extends DefaultModelServerModule {
 
       // UML Extend
       binding.put(AddExtendCommandContribution.TYPE, AddExtendCommandContribution.class);
-      // binding.put(RemoveExtendCommandContribution.TYPE, RemoveExtendCommandContribution.class);
+      binding.put(RemoveExtendCommandContribution.TYPE, RemoveExtendCommandContribution.class);
 
       // UML Include
       binding.put(AddIncludeCommandContribution.TYPE, AddIncludeCommandContribution.class);
-      // binding.put(AddIncludeCommandContribution.TYPE, AddIncludeCommandContribution.class));
+      binding.put(RemoveIncludeCommandContribution.TYPE, RemoveIncludeCommandContribution.class);
 
    }
 
