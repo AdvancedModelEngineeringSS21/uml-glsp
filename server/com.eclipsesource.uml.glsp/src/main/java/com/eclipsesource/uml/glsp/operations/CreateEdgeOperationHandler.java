@@ -133,7 +133,7 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
             throw new GLSPServerException(
                "Could not execute create operation on new UCD Include edge - source and target need to be Usecases!");
          }
-         modelAccess.addAssociation(modelState, sourceClassifier, targetClassifier)
+         modelAccess.addGeneralization(modelState, sourceClassifier, targetClassifier)
             .thenAccept(response -> {
                if (!response.body()) {
                   throw new GLSPServerException("Could not execute create operation on new UCD Generalization edge");

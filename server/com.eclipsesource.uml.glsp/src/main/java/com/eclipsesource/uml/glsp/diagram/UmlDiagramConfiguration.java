@@ -32,7 +32,7 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
    @Override
    public List<EdgeTypeHint> getEdgeTypeHints() {
       return Lists.newArrayList(createDefaultEdgeTypeHint(Types.ASSOCIATION), createDefaultEdgeTypeHint(Types.EXTEND),
-         createDefaultEdgeTypeHint(Types.INCLUDE));
+         createDefaultEdgeTypeHint(Types.INCLUDE), createDefaultEdgeTypeHint(Types.GENERALIZATION));
    }
 
    @Override
@@ -47,6 +47,9 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
             return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
          case Types.INCLUDE:
             allowed = Lists.newArrayList(Types.USECASE);
+            return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
+         case Types.GENERALIZATION:
+            allowed = Lists.newArrayList(Types.USECASE, Types.ACTOR);
             return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
          default:
             allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE);

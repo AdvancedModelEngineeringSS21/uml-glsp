@@ -27,11 +27,11 @@ public class AddGeneralizationCommandContribution extends UmlCompoundCommandCont
    public static final String SPECIFIC_CLASSIFIER_URI_FRAGMENT = "specificClassifierUriFragment";
 
    public static CCompoundCommand create(final String generalClassifierUri, final String specificClassifierUri) {
-      CCompoundCommand extendGeneralizationCompundCommand = CCommandFactory.eINSTANCE.createCompoundCommand();
-      extendGeneralizationCompundCommand.setType(TYPE);
-      extendGeneralizationCompundCommand.getProperties().put(GENERAL_CLASSIFIER_URI_FRAGMENT, generalClassifierUri);
-      extendGeneralizationCompundCommand.getProperties().put(SPECIFIC_CLASSIFIER_URI_FRAGMENT, specificClassifierUri);
-      return extendGeneralizationCompundCommand;
+      CCompoundCommand addGeneralizationCompundCommand = CCommandFactory.eINSTANCE.createCompoundCommand();
+      addGeneralizationCompundCommand.setType(TYPE);
+      addGeneralizationCompundCommand.getProperties().put(GENERAL_CLASSIFIER_URI_FRAGMENT, generalClassifierUri);
+      addGeneralizationCompundCommand.getProperties().put(SPECIFIC_CLASSIFIER_URI_FRAGMENT, specificClassifierUri);
+      return addGeneralizationCompundCommand;
    }
 
    @Override

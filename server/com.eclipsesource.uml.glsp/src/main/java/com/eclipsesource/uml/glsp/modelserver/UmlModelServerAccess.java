@@ -404,7 +404,7 @@ public class UmlModelServerAccess {
    }
 
    /*
-    * Use Case Diagram Association
+    * Use Case Diagram Generealization
     */
    public CompletableFuture<Response<Boolean>> addGeneralization(final UmlModelState modelState,
       final Classifier generalClassifier, final Classifier specificClassifier) {
