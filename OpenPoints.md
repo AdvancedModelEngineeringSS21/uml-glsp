@@ -7,6 +7,7 @@
 - Association -> Class vs. Classifer
 - ownedUseCase vs packagedElement
 - why do we need to have new java classes for every element even if they all do exactly the same
+- why are relationships (extend, include) multiple times in the references when removing a use case
 
 
 ## Open Issues
@@ -25,7 +26,9 @@
 - Extend: 
     - How handle creation of extension points?
     - Add extension to existing Extension point if exisitng extions point is clicked, else add new extension point
-    - Validate Extension points?
+    - Validate Extension points
+    - disallow extension loops (extending the extended usecase  with the extending usecase)
+    - 
 ### Nice To Have
 - Improve pattern matcher for multiplicity regex
 
