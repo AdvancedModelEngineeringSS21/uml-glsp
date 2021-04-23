@@ -21,6 +21,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.Include;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Relationship;
@@ -57,6 +58,10 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
             String extendUriFragment = UmlSemanticCommandUtil
                .getSemanticUriFragment((Relationship) eObject);
             this.append(new RemoveExtendCompoundCommand(domain, modelUri, extendUriFragment));
+         } else if (isIncludeTypeUsage(setting, eObject)) {
+            String extendUriFragment = UmlSemanticCommandUtil
+               .getSemanticUriFragment((Relationship) eObject);
+            this.append(new RemoveIncludeCompoundCommand(domain, modelUri, extendUriFragment));
          }
       }
 
@@ -79,6 +84,12 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
       return eObject instanceof Extend
          && ((Extend) eObject).eContainer() instanceof UseCase
          && ((Extend) eObject).getExtension() != null;
+   }
+
+   protected boolean isIncludeTypeUsage(final Setting setting, final EObject eObject) {
+      return eObject instanceof Include
+         && ((Include) eObject).eContainer() instanceof UseCase
+         && ((Include) eObject).getIncludingCase() != null;
    }
 
 }
