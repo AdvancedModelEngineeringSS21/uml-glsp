@@ -39,6 +39,7 @@ public final class UmlConfig {
 
       public static final String EXTEND = "edge:extend";
       public static final String INCLUDE = "edge:include";
+      public static final String GENERALIZATION = "edge:generalization";
 
       private Types() {}
    }

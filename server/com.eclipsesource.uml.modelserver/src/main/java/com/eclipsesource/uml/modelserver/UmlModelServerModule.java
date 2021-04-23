@@ -24,6 +24,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandC
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddExtendCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddGeneralizationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddIncludeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
@@ -108,6 +109,10 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       // UML Include
       binding.put(AddIncludeCommandContribution.TYPE, AddIncludeCommandContribution.class);
       binding.put(RemoveIncludeCommandContribution.TYPE, RemoveIncludeCommandContribution.class);
+
+      // UML Include
+      binding.put(AddGeneralizationCommandContribution.TYPE, AddGeneralizationCommandContribution.class);
+      // binding.put(AddIncludeCommandContribution.TYPE, AddIncludeCommandContribution.class));
 
    }
 

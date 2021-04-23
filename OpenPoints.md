@@ -10,10 +10,12 @@
 
 
 ## Open Issues
-- Deleting elements connected via a relationships destroys everything
-- Saving not always consitent / consequent
 - Use Case not rendered when placed initially
-- Palett is not always rendered
+- Deleting elements connected via a relationships destroys everything 
+  - -> Hypothesis: Changing notation
+  - [ ] Remove Commands need to be implemented
+- Saving not always consistent / consequent
+- Palette is not always rendered
 
 
 ## ToDos: 
@@ -21,6 +23,7 @@
 - Visual feedback for association creation (Currently it seems okay, if hovering over second actor)
 - Implememt Subsystem as Component instead of as Class
 - Extend: 
+    - How handle creation of extension points?
     - Add extension to existing Extension point if exisitng extions point is clicked, else add new extension point
     - Validate Extension points?
 ### Nice To Have

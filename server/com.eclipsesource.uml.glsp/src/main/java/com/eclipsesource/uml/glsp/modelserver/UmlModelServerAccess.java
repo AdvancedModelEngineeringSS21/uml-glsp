@@ -50,6 +50,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandC
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddExtendCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddGeneralizationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddIncludeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
@@ -400,6 +401,17 @@ public class UmlModelServerAccess {
       String semanticProxyUri = getSemanticUriFragment(includeToRemove);
       CCompoundCommand compoundCommand = RemoveIncludeCommandContribution.create(semanticProxyUri);
       return this.edit(compoundCommand);
+   }
+
+   /*
+    * Use Case Diagram Association
+    */
+   public CompletableFuture<Response<Boolean>> addGeneralization(final UmlModelState modelState,
+      final Classifier generalClassifier, final Classifier specificClassifier) {
+
+      CCompoundCommand addGeneralizationCompoundCommand = AddGeneralizationCommandContribution
+         .create(getSemanticUriFragment(generalClassifier), getSemanticUriFragment(specificClassifier));
+      return this.edit(addGeneralizationCompoundCommand);
    }
 
    /*
