@@ -35,6 +35,8 @@ import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.Include;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
@@ -58,6 +60,8 @@ import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPoi
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveIncludeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveUsecaseCommandContribution;
@@ -372,6 +376,14 @@ public class UmlModelServerAccess {
       return this.edit(addExtensionCompoundCommand);
    }
 
+   public CompletableFuture<Response<Boolean>> removeExtend(final UmlModelState modelState,
+      final Extend extendToRemove) {
+
+      String semanticProxyUri = getSemanticUriFragment(extendToRemove);
+      CCompoundCommand compoundCommand = RemoveExtendCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
+   }
+
    /*
     * Use Case Diagram Include
     */
@@ -381,6 +393,14 @@ public class UmlModelServerAccess {
       CCompoundCommand addIncludeCompoundCommand = AddIncludeCommandContribution
          .create(getSemanticUriFragment(includingUseCase), getSemanticUriFragment(includedUseCase));
       return this.edit(addIncludeCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> removeInclude(final UmlModelState modelState,
+      final Include includeToRemove) {
+
+      String semanticProxyUri = getSemanticUriFragment(includeToRemove);
+      CCompoundCommand compoundCommand = RemoveIncludeCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
    }
 
    /*

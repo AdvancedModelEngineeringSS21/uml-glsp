@@ -23,6 +23,7 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.UMLPackage;
 
 import com.eclipsesource.uml.modelserver.commands.notation.RemoveActorShapeCommand;
@@ -48,7 +49,7 @@ public class RemoveActorCompoundCommand extends CompoundCommand {
             this.append(new SetPropertyTypeCommand(domain, modelUri, propertyUriFragment, null));
          } else if (isAssociationTypeUsage(setting, eObject)) {
             String associationUriFragment = UmlNotationCommandUtil
-               .getSemanticProxyUri((Association) eObject.eContainer());
+               .getSemanticProxyUri((Relationship) eObject.eContainer());
             this.append(new RemoveAssociationCompoundCommand(domain, modelUri, associationUriFragment));
          }
       }
