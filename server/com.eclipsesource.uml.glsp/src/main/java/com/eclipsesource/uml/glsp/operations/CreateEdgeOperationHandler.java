@@ -66,6 +66,9 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
             return (source instanceof UseCase && target instanceof UseCase);
          case Types.INCLUDE:
             return (source instanceof UseCase && target instanceof UseCase);
+         case Types.GENERALIZATION:
+            return (source instanceof UseCase && target instanceof UseCase)
+               || (source instanceof Actor && target instanceof Actor);
          default:
             return false;
       }
@@ -123,6 +126,17 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
             .thenAccept(response -> {
                if (!response.body()) {
                   throw new GLSPServerException("Could not execute create operation on new UCD Include edge");
+               }
+            });
+      } else if (elementTypeId.equals(Types.GENERALIZATION)) {
+         if (!(isLinkableUCD(Types.GENERALIZATION, sourceClassifier, targetClassifier))) {
+            throw new GLSPServerException(
+               "Could not execute create operation on new UCD Include edge - source and target need to be Usecases!");
+         }
+         modelAccess.addAssociation(modelState, sourceClassifier, targetClassifier)
+            .thenAccept(response -> {
+               if (!response.body()) {
+                  throw new GLSPServerException("Could not execute create operation on new UCD Generalization edge");
                }
             });
       }

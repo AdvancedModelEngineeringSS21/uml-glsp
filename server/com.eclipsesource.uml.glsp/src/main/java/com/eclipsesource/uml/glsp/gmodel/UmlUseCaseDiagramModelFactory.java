@@ -47,7 +47,8 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
       } else if (semanticElement instanceof Class) {
          result = classifierNodeFactory.create((Class) semanticElement);
       } else if (semanticElement instanceof Relationship) {
-         result = relationshipEdgeFactory.create((Relationship) semanticElement);
+         result = relationshipEdgeFactory.create((Relationship) semanticElement); // Catches Include, Extend,
+                                                                                  // Generalization
       } else if (semanticElement instanceof NamedElement) {
          result = labelFactory.create((NamedElement) semanticElement);
       }
@@ -95,6 +96,8 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
             .map(Association.class::cast)//
             .map(this::create)//
             .collect(Collectors.toList()));
+
+         // TODO: Implement Include, Extend , Generalization
       }
       return graph;
 

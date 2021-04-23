@@ -22,8 +22,11 @@ import org.eclipse.glsp.graph.builder.impl.GLabelBuilder;
 import org.eclipse.glsp.graph.util.GConstants;
 import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.Include;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Relationship;
+import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.util.UmlConfig.CSS;
@@ -42,6 +45,10 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
    public GEdge create(final Relationship element) {
       if (element instanceof Association) {
          return createAssociationEdge((Association) element);
+      } else if (element instanceof Include) {
+         return createExtendEdge((Extend) element);
+      } else if (element instanceof Include) {
+         return createIncludeEdge((Include) element);
       }
       return null;
    }
@@ -60,6 +67,7 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
          .targetId(toId(target.getType()))
          .routerKind(GConstants.RouterKind.MANHATTAN);
 
+      // TODO: Remove lable edge in use case diagram
       GLabel sourceNameLabel = createEdgeNameLabel(source.getName(), UmlIDUtil.createLabelNameId(sourceId), 0.1d);
       builder.add(sourceNameLabel);
 
@@ -83,6 +91,63 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
       });
       return builder.build();
    }
+
+   // region Use Case Diagram
+   // TODO: Lukas Changes made here
+
+   protected GEdge createExtendEdge(final Extend extend) {
+      UseCase source = extend.getExtension();
+      // String sourceId = toId(source);
+      UseCase target = extend.getExtendedCase();
+      String targetId = toId(target);
+
+      GEdgeBuilder builder = new GEdgeBuilder(Types.EXTEND)
+         .id(toId(extend))
+         .addCssClass(CSS.EDGE)
+         .sourceId(toId(source))
+         .targetId(toId(target))
+         .routerKind(GConstants.RouterKind.MANHATTAN);
+
+      GLabel extendLable = createEdgeNameLabel("extends", UmlIDUtil.createLabelNameId(targetId), 0.5d);
+      builder.add(extendLable);
+
+      modelState.getIndex().getNotation(extend, Edge.class).ifPresent(edge -> {
+         if (edge.getBendPoints() != null) {
+            ArrayList<GPoint> bendPoints = new ArrayList<>();
+            edge.getBendPoints().forEach(p -> bendPoints.add(GraphUtil.copy(p)));
+            builder.addRoutingPoints(bendPoints);
+         }
+      });
+      return builder.build();
+   }
+
+   protected GEdge createIncludeEdge(final Include include) {
+      UseCase source = include.getIncludingCase();
+      // String sourceId = toId(source);
+      UseCase target = include.getAddition();
+      String targetId = toId(target);
+
+      GEdgeBuilder builder = new GEdgeBuilder(Types.EXTEND)
+         .id(toId(include))
+         .addCssClass(CSS.EDGE)
+         .sourceId(toId(source))
+         .targetId(toId(target))
+         .routerKind(GConstants.RouterKind.MANHATTAN);
+
+      GLabel includeLabel = createEdgeNameLabel("includes", UmlIDUtil.createLabelNameId(targetId), 0.5d);
+      builder.add(includeLabel);
+
+      modelState.getIndex().getNotation(include, Edge.class).ifPresent(edge -> {
+         if (edge.getBendPoints() != null) {
+            ArrayList<GPoint> bendPoints = new ArrayList<>();
+            edge.getBendPoints().forEach(p -> bendPoints.add(GraphUtil.copy(p)));
+            builder.addRoutingPoints(bendPoints);
+         }
+      });
+      return builder.build();
+   }
+
+   // end region
 
    protected GLabel createEdgeMultiplicityLabel(final String value, final String id, final double position) {
       return createEdgeLabel(value, position, id, Types.LABEL_EDGE_MULTIPLICITY, GConstants.EdgeSide.BOTTOM);

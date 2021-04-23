@@ -115,6 +115,7 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
 
       mappings.put(Types.EXTEND, GraphPackage.Literals.GEDGE);
       mappings.put(Types.INCLUDE, GraphPackage.Literals.GEDGE);
+      mappings.put(Types.GENERALIZATION, GraphPackage.Literals.GEDGE);
 
       return mappings;
    }
