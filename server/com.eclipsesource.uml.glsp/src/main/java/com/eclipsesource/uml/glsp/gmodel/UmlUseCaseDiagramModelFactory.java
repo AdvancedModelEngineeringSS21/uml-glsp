@@ -97,6 +97,15 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
             .map(this::create)//
             .collect(Collectors.toList()));
 
+         /*
+          * graph.getChildren().addAll(useCaseModel.getPackagedElements().stream() //
+          * .filter(UseCase.class::isInstance)//
+          * .map(UseCase.class::cast)//
+          * .flatMap(e -> e.getRelationships().stream())//
+          * .map(this::create)//
+          * .collect(Collectors.toList()));
+          */
+
          // TODO: Implement Include, Extend , Generalization
       }
       return graph;

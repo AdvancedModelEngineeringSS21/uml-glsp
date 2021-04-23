@@ -23,6 +23,7 @@ import org.eclipse.glsp.graph.util.GConstants;
 import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Include;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Relationship;
@@ -45,10 +46,12 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
    public GEdge create(final Relationship element) {
       if (element instanceof Association) {
          return createAssociationEdge((Association) element);
-      } else if (element instanceof Include) {
+      } else if (element instanceof Extend) {
          return createExtendEdge((Extend) element);
       } else if (element instanceof Include) {
          return createIncludeEdge((Include) element);
+      } else if (element instanceof Generalization) {
+         return createGeneralizationEdge((Generalization) element);
       }
       return null;
    }
@@ -145,6 +148,35 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
          }
       });
       return builder.build();
+   }
+
+   protected GEdge createGeneralizationEdge(final Generalization include) {
+      /*
+       * UseCase source = include.getIncludingCase();
+       * // String sourceId = toId(source);
+       * UseCase target = include.getAddition();
+       * String targetId = toId(target);
+       */
+
+      GEdgeBuilder builder = new GEdgeBuilder(Types.EXTEND)
+         .id(toId(include))
+         .addCssClass(CSS.EDGE)
+         // .sourceId(toId(source))
+         // .targetId(toId(target))
+         .routerKind(GConstants.RouterKind.MANHATTAN);
+
+      // GLabel includeLabel = createEdgeNameLabel("includes", UmlIDUtil.createLabelNameId(targetId), 0.5d);
+      // builder.add(includeLabel);
+
+      modelState.getIndex().getNotation(include, Edge.class).ifPresent(edge -> {
+         if (edge.getBendPoints() != null) {
+            ArrayList<GPoint> bendPoints = new ArrayList<>();
+            edge.getBendPoints().forEach(p -> bendPoints.add(GraphUtil.copy(p)));
+            builder.addRoutingPoints(bendPoints);
+         }
+      });
+      return builder.build();
+      // TODO: Implement
    }
 
    // end region
