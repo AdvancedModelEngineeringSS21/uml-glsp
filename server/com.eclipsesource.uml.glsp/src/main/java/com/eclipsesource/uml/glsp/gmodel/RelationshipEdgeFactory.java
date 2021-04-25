@@ -100,15 +100,15 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
 
    protected GEdge createExtendEdge(final Extend extend) {
       UseCase source = extend.getExtension();
-      // String sourceId = toId(source);
+      String sourceId = toId(source);
       UseCase target = extend.getExtendedCase();
       String targetId = toId(target);
 
       GEdgeBuilder builder = new GEdgeBuilder(Types.EXTEND)
          .id(toId(extend))
          .addCssClass(CSS.EDGE)
-         .sourceId(toId(source))
-         .targetId(toId(target))
+         .sourceId(sourceId)
+         .targetId(targetId)
          .routerKind(GConstants.RouterKind.MANHATTAN);
 
       GLabel extendLable = createEdgeNameLabel("extends", UmlIDUtil.createLabelNameId(targetId), 0.5d);
