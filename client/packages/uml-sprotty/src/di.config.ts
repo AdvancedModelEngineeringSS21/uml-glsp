@@ -102,6 +102,9 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.ICON_ACTOR, IconActor, IconView);
         configureModelElement(context, UmlTypes.USECASE, LabeledNode, UseCaseNodeView);
         configureModelElement(context, UmlTypes.ICON_USECASE, IconUseCase, IconView);
+        configureModelElement(context, UmlTypes.INCLUDE, SEdge, PolylineEdgeView);
+        configureModelElement(context, UmlTypes.EXTEND, SEdge, PolylineEdgeView);
+        configureModelElement(context, UmlTypes.GENERALIZATION, SEdge, PolylineEdgeView);
         // #endregion
 
         configureViewerOptions(context, {

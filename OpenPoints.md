@@ -4,10 +4,11 @@
 - Package vs Component for Subsystem?
 - With which other elements can actors be linked up? 
     - Especially Associations? Can they link two actors? According to the OMG UML doku not, but in papyrus this is possible
-- Association -> Class vs. Classifer
+- Association -> Class vs. Classifier
 - ownedUseCase vs packagedElement
 - why do we need to have new java classes for every element even if they all do exactly the same
-- why are relationships (extend, include) multiple times in the references when removing a use case
+- why are relationships (extend, include) multiple times in the references when removing a use case#
+- ```yarn start``` always tries to start the glsp server even if it is already running from eclipse
 
 
 ## Open Issues

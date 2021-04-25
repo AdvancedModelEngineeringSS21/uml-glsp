@@ -130,7 +130,7 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
       UseCase target = include.getAddition();
       String targetId = toId(target);
 
-      GEdgeBuilder builder = new GEdgeBuilder(Types.EXTEND)
+      GEdgeBuilder builder = new GEdgeBuilder(Types.INCLUDE)
          .id(toId(include))
          .addCssClass(CSS.EDGE)
          .sourceId(toId(source))

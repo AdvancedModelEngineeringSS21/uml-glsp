@@ -29,6 +29,9 @@ export namespace UmlTypes {
     export const ICON_ACTOR = `${BaseTypes.ICON}:actor`;
     export const USECASE = `${BaseTypes.NODE}:usecase`;
     export const ICON_USECASE = `${BaseTypes.ICON}:usecase`;
+    export const INCLUDE = `${BaseTypes.EDGE}:include`;
+    export const EXTEND = `${BaseTypes.EDGE}:extend`;
+    export const GENERALIZATION = `${BaseTypes.EDGE}:generalization`;
     // #endregion
 
 }

@@ -18,6 +18,9 @@ import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.Include;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
@@ -47,8 +50,7 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
       } else if (semanticElement instanceof Class) {
          result = classifierNodeFactory.create((Class) semanticElement);
       } else if (semanticElement instanceof Relationship) {
-         result = relationshipEdgeFactory.create((Relationship) semanticElement); // Catches Include, Extend,
-                                                                                  // Generalization
+         result = relationshipEdgeFactory.create((Relationship) semanticElement);
       } else if (semanticElement instanceof NamedElement) {
          result = labelFactory.create((NamedElement) semanticElement);
       }
@@ -97,16 +99,26 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
             .map(this::create)//
             .collect(Collectors.toList()));
 
-         /*
-          * graph.getChildren().addAll(useCaseModel.getPackagedElements().stream() //
-          * .filter(UseCase.class::isInstance)//
-          * .map(UseCase.class::cast)//
-          * .flatMap(e -> e.getRelationships().stream())//
-          * .map(this::create)//
-          * .collect(Collectors.toList()));
-          */
+         // ArrayList<PackageableElement> packagedElements = new ArrayList<>(useCaseModel.getPackagedElements());
 
-         // TODO: Implement Include, Extend , Generalization
+         graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()
+            .flatMap(pe -> pe.getRelationships().stream())
+            .filter(Include.class::isInstance)
+            .map(r -> create(r))
+            .collect(Collectors.toList()));
+
+         graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()
+            .flatMap(pe -> pe.getRelationships().stream())
+            .filter(Extend.class::isInstance)
+            .map(r -> create(r))
+            .collect(Collectors.toList()));
+
+         graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()
+            .flatMap(pe -> pe.getRelationships().stream())
+            .filter(Generalization.class::isInstance)
+            .map(r -> create(r))
+            .collect(Collectors.toList()));
+
       }
       return graph;
 
