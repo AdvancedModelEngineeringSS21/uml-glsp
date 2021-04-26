@@ -22,6 +22,7 @@ import org.eclipse.glsp.graph.builder.impl.GLabelBuilder;
 import org.eclipse.glsp.graph.util.GConstants;
 import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Extend;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Include;
@@ -150,25 +151,21 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
       return builder.build();
    }
 
-   protected GEdge createGeneralizationEdge(final Generalization include) {
-      /*
-       * UseCase source = include.getIncludingCase();
-       * // String sourceId = toId(source);
-       * UseCase target = include.getAddition();
-       * String targetId = toId(target);
-       */
+   protected GEdge createGeneralizationEdge(final Generalization generalization) {
+      // temporary! please check types
+      Classifier source = (Classifier) generalization.eContainer();
+      String sourceId = toId(source);
+      Classifier target = generalization.getGeneral();
+      String targetId = toId(target);
 
-      GEdgeBuilder builder = new GEdgeBuilder(Types.EXTEND)
-         .id(toId(include))
+      GEdgeBuilder builder = new GEdgeBuilder(Types.GENERALIZATION)
+         .id(toId(generalization))
          .addCssClass(CSS.EDGE)
-         // .sourceId(toId(source))
-         // .targetId(toId(target))
+         .sourceId(sourceId)
+         .targetId(targetId)
          .routerKind(GConstants.RouterKind.MANHATTAN);
 
-      // GLabel includeLabel = createEdgeNameLabel("includes", UmlIDUtil.createLabelNameId(targetId), 0.5d);
-      // builder.add(includeLabel);
-
-      modelState.getIndex().getNotation(include, Edge.class).ifPresent(edge -> {
+      modelState.getIndex().getNotation(generalization, Edge.class).ifPresent(edge -> {
          if (edge.getBendPoints() != null) {
             ArrayList<GPoint> bendPoints = new ArrayList<>();
             edge.getBendPoints().forEach(p -> bendPoints.add(GraphUtil.copy(p)));

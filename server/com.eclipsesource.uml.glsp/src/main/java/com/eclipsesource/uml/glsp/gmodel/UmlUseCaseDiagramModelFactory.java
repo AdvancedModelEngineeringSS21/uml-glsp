@@ -85,8 +85,21 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
             .map(Extend.class::cast)//
             .map(e -> relationshipEdgeFactory.createExtendEdge(e))//
             .collect(Collectors.toList()));
+
+         // Your previous solution delivered the generalizations twice - this lead to the duplicate element ID in the
+         // graph
+         // I used getSourceDirectedRelationships - but please doublecheck if this is correct
+
+         // List<Generalization> generalizations = useCaseModel.getPackagedElements().stream()
+         // .filter(el -> Actor.class.isInstance(el) || UseCase.class.isInstance(el))
+         // .flatMap(pe -> pe.getSourceDirectedRelationships().stream())
+         // .filter(Generalization.class::isInstance)
+         // .map(Generalization.class::cast)
+         // .collect(Collectors.toList());
+
          graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()
-            .flatMap(pe -> pe.getRelationships().stream())
+            .filter(el -> Actor.class.isInstance(el) || UseCase.class.isInstance(el))
+            .flatMap(pe -> pe.getSourceDirectedRelationships().stream())
             .filter(Generalization.class::isInstance)
             .map(Generalization.class::cast)//
             .map(e -> relationshipEdgeFactory.createGeneralizationEdge(e))//
