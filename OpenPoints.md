@@ -1,5 +1,11 @@
 # Open Points regarding our implementation
 
+## ToDos Heute:
+- [x] Remove Generalization Impl
+- [x] Make use case visible when placed initially 
+- [ ] Make Package have body to show stuff in it
+- [ ] Strichlierte Lines mit Pfeilspitze
+
 ## Questions
 - Package vs Component for Subsystem?
 - With which other elements can actors be linked up? 
@@ -7,15 +13,10 @@
 - Association -> Class vs. Classifier
 - ownedUseCase vs packagedElement
 - why do we need to have new java classes for every element even if they all do exactly the same
-- why are relationships (extend, include) multiple times in the references when removing a use case#
 - ```yarn start``` always tries to start the glsp server even if it is already running from eclipse
 
 
 ## Open Issues
-- Use Case not rendered when placed initially
-- Deleting elements connected via a relationships destroys everything 
-  - -> Hypothesis: Changing notation
-  - [ ] Remove Commands need to be implemented
 - Saving not always consistent / consequent
 - Palette is not always rendered
 
