@@ -85,7 +85,6 @@ export class LabelNodeView extends SLabelView {
 @injectable()
 export class PackageNodeView extends RectangularNodeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
-        console.log(`wir sind hier2 - ${node.bounds.width} - ${node.bounds.height} - ${node.bounds.x} - ${node.bounds.y}`);
         const rhombStr = "M 0,38  L " + node.bounds.width + ",38";
         return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
             <defs>
@@ -119,23 +118,7 @@ export class ActorNodeView extends RectangularNodeView {
     }
 }
 
-/* @injectable()
-export class UseCaseNodeView extends CircularNodeView {
-    render(node: LabeledNode, context: RenderingContext): VNode {
-        const rX = ((Math.max(node.size.width, node.size.height) < 0) ? 0 : Math.max(node.size.width, node.size.height) / 2);
-        const rY = ((Math.min(node.size.width, node.size.height) < 0) ? 0 : Math.min(node.size.width, node.size.height) / 2);
 
-        return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
-            <defs>
-                <filter id="dropShadow">
-                    <feDropShadow dx="1.5" dy="1.5" stdDeviation="0.5" style-flood-color="var(--uml-drop-shadow)" style-flood-opacity="0.5" />
-                </filter>
-            </defs>
-            <rect x={0} y={0} rx={rX} ry={rY} width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)} />
-            {context.renderChildren(node)}
-        </g>;
-    }
-} */
 
 @injectable()
 export class UseCaseNodeView extends ShapeView {
