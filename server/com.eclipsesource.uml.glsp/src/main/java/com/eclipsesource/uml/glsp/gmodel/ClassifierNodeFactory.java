@@ -10,6 +10,7 @@
  ********************************************************************************/
 package com.eclipsesource.uml.glsp.gmodel;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -88,48 +89,55 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return classNodeBuilder.build();
    }
 
-   protected GCompartment buildHeader(final Classifier classifier) {
-      GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
-         .layout(GConstants.Layout.HBOX)
-         .id(UmlIDUtil.createHeaderId(toId(classifier)));
-
-      GCompartment classHeaderIcon = new GCompartmentBuilder(Types.ICON_CLASS)
-         .id(UmlIDUtil.createHeaderIconId(toId(classifier))).build();
-      classHeaderBuilder.add(classHeaderIcon);
-
-      GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
-         .id(UmlIDUtil.createHeaderLabelId(toId(classifier)))
-         .text(classifier.getName()).build();
-      classHeaderBuilder.add(classHeaderLabel);
-
-      return classHeaderBuilder.build();
-   }
-
    // region Use Case Diagram
 
    // TODO: FELIX Changes made here
 
-   protected GNode create(final Package umlPackage) {
-      GNodeBuilder b = new GNodeBuilder(Types.PACKAGE) //
-         .id(toId(umlPackage)) //
-         .layout(GConstants.Layout.VBOX) //
-         .addCssClass(CSS.NODE)
-         .add(new GCompartmentBuilder(Types.COMP_HEADER) //
-            .layout("hbox") //
-            .id(toId(umlPackage) + "_header").add(new GCompartmentBuilder(getType(umlPackage)) //
-               .id(toId(umlPackage) + "_header_icon").build()) //
-            .add(new GLabelBuilder(Types.LABEL_NAME) //
-               .id(toId(umlPackage) + "_header_label").text(umlPackage.getName()) //
-               .build()) //
-            .build());
+   // protected GNode create(final Package umlPackage) {
+   // GNodeBuilder b = new GNodeBuilder(Types.PACKAGE) //
+   // .id(toId(umlPackage)) //
+   // .layout(GConstants.Layout.VBOX) //
+   // .addCssClass(CSS.NODE)
+   // .add(new GCompartmentBuilder(Types.COMP_HEADER) //
+   // .layout("hbox") //
+   // .id(toId(umlPackage) + "_header").add(new GCompartmentBuilder(getType(umlPackage)) //
+   // .id(toId(umlPackage) + "_header_icon").build()) //
+   // .add(new GLabelBuilder(Types.LABEL_NAME) //
+   // .id(toId(umlPackage) + "_header_label").text(umlPackage.getName()) //
+   // .build()) //
+   // .build());
+   //
+   // modelState.getIndex().getNotation(umlPackage, Shape.class).ifPresent(shape -> {
+   // if (shape.getPosition() != null) {
+   // b.position(GraphUtil.copy(shape.getPosition()));
+   // } else if (shape.getSize() != null) {
+   // b.size(GraphUtil.copy(shape.getSize()));
+   // }
+   // });
+   //
+   // return b.build();
+   // }
 
-      modelState.getIndex().getNotation(umlPackage, Shape.class).ifPresent(shape -> {
-         if (shape.getPosition() != null) {
-            b.position(GraphUtil.copy(shape.getPosition()));
-         } else if (shape.getSize() != null) {
-            b.size(GraphUtil.copy(shape.getSize()));
-         }
-      });
+   protected GNode create(final Package umlPackage) {
+      GNodeBuilder b = new GNodeBuilder(Types.PACKAGE)
+         .id(toId(umlPackage))
+         .layout(GConstants.Layout.VBOX)
+         .addCssClass(CSS.NODE);
+
+      applyShapeData((Classifier) umlPackage, b);
+
+      GCompartment classHeader = buildHeader((Classifier) umlPackage);
+      b.add(classHeader);
+
+      ArrayList<Classifier> childELements = new ArrayList<>();
+
+      childELements.addAll(umlPackage.getPackagedElements().stream()
+         .filter(pe -> (pe instanceof Actor || pe instanceof UseCase))
+         .map(Classifier.class::cast)
+         .collect(Collectors.toList()));
+
+      GCompartment packageChildCompartment = buildPackageChildCompartment(childELements, umlPackage);
+      b.add(packageChildCompartment);
 
       return b.build();
    }
@@ -158,6 +166,23 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
    }
 
    // endregion
+
+   protected GCompartment buildHeader(final Classifier classifier) {
+      GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
+         .layout(GConstants.Layout.HBOX)
+         .id(UmlIDUtil.createHeaderId(toId(classifier)));
+
+      GCompartment classHeaderIcon = new GCompartmentBuilder(Types.ICON_CLASS)
+         .id(UmlIDUtil.createHeaderIconId(toId(classifier))).build();
+      classHeaderBuilder.add(classHeaderIcon);
+
+      GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
+         .id(UmlIDUtil.createHeaderLabelId(toId(classifier)))
+         .text(classifier.getName()).build();
+      classHeaderBuilder.add(classHeaderLabel);
+
+      return classHeaderBuilder.build();
+   }
 
    protected static String getType(final Classifier classifier) {
       if (classifier instanceof Class) {
@@ -193,4 +218,17 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return classPropertiesBuilder.build();
    }
 
+   protected GCompartment buildPackageChildCompartment(final Collection<Classifier> childNodes,
+      final Package parentPackage) {
+
+      GCompartmentBuilder packageElementsBuilder = new GCompartmentBuilder(Types.COMP)
+         .id(UmlIDUtil.createChildCompartmentId(toId(parentPackage))).layout(GConstants.Layout.VBOX);
+
+      List<GModelElement> childNodeGModelElements = childNodes.stream()
+         .map(node -> this.create(node))
+         .collect(Collectors.toList());
+      packageElementsBuilder.addAll(childNodeGModelElements);
+
+      return packageElementsBuilder.build();
+   }
 }
