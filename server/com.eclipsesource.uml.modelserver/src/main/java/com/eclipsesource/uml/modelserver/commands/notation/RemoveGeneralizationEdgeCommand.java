@@ -8,29 +8,26 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands.semantic;
+package com.eclipsesource.uml.modelserver.commands.notation;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.uml2.uml.Include;
 
-import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
+import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
+import com.eclipsesource.uml.modelserver.unotation.Edge;
 
-public class RemoveIncludeCommand extends UmlSemanticElementCommand {
+public class RemoveGeneralizationEdgeCommand extends UmlNotationElementCommand {
 
-   protected final String semanticUriFragment;
+   protected final Edge edgeToRemove;
 
-   public RemoveIncludeCommand(final EditingDomain domain, final URI modelUri,
-      final String semanticUriFragment) {
+   public RemoveGeneralizationEdgeCommand(final EditingDomain domain, final URI modelUri,
+      final String semanticProxyUri) {
       super(domain, modelUri);
-      this.semanticUriFragment = semanticUriFragment;
+      this.edgeToRemove = UmlNotationCommandUtil.getNotationElement(modelUri, domain, semanticProxyUri, Edge.class);
    }
 
    @Override
    protected void doExecute() {
-      Include includeToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment,
-         Include.class);
-      includeToRemove.getIncludingCase().getIncludes().remove(includeToRemove);
+      umlDiagram.getElements().remove(edgeToRemove);
    }
-
 }

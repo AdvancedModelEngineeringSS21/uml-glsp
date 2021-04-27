@@ -36,8 +36,8 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Include;
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UseCase;
@@ -61,6 +61,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorComma
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveGeneralizationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveIncludeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
@@ -132,7 +133,7 @@ public class UmlModelServerAccess {
       }
    }
 
-   protected String getSemanticUriFragment(final NamedElement element) {
+   protected String getSemanticUriFragment(final EObject element) {
       return EcoreUtil.getURI(element).fragment();
    }
 
@@ -412,6 +413,14 @@ public class UmlModelServerAccess {
       CCompoundCommand addGeneralizationCompoundCommand = AddGeneralizationCommandContribution
          .create(getSemanticUriFragment(generalClassifier), getSemanticUriFragment(specificClassifier));
       return this.edit(addGeneralizationCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> removeGeneralization(final UmlModelState modelState,
+      final Generalization generalizationToRemove) {
+
+      String semanticProxyUri = getSemanticUriFragment(generalizationToRemove);
+      CCompoundCommand compoundCommand = RemoveGeneralizationCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
    }
 
    /*

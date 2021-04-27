@@ -21,6 +21,7 @@ import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Include;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
@@ -94,6 +95,13 @@ public class UmlDeleteOperationHandler extends ModelServerAwareBasicOperationHan
             });
          } else if (semanticElement instanceof Include) {
             modelAccess.removeInclude(modelState, (Include) semanticElement).thenAccept(response -> {
+               if (!response.body()) {
+                  throw new GLSPServerException(
+                     "Could not execute delete operation on Include: " + semanticElement.toString());
+               }
+            });
+         } else if (semanticElement instanceof Generalization) {
+            modelAccess.removeGeneralization(modelState, (Generalization) semanticElement).thenAccept(response -> {
                if (!response.body()) {
                   throw new GLSPServerException(
                      "Could not execute delete operation on Include: " + semanticElement.toString());
