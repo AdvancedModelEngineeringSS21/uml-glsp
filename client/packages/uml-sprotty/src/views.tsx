@@ -13,15 +13,7 @@
 import { injectable } from "inversify";
 import { svg } from "snabbdom-jsx";
 import { VNode } from "snabbdom/vnode";
-import {
-    CircularNodeView,
-    getSubType,
-    IView,
-    RectangularNodeView,
-    RenderingContext,
-    setAttr,
-    SLabelView
-} from "sprotty/lib";
+import { getSubType, IView, RectangularNodeView, RenderingContext, setAttr, ShapeView, SLabelView } from "sprotty/lib";
 
 import { Icon, LabeledNode, SLabelNode } from "./model";
 
@@ -127,17 +119,40 @@ export class ActorNodeView extends RectangularNodeView {
     }
 }
 
-@injectable()
+/* @injectable()
 export class UseCaseNodeView extends CircularNodeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
         const rX = ((Math.max(node.size.width, node.size.height) < 0) ? 0 : Math.max(node.size.width, node.size.height) / 2);
         const rY = ((Math.min(node.size.width, node.size.height) < 0) ? 0 : Math.min(node.size.width, node.size.height) / 2);
 
-        return <g>
-            <ellipse class-sprotty-node={node.selected} class-sprotty-port={node.selected}
-                class-mouseover={node.hoverFeedback} class-selected={node.selected}
-                cx={rX} cy={rY} rx={rX} ry={rY}></ellipse>
+        return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
+            <defs>
+                <filter id="dropShadow">
+                    <feDropShadow dx="1.5" dy="1.5" stdDeviation="0.5" style-flood-color="var(--uml-drop-shadow)" style-flood-opacity="0.5" />
+                </filter>
+            </defs>
+            <rect x={0} y={0} rx={rX} ry={rY} width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)} />
+            {context.renderChildren(node)}
+        </g>;
+    }
+} */
+
+@injectable()
+export class UseCaseNodeView extends ShapeView {
+    render(node: LabeledNode, context: RenderingContext): VNode {
+        const rX = ((Math.max(node.size.width, node.size.height) < 0) ? 0 : Math.max(node.size.width, node.size.height) / 2);
+        const rY = ((Math.min(node.size.width, node.size.height) < 0) ? 0 : Math.min(node.size.width, node.size.height) / 2);
+
+        return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
+            <defs>
+                <filter id="dropShadow">
+                    <feDropShadow dx="1.5" dy="1.5" stdDeviation="0.5" style-flood-color="var(--uml-drop-shadow)" style-flood-opacity="0.5" />
+                </filter>
+            </defs>
+            <ellipse cx={rX} cy={rY} rx={rX} ry={rY} />
             {context.renderChildren(node)}
         </g >;
     }
 }
+
+
