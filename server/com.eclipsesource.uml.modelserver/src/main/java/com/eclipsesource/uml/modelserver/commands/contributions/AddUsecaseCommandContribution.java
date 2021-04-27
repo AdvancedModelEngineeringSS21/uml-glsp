@@ -21,6 +21,7 @@ import org.eclipse.glsp.graph.GPoint;
 
 import com.eclipsesource.uml.modelserver.commands.compound.AddUsecaseCompoundCommand;
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
+import com.eclipsesource.uml.modelserver.unotation.Shape;
 
 /**
  * Command Contribution is responsible for registering commands on the modelserver so that the GLSP server can access
@@ -67,14 +68,21 @@ public class AddUsecaseCommandContribution extends UmlCompoundCommandContributio
    protected CompoundCommand toServer(final URI modelUri, final EditingDomain domain, final CCommand command)
       throws DecodingException {
 
+      if (command.getProperties().containsKey(PARENT_SEMANTIC_URI_FRAGMENT)) {
+         String parentUri = command.getProperties().get(PARENT_SEMANTIC_URI_FRAGMENT);
+         GPoint p = ((Shape) UmlNotationCommandUtil.getNotationElement(modelUri, domain, parentUri)).getPosition();
+         GPoint usecasePosition = UmlNotationCommandUtil.getGPoint(
+            command.getProperties().get(UmlNotationCommandContribution.POSITION_X),
+            command.getProperties().get(UmlNotationCommandContribution.POSITION_Y));
+         usecasePosition.setX(usecasePosition.getX() - p.getX());
+         usecasePosition.setY(usecasePosition.getY() - p.getY());
+
+         return new AddUsecaseCompoundCommand(domain, modelUri, usecasePosition, parentUri);
+      }
+
       GPoint usecasePosition = UmlNotationCommandUtil.getGPoint(
          command.getProperties().get(UmlNotationCommandContribution.POSITION_X),
          command.getProperties().get(UmlNotationCommandContribution.POSITION_Y));
-
-      if (command.getProperties().containsKey(PARENT_SEMANTIC_URI_FRAGMENT)) {
-         String parentUri = command.getProperties().get(PARENT_SEMANTIC_URI_FRAGMENT);
-         return new AddUsecaseCompoundCommand(domain, modelUri, usecasePosition, parentUri);
-      }
       return new AddUsecaseCompoundCommand(domain, modelUri, usecasePosition);
    }
 

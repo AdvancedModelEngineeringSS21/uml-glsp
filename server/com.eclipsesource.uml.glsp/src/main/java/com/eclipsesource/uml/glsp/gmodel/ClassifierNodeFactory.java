@@ -118,15 +118,25 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
    // return b.build();
    // }
 
+   protected void applyShapeData(final Package classifier, final GNodeBuilder builder) {
+      modelState.getIndex().getNotation(classifier, Shape.class).ifPresent(shape -> {
+         if (shape.getPosition() != null) {
+            builder.position(GraphUtil.copy(shape.getPosition()));
+         } else if (shape.getSize() != null) {
+            builder.size(GraphUtil.copy(shape.getSize()));
+         }
+      });
+   }
+
    protected GNode create(final Package umlPackage) {
       GNodeBuilder b = new GNodeBuilder(Types.PACKAGE)
          .id(toId(umlPackage))
          .layout(GConstants.Layout.VBOX)
          .addCssClass(CSS.NODE);
 
-      applyShapeData((Classifier) umlPackage, b);
+      applyShapeData(umlPackage, b);
 
-      GCompartment classHeader = buildHeader((Classifier) umlPackage);
+      GCompartment classHeader = buildHeader(umlPackage);
       b.add(classHeader);
 
       ArrayList<Classifier> childELements = new ArrayList<>();
@@ -166,6 +176,23 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
    }
 
    // endregion
+
+   protected GCompartment buildHeader(final Package classifier) {
+      GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
+         .layout(GConstants.Layout.HBOX)
+         .id(UmlIDUtil.createHeaderId(toId(classifier)));
+
+      GCompartment classHeaderIcon = new GCompartmentBuilder(Types.ICON_CLASS)
+         .id(UmlIDUtil.createHeaderIconId(toId(classifier))).build();
+      classHeaderBuilder.add(classHeaderIcon);
+
+      GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
+         .id(UmlIDUtil.createHeaderLabelId(toId(classifier)))
+         .text(classifier.getName()).build();
+      classHeaderBuilder.add(classHeaderLabel);
+
+      return classHeaderBuilder.build();
+   }
 
    protected GCompartment buildHeader(final Classifier classifier) {
       GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)

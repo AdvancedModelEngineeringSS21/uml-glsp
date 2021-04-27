@@ -83,14 +83,14 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
 
          graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()//
             .filter(UseCase.class::isInstance)//
-            .filter(us -> !us.eContainer().equals(useCaseModel))
+            .filter(us -> us.eContainer().equals(useCaseModel))
             .map(UseCase.class::cast)//
             .map(this::create)//
             .collect(Collectors.toList()));
 
          graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()//
             .filter(Actor.class::isInstance)//
-            .filter(a -> !a.eContainer().equals(useCaseModel))
+            .filter(a -> a.eContainer().equals(useCaseModel))
             .map(Actor.class::cast)//
             .map(this::create)//
             .collect(Collectors.toList()));
