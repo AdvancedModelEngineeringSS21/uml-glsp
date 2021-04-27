@@ -11,16 +11,18 @@
 package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.uml2.uml.Include;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public class RemoveIncludeCommand extends UmlSemanticElementCommand {
+public class RemoveGeneralizationCommand extends UmlSemanticElementCommand {
 
    protected final String semanticUriFragment;
 
-   public RemoveIncludeCommand(final EditingDomain domain, final URI modelUri,
+   public RemoveGeneralizationCommand(final EditingDomain domain, final URI modelUri,
       final String semanticUriFragment) {
       super(domain, modelUri);
       this.semanticUriFragment = semanticUriFragment;
@@ -28,9 +30,12 @@ public class RemoveIncludeCommand extends UmlSemanticElementCommand {
 
    @Override
    protected void doExecute() {
-      Include includeToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment,
-         Include.class);
-      includeToRemove.getIncludingCase().getIncludes().remove(includeToRemove);
+      Generalization generalizationToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment,
+         Generalization.class);
+      EObject container = generalizationToRemove.eContainer();
+      if (container instanceof UseCase) {
+         ((UseCase) container).getGeneralizations().remove(generalizationToRemove);
+      }
    }
 
 }

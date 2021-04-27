@@ -35,6 +35,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorComma
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveGeneralizationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveIncludeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
@@ -110,9 +111,9 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       binding.put(AddIncludeCommandContribution.TYPE, AddIncludeCommandContribution.class);
       binding.put(RemoveIncludeCommandContribution.TYPE, RemoveIncludeCommandContribution.class);
 
-      // UML Include
+      // UML Generalization
       binding.put(AddGeneralizationCommandContribution.TYPE, AddGeneralizationCommandContribution.class);
-      // binding.put(AddIncludeCommandContribution.TYPE, AddIncludeCommandContribution.class));
+      binding.put(RemoveGeneralizationCommandContribution.TYPE, RemoveGeneralizationCommandContribution.class);
 
    }
 
