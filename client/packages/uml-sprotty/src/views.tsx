@@ -13,7 +13,7 @@
 import { injectable } from "inversify";
 import { svg } from "snabbdom-jsx";
 import { VNode } from "snabbdom/vnode";
-import { getSubType, IView, RectangularNodeView, RenderingContext, setAttr, ShapeView, SLabelView } from "sprotty/lib";
+import { getSubType, IView, PolylineEdgeView, RectangularNodeView, RenderingContext, setAttr, ShapeView, SLabelView, SEdge, Point } from "sprotty/lib";
 
 import { Icon, LabeledNode, SLabelNode } from "./model";
 
@@ -118,8 +118,6 @@ export class ActorNodeView extends RectangularNodeView {
     }
 }
 
-
-
 @injectable()
 export class UseCaseNodeView extends ShapeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
@@ -138,4 +136,49 @@ export class UseCaseNodeView extends ShapeView {
     }
 }
 
+@injectable()
+export class DirectedEdgeView extends PolylineEdgeView {
+    protected renderAdditionals(edge: SEdge, segments: Point[], context: RenderingContext): VNode[] {
+        return [<defs>
+            <marker id="triangle" viewBox="0 0 10 10"
+                refX="1" refY="5"
+                markerUnits="strokeWidth"
+                markerWidth="10" markerHeight="10"
+                orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#f00" />
+            </marker>
+        </defs>];
+    }
 
+    protected renderLine(edge: SEdge, segments: Point[], context: RenderingContext): VNode {
+        const firstPoint = segments[0];
+        let path = `M ${firstPoint.x},${firstPoint.y}`;
+        for (let i = 1; i < segments.length; i++) {
+            const p = segments[i];
+            path += ` L ${p.x},${p.y}`;
+        }
+        return <path d={path} marker-end="url(#triangle)" />;
+    }
+    render(edge: Readonly<SEdge>, context: RenderingContext): VNode | undefined {
+        const router = this.edgeRouterRegistry.get(edge.routerKind);
+        const route = router.route(edge);
+        if (route.length === 0) {
+            return this.renderDanglingEdge("Cannot compute route", edge, context);
+        }
+        if (!this.isVisible(edge, route, context)) {
+            if (edge.children.length === 0) {
+                return undefined;
+            }
+            // The children of an edge are not necessarily inside the bounding box of the route,
+            // so we need to render a group to ensure the children have a chance to be rendered.
+            return <g>{context.renderChildren(edge, { route })}</g>;
+        }
+
+        return <g class-sprotty-edge={true} class-mouseover={edge.hoverFeedback}>
+
+            {this.renderAdditionals(edge, route, context)}
+            {this.renderLine(edge, route, context)}
+            {context.renderChildren(edge, { route })}
+        </g>;
+    }
+}
