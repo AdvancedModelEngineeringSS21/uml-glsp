@@ -123,6 +123,9 @@ export class UseCaseNodeView extends ShapeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
         const rX = ((Math.max(node.size.width, node.size.height) < 0) ? 0 : Math.max(node.size.width, node.size.height) / 2);
         const rY = ((Math.min(node.size.width, node.size.height) < 0) ? 0 : Math.min(node.size.width, node.size.height) / 2);
+        const lineLength = 2 * rX * Math.sqrt(1 - Math.pow(((rY - 38) / rY), 2))
+        const lineStart = ((rX * 2) - lineLength) / 2
+        const linePath = "M " + lineStart + ",38  L " + (lineStart + lineLength) + ",38";
 
         return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
             <defs>
@@ -132,6 +135,8 @@ export class UseCaseNodeView extends ShapeView {
             </defs>
             <ellipse cx={rX} cy={rY} rx={rX} ry={rY} />
             {context.renderChildren(node)}
+            {(node.children[1] && node.children[1].children.length > 0) ?
+                <path class-uml-comp-separator={true} d={linePath}></path> : ""}
         </g >;
     }
 }

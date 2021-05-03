@@ -30,6 +30,7 @@ public final class UmlConfig {
 
       public static final String ICON_USECASE = "icon:usecase";
       public static final String USECASE = "node:usecase";
+      public static final String EXTENSIONPOINT = "node:extensionpoint";
 
       public static final String ICON_ACTOR = "icon:actor";
       public static final String ACTOR = "node:actor";

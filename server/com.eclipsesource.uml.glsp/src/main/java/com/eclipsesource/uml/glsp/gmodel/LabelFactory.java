@@ -47,18 +47,19 @@ public class LabelFactory extends AbstractGModelFactory<NamedElement, GLabel> {
    }
 
    protected GLabel createUseCaseExtensionPointsHeading(final UseCase uc) {
-      String label = "Extension Points";
+      String label = "extension points";
 
-      return new GLabelBuilder(Types.PROPERTY)
+      return new GLabelBuilder(Types.EXTENSIONPOINT)
          .id(toId(uc) + "_epheading")
          .text(label)
+         .addCssClass("bold")
          .build();
    }
 
    protected GLabel createUseCaseExtensionPointsLabel(final ExtensionPoint p) {
       String label = p.getName();
 
-      return new GLabelBuilder(Types.PROPERTY)
+      return new GLabelBuilder(Types.EXTENSIONPOINT)
          .id(toId(p))
          .text(label)
          .build();

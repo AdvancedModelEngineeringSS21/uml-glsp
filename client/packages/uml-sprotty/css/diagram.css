@@ -127,3 +127,7 @@ svg {
 .sprotty-popup-body>p {
     margin-bottom: 2px;
 }
+
+.bold {
+    font-weight: bold;
+}
