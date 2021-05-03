@@ -48,6 +48,8 @@ public final class UmlConfig {
 
       public static final String NODE = "uml-node";
       public static final String EDGE = "uml-edge";
+      public static final String EDGE_DOTTED = "uml-edge-dotted";
+      public static final String EDGE_DASHED = "uml-edge-dashed";
 
       // region USE CASE DIAGRAM CSS classes
       // TODO: FELIX Check if needed

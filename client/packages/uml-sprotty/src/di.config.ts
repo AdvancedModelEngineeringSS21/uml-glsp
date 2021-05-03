@@ -70,7 +70,7 @@ import umlToolPaletteModule from "./features/tool-palette/di.config";
 import { LabelSelectionFeedback } from "./feedback";
 import { IconActor, IconClass, IconUseCase, LabeledNode, SEditableLabel, SLabelNodeProperty } from "./model";
 import { BaseTypes, UmlTypes } from "./utils";
-import { ActorNodeView, ClassNodeView, IconView, LabelNodeView, PackageNodeView, UseCaseNodeView } from "./views";
+import { ActorNodeView, ClassNodeView, DirectedEdgeView, IconView, LabelNodeView, PackageNodeView, UseCaseNodeView } from "./views";
 
 export default (containerId: string): Container => {
     const classDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -104,8 +104,8 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.ICON_ACTOR, IconActor, IconView);
         configureModelElement(context, UmlTypes.USECASE, LabeledNode, UseCaseNodeView);
         configureModelElement(context, UmlTypes.ICON_USECASE, IconUseCase, IconView);
-        configureModelElement(context, UmlTypes.INCLUDE, SEdge, PolylineEdgeView);
-        configureModelElement(context, UmlTypes.EXTEND, SEdge, PolylineEdgeView);
+        configureModelElement(context, UmlTypes.INCLUDE, SEdge, DirectedEdgeView);
+        configureModelElement(context, UmlTypes.EXTEND, SEdge, DirectedEdgeView);
         configureModelElement(context, UmlTypes.GENERALIZATION, SEdge, PolylineEdgeView);
         // #endregion
 

@@ -95,6 +95,14 @@ svg {
     stroke-width: 3;
 }
 
+.uml-edge-dotted {
+    stroke-dasharray: 2, 4;
+}
+
+.uml-edge-dashed {
+    stroke-dasharray: 7, 7;
+}
+
 .sprotty-missing {
     stroke-width: 1;
     stroke: var(--uml-error);
