@@ -141,11 +141,11 @@ export class DirectedEdgeView extends PolylineEdgeView {
     protected renderAdditionals(edge: SEdge, segments: Point[], context: RenderingContext): VNode[] {
         return [<defs>
             <marker id="triangle" viewBox="0 0 10 10"
-                refX="1" refY="5"
+                refX="10" refY="5"
                 markerUnits="strokeWidth"
                 markerWidth="10" markerHeight="10"
                 orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#f00" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--uml-edge)" />
             </marker>
         </defs>];
     }
@@ -157,7 +157,7 @@ export class DirectedEdgeView extends PolylineEdgeView {
             const p = segments[i];
             path += ` L ${p.x},${p.y}`;
         }
-        return <path d={path} marker-end="url(#triangle)" />;
+        return <path d={path} />;
     }
     render(edge: Readonly<SEdge>, context: RenderingContext): VNode | undefined {
         const router = this.edgeRouterRegistry.get(edge.routerKind);

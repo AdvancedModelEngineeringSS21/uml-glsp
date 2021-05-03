@@ -103,6 +103,14 @@ svg {
     stroke-dasharray: 7, 7;
 }
 
+.uml-edge-directed-end {
+    marker-end: url("#triangle")
+}
+
+.uml-edge-directed-start {
+    marker-start: url("#triangle");
+}
+
 .sprotty-missing {
     stroke-width: 1;
     stroke: var(--uml-error);
