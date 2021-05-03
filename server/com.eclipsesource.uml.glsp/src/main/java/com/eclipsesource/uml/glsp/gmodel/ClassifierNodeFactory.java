@@ -20,6 +20,7 @@ import org.eclipse.glsp.graph.GLabel;
 import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.glsp.graph.GNode;
 import org.eclipse.glsp.graph.builder.impl.GCompartmentBuilder;
+import org.eclipse.glsp.graph.builder.impl.GEdgePlacementBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLabelBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLayoutOptions;
 import org.eclipse.glsp.graph.builder.impl.GNodeBuilder;
@@ -160,6 +161,11 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .addCssClass(CSS.ELLIPSE)
          .add(buildHeader(umlUseCase));
 
+      if (umlUseCase.getExtensionPoints().size() > 0) {
+         GCompartment extensionPointCompartment = buildUsecaseExtensionPointCompartment(umlUseCase);
+         b.add(extensionPointCompartment);
+      }
+
       applyShapeData(umlUseCase, b);
       return b.build();
    }
@@ -257,5 +263,38 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       packageElementsBuilder.addAll(childNodeGModelElements);
 
       return packageElementsBuilder.build();
+   }
+
+   protected GCompartment buildUsecaseExtensionPointCompartment(final UseCase parent) {
+      GCompartmentBuilder extensionPointBuilder = new GCompartmentBuilder(Types.COMP)
+         .id(UmlIDUtil.createChildCompartmentId(toId(parent))).layout(GConstants.Layout.VBOX);
+
+      GLayoutOptions layoutOptions = new GLayoutOptions()
+         .hAlign(GConstants.HAlign.LEFT)
+         .resizeContainer(true);
+      extensionPointBuilder.layoutOptions(layoutOptions);
+
+      GLabel headingLabel = labelFactory.createUseCaseExtensionPointsHeading(parent);
+      extensionPointBuilder.add(headingLabel);
+
+      List<GModelElement> extensionPointsLabel = parent.getExtensionPoints().stream()
+         .map(labelFactory::createUseCaseExtensionPointsLabel)
+         .collect(Collectors.toList());
+      extensionPointBuilder.addAll(extensionPointsLabel);
+
+      return extensionPointBuilder.build();
+   }
+
+   protected GLabel createLabel(final String name, final double position, final String id, final String type,
+      final String side) {
+      return new GLabelBuilder(type)
+         .edgePlacement(new GEdgePlacementBuilder()
+            .side(side)
+            .position(position)
+            .offset(2d)
+            .rotate(false)
+            .build())
+         .id(id)
+         .text(name).build();
    }
 }

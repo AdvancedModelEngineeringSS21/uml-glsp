@@ -38,6 +38,8 @@ public class AddExtendCommand extends UmlSemanticElementCommand {
 
       extendingUsecase.getExtends().add(getNewExtend());
       ExtensionPoint newEp = UMLFactory.eINSTANCE.createExtensionPoint();
+      int nOfExtPoints = extendedUsecase.getExtensionPoints().size();
+      newEp.setName("newExtensionPoint" + (nOfExtPoints + 1));
       extendedUsecase.getExtensionPoints().add(newEp);
       getNewExtend().setExtendedCase(extendedUsecase);
       getNewExtend().setExtension(extendingUsecase);

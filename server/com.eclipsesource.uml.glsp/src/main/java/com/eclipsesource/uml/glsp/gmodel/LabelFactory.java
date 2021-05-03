@@ -12,8 +12,10 @@ package com.eclipsesource.uml.glsp.gmodel;
 
 import org.eclipse.glsp.graph.GLabel;
 import org.eclipse.glsp.graph.builder.impl.GLabelBuilder;
+import org.eclipse.uml2.uml.ExtensionPoint;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
@@ -40,6 +42,24 @@ public class LabelFactory extends AbstractGModelFactory<NamedElement, GLabel> {
 
       return new GLabelBuilder(Types.PROPERTY)
          .id(toId(property))
+         .text(label)
+         .build();
+   }
+
+   protected GLabel createUseCaseExtensionPointsHeading(final UseCase uc) {
+      String label = "Extension Points";
+
+      return new GLabelBuilder(Types.PROPERTY)
+         .id(toId(uc) + "_epheading")
+         .text(label)
+         .build();
+   }
+
+   protected GLabel createUseCaseExtensionPointsLabel(final ExtensionPoint p) {
+      String label = p.getName();
+
+      return new GLabelBuilder(Types.PROPERTY)
+         .id(toId(p))
          .text(label)
          .build();
    }

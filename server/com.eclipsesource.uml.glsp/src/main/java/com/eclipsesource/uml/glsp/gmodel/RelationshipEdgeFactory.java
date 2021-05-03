@@ -114,7 +114,8 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
          .targetId(targetId)
          .routerKind(GConstants.RouterKind.MANHATTAN);
 
-      GLabel extendLable = createEdgeNameLabel("<<extends>>", UmlIDUtil.createLabelNameId(targetId), 0.5d);
+      GLabel extendLable = createEdgeNameLabel("<<extends>>", targetId + "_" + sourceId + "_" + toId(extend) + "_label",
+         0.5d);
       builder.add(extendLable);
 
       modelState.getIndex().getNotation(extend, Edge.class).ifPresent(edge -> {
@@ -142,7 +143,7 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
          .targetId(targetId)
          .routerKind(GConstants.RouterKind.MANHATTAN);
 
-      GLabel includeLabel = createEdgeNameLabel("<<includes>>", UmlIDUtil.createLabelNameId(targetId), 0.5d);
+      GLabel includeLabel = createEdgeNameLabel("<<includes>>", toId(include) + "_label", 0.5d);
       builder.add(includeLabel);
 
       modelState.getIndex().getNotation(include, Edge.class).ifPresent(edge -> {
