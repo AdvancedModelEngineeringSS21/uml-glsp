@@ -123,8 +123,8 @@ export class UseCaseNodeView extends ShapeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
         const rX = ((Math.max(node.size.width, node.size.height) < 0) ? 0 : Math.max(node.size.width, node.size.height) / 2);
         const rY = ((Math.min(node.size.width, node.size.height) < 0) ? 0 : Math.min(node.size.width, node.size.height) / 2);
-        const lineLength = 2 * rX * Math.sqrt(1 - Math.pow(((rY - 38) / rY), 2))
-        const lineStart = ((rX * 2) - lineLength) / 2
+        const lineLength = 2 * rX * Math.sqrt(1 - Math.pow(((rY - 38) / rY), 2));
+        const lineStart = ((rX * 2) - lineLength) / 2;
         const linePath = "M " + lineStart + ",38  L " + (lineStart + lineLength) + ",38";
 
         return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
@@ -151,6 +151,20 @@ export class DirectedEdgeView extends PolylineEdgeView {
                 markerWidth="10" markerHeight="10"
                 orient="auto">
                 <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--uml-edge)" />
+            </marker>
+            <marker id="tent" viewBox="0 0 10 10"
+                refX="10" refY="5"
+                markerUnits="strokeWidth"
+                markerWidth="10" markerHeight="10"
+                orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10" stroke="var(--uml-edge)" fill="var(--theia-editor-background)" />
+            </marker>
+            <marker id="triangle-empty" viewBox="0 0 20 20"
+                refX="20" refY="10"
+                markerUnits="strokeWidth"
+                markerWidth="20" markerHeight="20"
+                orient="auto">
+                <path d="M 0 0 L 20 10 L 0 20 z" stroke="var(--uml-edge)" fill="var(--theia-editor-background)" />
             </marker>
         </defs>];
     }
