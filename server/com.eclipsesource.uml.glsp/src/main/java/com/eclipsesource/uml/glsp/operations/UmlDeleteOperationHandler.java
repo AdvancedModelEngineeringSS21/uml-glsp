@@ -104,7 +104,7 @@ public class UmlDeleteOperationHandler extends ModelServerAwareBasicOperationHan
             modelAccess.removeGeneralization(modelState, (Generalization) semanticElement).thenAccept(response -> {
                if (!response.body()) {
                   throw new GLSPServerException(
-                     "Could not execute delete operation on Include: " + semanticElement.toString());
+                     "Could not execute delete operation on Generalization: " + semanticElement.toString());
                }
             });
          }

@@ -32,6 +32,9 @@ public class RemoveGeneralizationCommand extends UmlSemanticElementCommand {
    protected void doExecute() {
       Generalization generalizationToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment,
          Generalization.class);
+      if (generalizationToRemove == null) {
+         return;
+      }
       EObject container = generalizationToRemove.eContainer();
       if (container instanceof UseCase) {
          ((UseCase) container).getGeneralizations().remove(generalizationToRemove);

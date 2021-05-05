@@ -21,6 +21,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Include;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Property;
@@ -62,6 +63,10 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
             String extendUriFragment = UmlSemanticCommandUtil
                .getSemanticUriFragment((Relationship) eObject);
             this.append(new RemoveIncludeCompoundCommand(domain, modelUri, extendUriFragment));
+         } else if (isGeneralizationTypeUsage(setting, eObject)) {
+            String extendUriFragment = UmlSemanticCommandUtil
+               .getSemanticUriFragment((Relationship) eObject);
+            this.append(new RemoveGeneralizationCompoundCommand(domain, modelUri, extendUriFragment));
          }
       }
 
@@ -90,6 +95,12 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
       return eObject instanceof Include
          && ((Include) eObject).eContainer() instanceof UseCase
          && ((Include) eObject).getIncludingCase() != null;
+   }
+
+   protected boolean isGeneralizationTypeUsage(final Setting setting, final EObject eObject) {
+      return eObject instanceof Generalization
+         && ((Generalization) eObject).eContainer() instanceof UseCase
+         && ((Generalization) eObject).getSpecific() != null;
    }
 
 }
