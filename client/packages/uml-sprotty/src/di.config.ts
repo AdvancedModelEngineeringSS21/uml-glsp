@@ -63,7 +63,7 @@ import {
 } from "@eclipse-glsp/client/lib";
 import executeCommandModule from "@eclipse-glsp/client/lib/features/execute/di.config";
 import { Container, ContainerModule } from "inversify";
-import { EditLabelUI, ShapeView } from "sprotty/lib";
+import { EditLabelUI } from "sprotty/lib";
 
 import { EditLabelUIAutocomplete } from "./features/edit-label";
 import umlToolPaletteModule from "./features/tool-palette/di.config";
@@ -107,7 +107,7 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.EXTENSIONPOINT, SEditableLabel, SLabelView);
         configureModelElement(context, UmlTypes.INCLUDE, SEdge, DirectedEdgeView);
         configureModelElement(context, UmlTypes.EXTEND, SEdge, DirectedEdgeView);
-        configureModelElement(context, UmlTypes.GENERALIZATION, SEdge, PolylineEdgeView);
+        configureModelElement(context, UmlTypes.GENERALIZATION, SEdge, DirectedEdgeView);
         // #endregion
 
         configureViewerOptions(context, {

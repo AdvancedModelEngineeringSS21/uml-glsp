@@ -109,7 +109,7 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
          .id(toId(extend))
          .addCssClass(CSS.EDGE)
          .addCssClass(CSS.EDGE_DOTTED)
-         .addCssClass(CSS.EDGE_DIRECTED_END)
+         .addCssClass(CSS.EDGE_DIRECTED_END_TENT)
          .sourceId(sourceId)
          .targetId(targetId)
          .routerKind(GConstants.RouterKind.MANHATTAN);
@@ -138,7 +138,7 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
          .id(toId(include))
          .addCssClass(CSS.EDGE)
          .addCssClass(CSS.EDGE_DASHED)
-         .addCssClass(CSS.EDGE_DIRECTED_END)
+         .addCssClass(CSS.EDGE_DIRECTED_END_TENT)
          .sourceId(sourceId)
          .targetId(targetId)
          .routerKind(GConstants.RouterKind.MANHATTAN);
@@ -167,6 +167,7 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
       GEdgeBuilder builder = new GEdgeBuilder(Types.GENERALIZATION)
          .id(toId(generalization))
          .addCssClass(CSS.EDGE)
+         .addCssClass(CSS.EDGE_DIRECTED_END_EMPTY)
          .sourceId(sourceId)
          .targetId(targetId)
          .routerKind(GConstants.RouterKind.MANHATTAN);
