@@ -19,6 +19,7 @@ import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.operations.CreateNodeOperation;
 import org.eclipse.glsp.server.operations.Operation;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 
@@ -36,7 +37,7 @@ public class CreateClassifierNodeOperationHandler
       super(handledElementTypeIds);
    }
 
-   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.CLASS, Types.PACKAGE, Types.ACTOR,
+   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.COMPONENT, Types.PACKAGE, Types.ACTOR,
       Types.USECASE);
 
    @Override
@@ -67,6 +68,15 @@ public class CreateClassifierNodeOperationHandler
                .thenAccept(response -> {
                   if (!response.body()) {
                      throw new GLSPServerException("Could not execute create operation on new Package node");
+                  }
+               });
+            break;
+         }
+         case Types.COMPONENT: {
+            modelAccess.addComponent(UmlModelState.getModelState(modelState), operation.getLocation())
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not execute create operation on new Component node");
                   }
                });
             break;
@@ -117,9 +127,18 @@ public class CreateClassifierNodeOperationHandler
                         throw new GLSPServerException("Could not execute create operation on new Usecase node");
                      }
                   });
-            } else {
+            } else if (container instanceof Package) {
                modelAccess
                   .addUsecaseInPackage(UmlModelState.getModelState(modelState), (Package) container,
+                     operation.getLocation())
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException("Could not execute create operation on new nested Usecase node");
+                     }
+                  });
+            } else if (container instanceof Component) {
+               modelAccess
+                  .addUsecaseInComponent(UmlModelState.getModelState(modelState), (Component) container,
                      operation.getLocation())
                   .thenAccept(response -> {
                      if (!response.body()) {

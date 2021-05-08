@@ -11,7 +11,9 @@
 package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UseCase;
@@ -30,7 +32,7 @@ public class AddUsecaseCommand extends UmlSemanticElementCommand {
    }
 
    /**
-    * For adding Usecase inside parent package
+    * For adding Usecase inside parent package or component
     *
     * @param domain
     * @param modelUri
@@ -43,7 +45,7 @@ public class AddUsecaseCommand extends UmlSemanticElementCommand {
    }
 
    /**
-    * Adds a new actor to the UML model.
+    * Adds a new usecase to the UML model.
     */
    @Override
    protected void doExecute() {
@@ -52,8 +54,12 @@ public class AddUsecaseCommand extends UmlSemanticElementCommand {
       if (parentSemanticUriFragment == null) {
          umlModel.getPackagedElements().add(newUsecase);
       } else {
-         Package parentPackage = UmlSemanticCommandUtil.getElement(umlModel, parentSemanticUriFragment, Package.class);
-         parentPackage.getPackagedElements().add(newUsecase);
+         EObject parent = UmlSemanticCommandUtil.getElement(umlModel, parentSemanticUriFragment);
+         if (parent instanceof Package) {
+            ((Package) parent).getPackagedElements().add(newUsecase);
+         } else if (parent instanceof Component) {
+            ((Component) parent).getPackagedElements().add(newUsecase);
+         }
       }
    }
 

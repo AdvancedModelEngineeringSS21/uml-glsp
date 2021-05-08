@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.glsp.graph.GCompartment;
 import org.eclipse.glsp.graph.GLabel;
 import org.eclipse.glsp.graph.GModelElement;
@@ -29,6 +30,7 @@ import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UseCase;
@@ -54,6 +56,8 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          return createClassNode((Class) classifier);
       } else if (classifier instanceof Package) {
          return create((Package) classifier);
+      } else if (classifier instanceof Component) {
+         return create(classifier);
       } else if (classifier instanceof Actor) {
          return create((Actor) classifier);
       } else if (classifier instanceof UseCase) {
@@ -129,6 +133,30 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       });
    }
 
+   protected GNode create(final Component umlComponent) {
+      GNodeBuilder b = new GNodeBuilder(Types.COMPONENT)
+         .id(toId(umlComponent))
+         .layout(GConstants.Layout.VBOX)
+         .addCssClass(CSS.NODE);
+
+      applyShapeData(umlComponent, b);
+
+      GCompartment classHeader = buildHeader(umlComponent);
+      b.add(classHeader);
+
+      ArrayList<Classifier> childELements = new ArrayList<>();
+
+      childELements.addAll(umlComponent.getPackagedElements().stream()
+         .filter(pe -> (pe instanceof UseCase))
+         .map(Classifier.class::cast)
+         .collect(Collectors.toList()));
+
+      GCompartment componentChildCompartment = buildPackageOrComponentChildCompartment(childELements, umlComponent);
+      b.add(componentChildCompartment);
+
+      return b.build();
+   }
+
    protected GNode create(final Package umlPackage) {
       GNodeBuilder b = new GNodeBuilder(Types.PACKAGE)
          .id(toId(umlPackage))
@@ -147,7 +175,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .map(Classifier.class::cast)
          .collect(Collectors.toList()));
 
-      GCompartment packageChildCompartment = buildPackageChildCompartment(childELements, umlPackage);
+      GCompartment packageChildCompartment = buildPackageOrComponentChildCompartment(childELements, umlPackage);
       b.add(packageChildCompartment);
 
       return b.build();
@@ -251,11 +279,11 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return classPropertiesBuilder.build();
    }
 
-   protected GCompartment buildPackageChildCompartment(final Collection<Classifier> childNodes,
-      final Package parentPackage) {
+   protected GCompartment buildPackageOrComponentChildCompartment(final Collection<Classifier> childNodes,
+      final EObject parent) {
 
       GCompartmentBuilder packageElementsBuilder = new GCompartmentBuilder(Types.COMP)
-         .id(UmlIDUtil.createChildCompartmentId(toId(parentPackage))).layout(GConstants.Layout.VBOX);
+         .id(UmlIDUtil.createChildCompartmentId(toId(parent))).layout(GConstants.Layout.VBOX);
 
       List<GModelElement> childNodeGModelElements = childNodes.stream()
          .map(node -> this.create(node))

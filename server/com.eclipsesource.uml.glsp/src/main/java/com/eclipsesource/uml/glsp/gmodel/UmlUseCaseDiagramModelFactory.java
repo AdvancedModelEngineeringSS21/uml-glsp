@@ -18,6 +18,7 @@ import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Extend;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Include;
@@ -43,6 +44,8 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
          result = create(semanticElement);
       } else if (semanticElement instanceof Package) {
          result = classifierNodeFactory.create((Package) semanticElement);
+      } else if (semanticElement instanceof Component) {
+         result = classifierNodeFactory.create((Component) semanticElement);
       } else if (semanticElement instanceof UseCase) {
          result = classifierNodeFactory.create((UseCase) semanticElement);
       } else if (semanticElement instanceof Actor) {
@@ -70,8 +73,8 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
          graph.setId(toId(useCaseModel));
 
          graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()//
-            .filter(Class.class::isInstance)//
-            .map(Class.class::cast)//
+            .filter(Component.class::isInstance)//
+            .map(Component.class::cast)//
             .map(this::create)//
             .collect(Collectors.toList()));
 

@@ -35,6 +35,7 @@ import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Extend;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Include;
@@ -49,6 +50,7 @@ import com.eclipsesource.uml.modelserver.UmlNotationUtil;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddGeneralizationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddIncludeCommandContribution;
@@ -270,6 +272,38 @@ public class UmlModelServerAccess {
    }
 
    /*
+    * Component
+    */
+   /**
+    * This method is called when in the frontend tool palette a new component is created.
+    *
+    * @param modelState
+    * @param newPosition
+    * @return
+    */
+   public CompletableFuture<Response<Boolean>> addComponent(final UmlModelState modelState,
+      final Optional<GPoint> newPosition) {
+
+      CCompoundCommand addComponentCompoundCommand = AddComponentCommandContribution
+         .create(newPosition.orElse(GraphUtil.point(0, 0)));
+      return this.edit(addComponentCompoundCommand);
+   }
+   /*
+    * public CompletableFuture<Response<Boolean>> removePackage(final UmlModelState modelState,
+    * final Package packageToRemove) {
+    * String semanticProxyUri = getSemanticUriFragment(packageToRemove);
+    * CCompoundCommand compoundCommand = RemovePackageCommandContribution.create(semanticProxyUri);
+    * return this.edit(compoundCommand);
+    * }
+    * public CompletableFuture<Response<Boolean>> setPackageName(final UmlModelState modelState,
+    * final Package packageToRename, final String newName) {
+    * CCommand setPackageNameCommand = SetPackageNameCommandContribution.create(getSemanticUriFragment(packageToRename),
+    * newName);
+    * return this.edit(setPackageNameCommand);
+    * }
+    */
+
+   /*
     * ACTOR
     */
 
@@ -331,6 +365,14 @@ public class UmlModelServerAccess {
 
    public CompletableFuture<Response<Boolean>> addUsecaseInPackage(final UmlModelState modelState,
       final Package parent, final Optional<GPoint> newPosition) {
+      CCommand addUseCaseCompoundCommand = AddUsecaseCommandContribution.create(
+         newPosition.orElse(GraphUtil.point(0, 0)),
+         getSemanticUriFragment(parent));
+      return this.edit(addUseCaseCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> addUsecaseInComponent(final UmlModelState modelState,
+      final Component parent, final Optional<GPoint> newPosition) {
       CCommand addUseCaseCompoundCommand = AddUsecaseCommandContribution.create(
          newPosition.orElse(GraphUtil.point(0, 0)),
          getSemanticUriFragment(parent));
