@@ -47,11 +47,11 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
 
    private PaletteItem usecase_classifiers() {
       PaletteItem createPackage = node(Types.PACKAGE, "Package", "umlpackage");
-      PaletteItem createClass = node(Types.CLASS, "Class", "umlclass");
+      PaletteItem createComponent = node(Types.COMPONENT, "Component", "umlcomponent");
       PaletteItem createActor = node(Types.ACTOR, "Actor", "umlactor");
       PaletteItem createUsecase = node(Types.USECASE, "Usecase", "umlusecase");
 
-      List<PaletteItem> classifiers = Lists.newArrayList(createPackage, createClass, createActor, createUsecase);
+      List<PaletteItem> classifiers = Lists.newArrayList(createPackage, createComponent, createActor, createUsecase);
       return PaletteItem.createPaletteGroup("uml.classifier", "Classifier", classifiers, "fa-hammer");
    }
 

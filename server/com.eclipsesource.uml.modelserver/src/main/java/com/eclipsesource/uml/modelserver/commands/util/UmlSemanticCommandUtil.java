@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
@@ -97,6 +98,10 @@ public final class UmlSemanticCommandUtil {
 
    public static String getNewPackageName(final Model umlModel) {
       return UmlSemanticCommandUtil.getNewPackageableElementName(Package.class, umlModel);
+   }
+
+   public static String getNewComponentName(final Model umlModel) {
+      return UmlSemanticCommandUtil.getNewPackageableElementName(Component.class, umlModel);
    }
 
    public static String getNewClassName(final Model umlModel) {
