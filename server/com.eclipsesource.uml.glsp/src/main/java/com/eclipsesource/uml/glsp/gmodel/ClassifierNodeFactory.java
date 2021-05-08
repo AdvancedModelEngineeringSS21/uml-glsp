@@ -13,6 +13,7 @@ package com.eclipsesource.uml.glsp.gmodel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
@@ -32,6 +33,7 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UseCase;
 
@@ -128,7 +130,27 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          if (shape.getPosition() != null) {
             builder.position(GraphUtil.copy(shape.getPosition()));
          } else if (shape.getSize() != null) {
-            builder.size(GraphUtil.copy(shape.getSize()));
+            double minX = shape.getPosition().getX();
+            double maxX = 0;
+            double minY = shape.getPosition().getY();
+            double maxY = 0;
+            for (PackageableElement e : classifier.getPackagedElements()) {
+               Optional<Shape> cso = modelState.getIndex().getNotation(e, Shape.class);
+               if (cso.isPresent()) {
+                  Shape cs = cso.get();
+                  double currentX = cs.getPosition().getX() + cs.getSize().getWidth();
+                  double currentY = cs.getPosition().getY() + cs.getSize().getHeight();
+
+                  if (currentX > maxX) {
+                     maxX = currentX;
+                  }
+                  if (currentY > maxY) {
+                     maxY = currentY;
+                  }
+               }
+            }
+            builder.size(GraphUtil.dimension(maxX - minX, maxY - minY));
+            // builder.size(GraphUtil.copy(shape.getSize()));
          }
       });
    }
