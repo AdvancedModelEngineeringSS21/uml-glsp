@@ -24,6 +24,7 @@ export namespace UmlTypes {
 
     // #region UML USE CASE DIAGRAM
     export const PACKAGE = `${BaseTypes.NODE}:package`;
+    export const COMPONENT = `${BaseTypes.NODE}:component`;
     export const ICON_PACKAGE = `${BaseTypes.ICON}:package`;
     export const ACTOR = `${BaseTypes.NODE}:actor`;
     export const ICON_ACTOR = `${BaseTypes.ICON}:actor`;
