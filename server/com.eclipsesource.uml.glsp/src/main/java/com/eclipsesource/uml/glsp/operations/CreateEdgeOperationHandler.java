@@ -57,6 +57,11 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
     * @return
     */
    private boolean isLinkableUCD(final String edgeType, final Classifier source, final Classifier target) {
+
+      if (source.equals(target)) {
+         return false;
+      }
+
       switch (edgeType) {
          case Types.ASSOCIATION:
             return (source instanceof Actor || source instanceof UseCase)
@@ -108,7 +113,7 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       } else if (elementTypeId.equals(Types.EXTEND)) {
          if (!(isLinkableUCD(Types.EXTEND, sourceClassifier, targetClassifier))) {
             throw new GLSPServerException(
-               "Could not execute create operation on new UCD Extend edge - source and target need to be Usecases!");
+               "Could not execute create operation on new UCD Extend edge - source and target need to be different Usecases!");
          }
          modelAccess.addExtend(modelState, (UseCase) sourceClassifier, (UseCase) targetClassifier)
             .thenAccept(response -> {
@@ -131,7 +136,7 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       } else if (elementTypeId.equals(Types.GENERALIZATION)) {
          if (!(isLinkableUCD(Types.GENERALIZATION, sourceClassifier, targetClassifier))) {
             throw new GLSPServerException(
-               "Could not execute create operation on new UCD Include edge - source and target need to be Usecases!");
+               "Could not execute create operation on new UCD Generalization edge - source and target need to be different Usecases!");
          }
          modelAccess.addGeneralization(modelState, sourceClassifier, targetClassifier)
             .thenAccept(response -> {
