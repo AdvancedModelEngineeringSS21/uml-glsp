@@ -63,7 +63,7 @@ import {
 } from "@eclipse-glsp/client/lib";
 import executeCommandModule from "@eclipse-glsp/client/lib/features/execute/di.config";
 import { Container, ContainerModule } from "inversify";
-import { EditLabelUI } from "sprotty/lib";
+import { EditLabelUI, SNode } from "sprotty/lib";
 
 import { EditLabelUIAutocomplete } from "./features/edit-label";
 import umlToolPaletteModule from "./features/tool-palette/di.config";
@@ -73,6 +73,7 @@ import { BaseTypes, UmlTypes } from "./utils";
 import {
     ActorNodeView,
     ClassNodeView,
+    CommentNodeView,
     DirectedEdgeView,
     IconView,
     LabelNodeView,
@@ -109,7 +110,7 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.PACKAGE, LabeledNode, PackageNodeView);
         configureModelElement(context, UmlTypes.ICON_PACKAGE, IconActor, IconView);
         configureModelElement(context, UmlTypes.COMPONENT, LabeledNode, PackageNodeView);
-        configureModelElement(context, UmlTypes.COMMENT, LabeledNode, ClassNodeView);
+        configureModelElement(context, UmlTypes.COMMENT, SNode, CommentNodeView);
         configureModelElement(context, UmlTypes.ACTOR, LabeledNode, ActorNodeView);
         configureModelElement(context, UmlTypes.ICON_ACTOR, IconActor, IconView);
         configureModelElement(context, UmlTypes.USECASE, LabeledNode, UseCaseNodeView);

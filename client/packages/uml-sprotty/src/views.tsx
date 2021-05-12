@@ -142,6 +142,22 @@ export class UseCaseNodeView extends ShapeView {
 }
 
 @injectable()
+export class CommentNodeView extends RectangularNodeView {
+    render(node: LabeledNode, context: RenderingContext): VNode {
+        return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
+            <defs>
+                <filter id="dropShadow">
+                    <feDropShadow dx="1.5" dy="1.5" stdDeviation="0.5" style-flood-color="var(--uml-drop-shadow)" style-flood-opacity="0.5" />
+                </filter>
+            </defs>
+
+            <path d="M0.5 0.5 L118.5 0.5 L129 12.5 L129 49 L0.5 49 Z" stroke="none" />
+            {context.renderChildren(node)}
+        </g>;
+    }
+}
+
+@injectable()
 export class DirectedEdgeView extends PolylineEdgeView {
     protected renderAdditionals(edge: SEdge, segments: Point[], context: RenderingContext): VNode[] {
         return [<defs>

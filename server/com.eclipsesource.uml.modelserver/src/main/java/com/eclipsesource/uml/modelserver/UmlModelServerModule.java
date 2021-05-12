@@ -23,6 +23,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddCommentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddGeneralizationCommandContribution;
@@ -35,6 +36,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPoi
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveCommentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveGeneralizationCommandContribution;
@@ -108,6 +110,10 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       binding.put(AddUsecaseCommandContribution.TYPE, AddUsecaseCommandContribution.class);
       binding.put(RemoveUsecaseCommandContribution.TYPE, RemoveUsecaseCommandContribution.class);
       binding.put(SetUsecaseNameCommandContribution.TYPE, SetUsecaseNameCommandContribution.class);
+
+      // Comment
+      binding.put(AddCommentCommandContribution.TYPE, AddCommentCommandContribution.class);
+      binding.put(RemoveCommentCommandContribution.TYPE, RemoveCommentCommandContribution.class);
 
       // UML Extend
       binding.put(AddExtendCommandContribution.TYPE, AddExtendCommandContribution.class);

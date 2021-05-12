@@ -37,7 +37,7 @@ public class CreateClassifierNodeOperationHandler
    }
 
    private static List<String> handledElementTypeIds = Lists.newArrayList(Types.COMPONENT, Types.PACKAGE, Types.ACTOR,
-      Types.USECASE);
+      Types.USECASE, Types.COMMENT);
 
    @Override
    public boolean handles(final Operation execAction) {

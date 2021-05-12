@@ -102,33 +102,6 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
    // region Use Case Diagram
 
-   // TODO: FELIX Changes made here
-
-   // protected GNode create(final Package umlPackage) {
-   // GNodeBuilder b = new GNodeBuilder(Types.PACKAGE) //
-   // .id(toId(umlPackage)) //
-   // .layout(GConstants.Layout.VBOX) //
-   // .addCssClass(CSS.NODE)
-   // .add(new GCompartmentBuilder(Types.COMP_HEADER) //
-   // .layout("hbox") //
-   // .id(toId(umlPackage) + "_header").add(new GCompartmentBuilder(getType(umlPackage)) //
-   // .id(toId(umlPackage) + "_header_icon").build()) //
-   // .add(new GLabelBuilder(Types.LABEL_NAME) //
-   // .id(toId(umlPackage) + "_header_label").text(umlPackage.getName()) //
-   // .build()) //
-   // .build());
-   //
-   // modelState.getIndex().getNotation(umlPackage, Shape.class).ifPresent(shape -> {
-   // if (shape.getPosition() != null) {
-   // b.position(GraphUtil.copy(shape.getPosition()));
-   // } else if (shape.getSize() != null) {
-   // b.size(GraphUtil.copy(shape.getSize()));
-   // }
-   // });
-   //
-   // return b.build();
-   // }
-
    protected void applyShapeData(final Package classifier, final GNodeBuilder builder) {
       modelState.getIndex().getNotation(classifier, Shape.class).ifPresent(shape -> {
          if (shape.getPosition() != null) {
@@ -236,7 +209,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
    }
 
    protected GNode create(final Comment umlComment) {
-      GNodeBuilder b = new GNodeBuilder(Types.ACTOR) //
+      GNodeBuilder b = new GNodeBuilder(Types.COMMENT) //
          .id(toId(umlComment)) //
          .layout(GConstants.Layout.VBOX) //
          .addCssClass(CSS.NODE); //
