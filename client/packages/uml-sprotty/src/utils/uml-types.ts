@@ -34,6 +34,7 @@ export namespace UmlTypes {
     export const INCLUDE = `${BaseTypes.EDGE}:include`;
     export const EXTEND = `${BaseTypes.EDGE}:extend`;
     export const GENERALIZATION = `${BaseTypes.EDGE}:generalization`;
+    export const COMMENT = `${BaseTypes.NODE}:comment`;
     // #endregion
 
 }

@@ -107,8 +107,9 @@ export default (containerId: string): Container => {
 
         // #region UML USE CASE DIAGRAM
         configureModelElement(context, UmlTypes.PACKAGE, LabeledNode, PackageNodeView);
-        configureModelElement(context, UmlTypes.COMPONENT, LabeledNode, PackageNodeView);
         configureModelElement(context, UmlTypes.ICON_PACKAGE, IconActor, IconView);
+        configureModelElement(context, UmlTypes.COMPONENT, LabeledNode, PackageNodeView);
+        configureModelElement(context, UmlTypes.COMMENT, LabeledNode, ClassNodeView);
         configureModelElement(context, UmlTypes.ACTOR, LabeledNode, ActorNodeView);
         configureModelElement(context, UmlTypes.ICON_ACTOR, IconActor, IconView);
         configureModelElement(context, UmlTypes.USECASE, LabeledNode, UseCaseNodeView);
