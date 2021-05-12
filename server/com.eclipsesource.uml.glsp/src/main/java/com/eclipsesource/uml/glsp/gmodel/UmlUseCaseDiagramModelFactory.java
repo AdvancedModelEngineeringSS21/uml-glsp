@@ -18,6 +18,7 @@ import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Extend;
 import org.eclipse.uml2.uml.Generalization;
@@ -52,6 +53,8 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
          result = classifierNodeFactory.create((Actor) semanticElement);
       } else if (semanticElement instanceof Class) {
          result = classifierNodeFactory.create((Class) semanticElement);
+      } else if (semanticElement instanceof Comment) {
+         result = classifierNodeFactory.create((Comment) semanticElement);
       } else if (semanticElement instanceof Relationship) {
          result = relationshipEdgeFactory.create((Relationship) semanticElement);
       } else if (semanticElement instanceof NamedElement) {
@@ -101,6 +104,12 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
          graph.getChildren().addAll(useCaseModel.getPackagedElements().stream() //
             .filter(Association.class::isInstance)//
             .map(Association.class::cast)//
+            .map(this::create)//
+            .collect(Collectors.toList()));
+
+         graph.getChildren().addAll(useCaseModel.getOwnedComments().stream() //
+            .filter(Comment.class::isInstance)//
+            .map(Comment.class::cast)//
             .map(this::create)//
             .collect(Collectors.toList()));
 

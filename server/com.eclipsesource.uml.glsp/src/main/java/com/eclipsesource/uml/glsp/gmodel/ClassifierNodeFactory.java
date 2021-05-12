@@ -31,7 +31,9 @@ import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Component;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
@@ -64,13 +66,15 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          return create((Actor) classifier);
       } else if (classifier instanceof UseCase) {
          return create((UseCase) classifier);
+      } else if (classifier instanceof Comment) {
+         return create((Comment) classifier);
       }
 
       return null;
    }
 
-   protected void applyShapeData(final Classifier classifier, final GNodeBuilder builder) {
-      modelState.getIndex().getNotation(classifier, Shape.class).ifPresent(shape -> {
+   protected void applyShapeData(final Element element, final GNodeBuilder builder) {
+      modelState.getIndex().getNotation(element, Shape.class).ifPresent(shape -> {
          if (shape.getPosition() != null) {
             builder.position(GraphUtil.copy(shape.getPosition()));
          } else if (shape.getSize() != null) {
@@ -228,6 +232,16 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .add(buildHeader(umlActor));
 
       applyShapeData(umlActor, b);
+      return b.build();
+   }
+
+   protected GNode create(final Comment umlComment) {
+      GNodeBuilder b = new GNodeBuilder(Types.ACTOR) //
+         .id(toId(umlComment)) //
+         .layout(GConstants.Layout.VBOX) //
+         .addCssClass(CSS.NODE); //
+
+      applyShapeData(umlComment, b);
       return b.build();
    }
 

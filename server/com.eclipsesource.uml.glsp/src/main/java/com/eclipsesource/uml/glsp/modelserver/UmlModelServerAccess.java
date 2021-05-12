@@ -50,6 +50,7 @@ import com.eclipsesource.uml.modelserver.UmlNotationUtil;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddCommentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddGeneralizationCommandContribution;
@@ -62,6 +63,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPoi
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveCommentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveGeneralizationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveIncludeCommandContribution;
@@ -394,6 +396,29 @@ public class UmlModelServerAccess {
          newName);
       return this.edit(setUsecaseNameCommand);
    }
+
+   /*
+    * COMMENT
+    */
+
+   public CompletableFuture<Response<Boolean>> addComment(final UmlModelState modelState,
+      final Optional<GPoint> newPosition) {
+
+      CCompoundCommand addCommentCompoundCommand = AddCommentCommandContribution
+         .create(newPosition.orElse(GraphUtil.point(0, 0)));
+      return this.edit(addCommentCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> removeComment(final UmlModelState modelState,
+      final UseCase commentToRemove) {
+
+      String semanticProxyUri = getSemanticUriFragment(commentToRemove);
+      CCompoundCommand compoundCommand = RemoveCommentCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
+      // TODO: Remove also the comment_association_edge
+   }
+
+   // TODO: Edit model body
 
    /*
     * Use Case Diagram Association

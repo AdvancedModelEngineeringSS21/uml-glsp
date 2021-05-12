@@ -84,6 +84,7 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
          List.of(Types.USECASE)));
       hints.add(new ShapeTypeHint(Types.USECASE, true, true, false, false));
       hints.add(new ShapeTypeHint(Types.ACTOR, true, true, false, false)); // TODO: LUKAS: Check Values!
+      hints.add(new ShapeTypeHint(Types.COMMENT, true, true, false, false));
 
       return hints;
    }
