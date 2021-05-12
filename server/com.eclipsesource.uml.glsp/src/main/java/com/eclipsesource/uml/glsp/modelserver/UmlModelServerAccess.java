@@ -62,6 +62,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPoi
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveGeneralizationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveIncludeCommandContribution;
@@ -288,20 +289,19 @@ public class UmlModelServerAccess {
          .create(newPosition.orElse(GraphUtil.point(0, 0)));
       return this.edit(addComponentCompoundCommand);
    }
-   /*
-    * public CompletableFuture<Response<Boolean>> removePackage(final UmlModelState modelState,
-    * final Package packageToRemove) {
-    * String semanticProxyUri = getSemanticUriFragment(packageToRemove);
-    * CCompoundCommand compoundCommand = RemovePackageCommandContribution.create(semanticProxyUri);
-    * return this.edit(compoundCommand);
-    * }
-    * public CompletableFuture<Response<Boolean>> setPackageName(final UmlModelState modelState,
-    * final Package packageToRename, final String newName) {
-    * CCommand setPackageNameCommand = SetPackageNameCommandContribution.create(getSemanticUriFragment(packageToRename),
-    * newName);
-    * return this.edit(setPackageNameCommand);
-    * }
-    */
+
+   public CompletableFuture<Response<Boolean>> removeComponent(final UmlModelState modelState,
+      final Component componentToRemove) {
+      String semanticProxyUri = getSemanticUriFragment(componentToRemove);
+      CCompoundCommand compoundCommand = RemoveComponentCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
+   }
+   // public CompletableFuture<Response<Boolean>> setPackageName(final UmlModelState modelState,
+   // final Package packageToRename, final String newName) {
+   // CCommand setPackageNameCommand = SetPackageNameCommandContribution.create(getSemanticUriFragment(packageToRename),
+   // newName);
+   // return this.edit(setPackageNameCommand);
+   // }
 
    /*
     * ACTOR

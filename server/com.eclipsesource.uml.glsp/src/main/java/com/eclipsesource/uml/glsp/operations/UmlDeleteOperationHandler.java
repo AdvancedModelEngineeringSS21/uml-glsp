@@ -20,6 +20,7 @@ import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Extend;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Include;
@@ -44,7 +45,14 @@ public class UmlDeleteOperationHandler extends ModelServerAwareBasicOperationHan
          EObject semanticElement = getOrThrow(modelState.getIndex().getSemantic(elementId),
             EObject.class, "Could not find element for id '" + elementId + "', no delete operation executed.");
 
-         if (semanticElement instanceof Class) {
+         if (semanticElement instanceof Component) {
+            modelAccess.removeComponent(modelState, (Component) semanticElement).thenAccept(response -> {
+               if (!response.body()) {
+                  throw new GLSPServerException(
+                     "Could not execute delete operation on Component: " + semanticElement.toString());
+               }
+            });
+         } else if (semanticElement instanceof Class) {
             modelAccess.removeClass(modelState, (Class) semanticElement).thenAccept(response -> {
                if (!response.body()) {
                   throw new GLSPServerException(
