@@ -71,7 +71,7 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
    public List<ShapeTypeHint> getNodeTypeHints() {
       List<ShapeTypeHint> hints = new ArrayList<>();
       hints.add(new ShapeTypeHint(DefaultTypes.GRAPH, false, false, false, false,
-         List.of(Types.COMPONENT, Types.PACKAGE, Types.ACTOR, Types.USECASE)));
+         List.of(Types.COMPONENT, Types.PACKAGE, Types.ACTOR, Types.USECASE, Types.COMMENT)));
       hints.add(
          new ShapeTypeHint(Types.CLASS, true, true, false, false, List.of(Types.PROPERTY, Types.USECASE)));
       hints.add(new ShapeTypeHint(Types.PROPERTY, false, true, false, true));
