@@ -7,11 +7,10 @@
 - [ ] Strichlierte Lines mit Pfeilspitze
 
 ## Questions
-- Package vs Component for Subsystem?
+- **Package vs Component for Subsystem?** -> - ownedUseCase vs packagedElement
 - With which other elements can actors be linked up? 
     - Especially Associations? Can they link two actors? According to the OMG UML doku not, but in papyrus this is possible
 - Association -> Class vs. Classifier
-- ownedUseCase vs packagedElement
 - why do we need to have new java classes for every element even if they all do exactly the same
 - ```yarn start``` always tries to start the glsp server even if it is already running from eclipse
 
@@ -28,8 +27,8 @@
 - Extend: 
     - How handle creation of extension points?
     - Add extension to existing Extension point if exisitng extions point is clicked, else add new extension point
-    - Validate Extension points
     - disallow extension loops (extending the extended usecase  with the extending usecase)
+    - Validate Extension points
     - 
 ### Nice To Have
 - Improve pattern matcher for multiplicity regex
