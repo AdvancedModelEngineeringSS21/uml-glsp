@@ -35,6 +35,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPoi
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveGeneralizationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveIncludeCommandContribution;
@@ -96,6 +97,7 @@ public class UmlModelServerModule extends DefaultModelServerModule {
 
       // Component
       binding.put(AddComponentCommandContribution.TYPE, AddComponentCommandContribution.class);
+      binding.put(RemoveComponentCommandContribution.TYPE, RemoveComponentCommandContribution.class);
 
       // Actor
       binding.put(AddActorCommandContribution.TYPE, AddActorCommandContribution.class);
