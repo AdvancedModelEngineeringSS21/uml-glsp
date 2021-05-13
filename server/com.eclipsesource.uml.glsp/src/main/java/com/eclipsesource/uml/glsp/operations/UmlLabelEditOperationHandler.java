@@ -101,8 +101,10 @@ public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperation
             break;
 
          case Types.COMMENT_BODY:
-            Comment comment = getOrThrow(modelIndex.getSemantic(graphicalElementId),
-               Comment.class, "No valid container with id " + graphicalElementId + " found");
+            String commentId = UmlIDUtil.getElementIdFromCommentBody(graphicalElementId);
+
+            Comment comment = getOrThrow(modelIndex.getSemantic(commentId), Comment.class,
+               "No valid container with id " + commentId + " found");
 
             String body = getNameFromInput(inputText);
 

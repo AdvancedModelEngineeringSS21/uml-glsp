@@ -76,6 +76,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.SetActorNameComm
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetCommentBodyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPackageNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetUsecaseNameCommandContribution;
@@ -422,7 +423,7 @@ public class UmlModelServerAccess {
    public CompletableFuture<Response<Boolean>> setCommentBody(final UmlModelState modelState,
       final Comment comment, final String newBody) {
 
-      CCommand setCommentBodyCommandContribution = SetUsecaseNameCommandContribution.create(
+      CCommand setCommentBodyCommandContribution = SetCommentBodyCommandContribution.create(
          getSemanticUriFragment(comment),
          newBody);
       return this.edit(setCommentBodyCommandContribution);

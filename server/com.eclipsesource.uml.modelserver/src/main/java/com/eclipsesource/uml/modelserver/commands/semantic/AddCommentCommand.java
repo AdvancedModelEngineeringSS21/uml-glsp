@@ -48,6 +48,7 @@ public class AddCommentCommand extends UmlSemanticElementCommand {
     */
    @Override
    protected void doExecute() {
+      newComment.setBody("newComment");
       umlModel.getOwnedComments().add(newComment);
       if (annotatedElementSemanticUri != null) {
          EObject annotatedElement = UmlSemanticCommandUtil.getElement(umlModel, annotatedElementSemanticUri);
