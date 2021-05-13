@@ -20,6 +20,7 @@ public final class UmlIDUtil {
    public static String HEADER_ICON_SUFFIX = "_header_icon";
    public static String HEADER_LABEL_SUFFIX = "_header_label";
    public static String CHILD_COMPARTMENT_SUFFIX = "_childCompartment";
+   public static String COMMENT_BODY_SUFFIX = "_comment_body";
 
    public static String createLabelNameId(final String containerId) {
       return containerId + LABEL_NAME_SUFFIX;
@@ -59,6 +60,14 @@ public final class UmlIDUtil {
 
    public static String getElementIdFromHeaderLabel(final String headerLabelId) {
       return headerLabelId.replace(HEADER_LABEL_SUFFIX, "");
+   }
+
+   public static String createCommentBodyId(final String containerId) {
+      return containerId + COMMENT_BODY_SUFFIX;
+   }
+
+   public static String getElementIdFromCommentBody(final String commentBodyId) {
+      return commentBodyId.replace(COMMENT_BODY_SUFFIX, "");
    }
 
    public static String createChildCompartmentId(final String containerId) {

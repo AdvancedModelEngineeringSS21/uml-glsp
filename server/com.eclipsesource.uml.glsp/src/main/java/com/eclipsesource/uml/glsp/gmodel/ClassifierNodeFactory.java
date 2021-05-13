@@ -219,7 +219,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .id(UmlIDUtil.createHeaderId(toId(umlComment)));
 
       GLabel commentBodyText = new GLabelBuilder(Types.COMMENT_BODY)
-         .id(UmlIDUtil.createHeaderLabelId(toId(umlComment)))
+         .id(UmlIDUtil.createCommentBodyId(toId(umlComment)))
          .text(umlComment.getBody()).build();
       commentHeaderBuilder.add(commentBodyText);
 

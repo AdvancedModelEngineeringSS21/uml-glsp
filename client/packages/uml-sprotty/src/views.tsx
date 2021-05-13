@@ -151,7 +151,7 @@ export class CommentNodeView extends RectangularNodeView {
                 </filter>
             </defs>
 
-            <path d="M0.5 0.5 L118.5 0.5 L129 12.5 L129 49 L0.5 49 Z" stroke="none" />
+            <path d={`M0.5 0.5 L${node.bounds.width - 10.5} 0.5 L${node.bounds.width} 12.5 L${node.bounds.width} 49 L0.5 49 Z`} />
             {context.renderChildren(node)}
         </g>;
     }

@@ -26,6 +26,7 @@ public class AddCommentCommand extends UmlSemanticElementCommand {
 
    @Override
    protected void doExecute() {
+      newComment.setBody("newComment");
       umlModel.getOwnedComments().add(newComment);
    }
 
