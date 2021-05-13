@@ -35,6 +35,7 @@ import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Extend;
 import org.eclipse.uml2.uml.Generalization;
@@ -410,7 +411,7 @@ public class UmlModelServerAccess {
    }
 
    public CompletableFuture<Response<Boolean>> removeComment(final UmlModelState modelState,
-      final UseCase commentToRemove) {
+      final Comment commentToRemove) {
 
       String semanticProxyUri = getSemanticUriFragment(commentToRemove);
       CCompoundCommand compoundCommand = RemoveCommentCommandContribution.create(semanticProxyUri);
@@ -418,7 +419,14 @@ public class UmlModelServerAccess {
       // TODO: Remove also the comment_association_edge
    }
 
-   // TODO: Edit model body
+   public CompletableFuture<Response<Boolean>> setCommentBody(final UmlModelState modelState,
+      final Comment comment, final String newBody) {
+
+      CCommand setCommentBodyCommandContribution = SetUsecaseNameCommandContribution.create(
+         getSemanticUriFragment(comment),
+         newBody);
+      return this.edit(setCommentBodyCommandContribution);
+   }
 
    /*
     * Use Case Diagram Association

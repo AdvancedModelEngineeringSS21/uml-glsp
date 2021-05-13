@@ -111,6 +111,7 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.ICON_PACKAGE, IconActor, IconView);
         configureModelElement(context, UmlTypes.COMPONENT, LabeledNode, PackageNodeView);
         configureModelElement(context, UmlTypes.COMMENT, SNode, CommentNodeView);
+        configureModelElement(context, UmlTypes.COMMENT_BODY, SEditableLabel, SLabelView);
         configureModelElement(context, UmlTypes.ACTOR, LabeledNode, ActorNodeView);
         configureModelElement(context, UmlTypes.ICON_ACTOR, IconActor, IconView);
         configureModelElement(context, UmlTypes.USECASE, LabeledNode, UseCaseNodeView);

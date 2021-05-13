@@ -21,6 +21,7 @@ import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
@@ -91,6 +92,21 @@ public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperation
             String propertyBounds = getBoundsFromInput(inputText);
 
             modelAccess.setProperty(modelState, classProperty, propertyName, propertyType, propertyBounds)
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not change Property to: " + inputText);
+                  }
+               });
+
+            break;
+
+         case Types.COMMENT_BODY:
+            Comment comment = getOrThrow(modelIndex.getSemantic(graphicalElementId),
+               Comment.class, "No valid container with id " + graphicalElementId + " found");
+
+            String body = getNameFromInput(inputText);
+
+            modelAccess.setCommentBody(modelState, comment, body)
                .thenAccept(response -> {
                   if (!response.body()) {
                      throw new GLSPServerException("Could not change Property to: " + inputText);

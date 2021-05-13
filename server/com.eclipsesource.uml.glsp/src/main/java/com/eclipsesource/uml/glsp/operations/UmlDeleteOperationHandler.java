@@ -20,6 +20,7 @@ import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Extend;
 import org.eclipse.uml2.uml.Generalization;
@@ -57,6 +58,13 @@ public class UmlDeleteOperationHandler extends ModelServerAwareBasicOperationHan
                if (!response.body()) {
                   throw new GLSPServerException(
                      "Could not execute delete operation on Class: " + semanticElement.toString());
+               }
+            });
+         } else if (semanticElement instanceof Comment) {
+            modelAccess.removeComment(modelState, (Comment) semanticElement).thenAccept(response -> {
+               if (!response.body()) {
+                  throw new GLSPServerException(
+                     "Could not execute delete operation on Comment: " + semanticElement.toString());
                }
             });
          } else if (semanticElement instanceof Property) {

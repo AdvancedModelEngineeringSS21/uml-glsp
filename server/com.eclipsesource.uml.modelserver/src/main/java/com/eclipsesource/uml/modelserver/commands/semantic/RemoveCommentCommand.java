@@ -28,7 +28,7 @@ public class RemoveCommentCommand extends UmlSemanticElementCommand {
    @Override
    protected void doExecute() {
       Comment commentToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Comment.class);
-      umlModel.getPackagedElements().remove(commentToRemove);
+      umlModel.getOwnedComments().remove(commentToRemove);
    }
 
    // TODO: should also be triggered, when element to whcih the comment is pointing is removed

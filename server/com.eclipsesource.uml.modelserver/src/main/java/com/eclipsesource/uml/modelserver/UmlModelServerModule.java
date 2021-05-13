@@ -48,6 +48,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.SetActorNameComm
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetCommentBodyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPackageNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetUsecaseNameCommandContribution;
@@ -114,6 +115,7 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       // Comment
       binding.put(AddCommentCommandContribution.TYPE, AddCommentCommandContribution.class);
       binding.put(RemoveCommentCommandContribution.TYPE, RemoveCommentCommandContribution.class);
+      binding.put(SetCommentBodyCommandContribution.TYPE, SetCommentBodyCommandContribution.class);
 
       // UML Extend
       binding.put(AddExtendCommandContribution.TYPE, AddExtendCommandContribution.class);

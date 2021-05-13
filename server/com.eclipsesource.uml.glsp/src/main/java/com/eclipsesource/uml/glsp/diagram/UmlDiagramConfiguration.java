@@ -113,6 +113,12 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
       mappings.put(Types.ICON_PACKAGE, GraphPackage.Literals.GCOMPARTMENT);
       mappings.put(Types.PACKAGE, GraphPackage.Literals.GNODE);
 
+      mappings.put(Types.ICON_COMPONENT, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.COMPONENT, GraphPackage.Literals.GNODE);
+
+      mappings.put(Types.ICON_COMMENT, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.COMMENT, GraphPackage.Literals.GNODE);
+
       mappings.put(Types.ICON_USECASE, GraphPackage.Literals.GCOMPARTMENT);
       mappings.put(Types.USECASE, GraphPackage.Literals.GNODE);
 

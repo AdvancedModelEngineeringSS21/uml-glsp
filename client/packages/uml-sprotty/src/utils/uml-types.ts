@@ -35,6 +35,8 @@ export namespace UmlTypes {
     export const EXTEND = `${BaseTypes.EDGE}:extend`;
     export const GENERALIZATION = `${BaseTypes.EDGE}:generalization`;
     export const COMMENT = `${BaseTypes.NODE}:comment`;
+    export const COMMENT_BODY = `${BaseTypes.LABEL}:commentbody`;
+
     // #endregion
 
 }

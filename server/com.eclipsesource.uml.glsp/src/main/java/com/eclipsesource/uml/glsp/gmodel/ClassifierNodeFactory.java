@@ -214,6 +214,17 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .layout(GConstants.Layout.VBOX) //
          .addCssClass(CSS.NODE); //
 
+      GCompartmentBuilder commentHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
+         .layout(GConstants.Layout.HBOX)
+         .id(UmlIDUtil.createHeaderId(toId(umlComment)));
+
+      GLabel commentBodyText = new GLabelBuilder(Types.COMMENT_BODY)
+         .id(UmlIDUtil.createHeaderLabelId(toId(umlComment)))
+         .text(umlComment.getBody()).build();
+      commentHeaderBuilder.add(commentBodyText);
+
+      b.add(commentHeaderBuilder.build());
+
       applyShapeData(umlComment, b);
       return b.build();
    }
