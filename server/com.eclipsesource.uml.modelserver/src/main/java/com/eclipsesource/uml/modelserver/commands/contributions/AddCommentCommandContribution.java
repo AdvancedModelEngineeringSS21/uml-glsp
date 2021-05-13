@@ -38,15 +38,15 @@ public class AddCommentCommandContribution extends UmlCompoundCommandContributio
     * Add a new Comment directly to annotated element
     *
     * @param position
-    * @param annoatedElementSmanticUri
+    * @param annotatedElementSemanticUri
     * @return
     */
-   public static CCompoundCommand create(final GPoint position, final String annoatedElementSmanticUri) {
+   public static CCompoundCommand create(final GPoint position, final String annotatedElementSemanticUri) {
       CCompoundCommand addCommentCommand = CCommandFactory.eINSTANCE.createCompoundCommand();
       addCommentCommand.setType(TYPE);
       addCommentCommand.getProperties().put(UmlNotationCommandContribution.POSITION_X, String.valueOf(position.getX()));
       addCommentCommand.getProperties().put(UmlNotationCommandContribution.POSITION_Y, String.valueOf(position.getY()));
-      addCommentCommand.getProperties().put(PARENT_SEMANTIC_URI_FRAGMENT, annoatedElementSmanticUri);
+      addCommentCommand.getProperties().put(PARENT_SEMANTIC_URI_FRAGMENT, annotatedElementSemanticUri);
       return addCommentCommand;
    }
 
@@ -57,6 +57,11 @@ public class AddCommentCommandContribution extends UmlCompoundCommandContributio
       GPoint commentPosition = UmlNotationCommandUtil.getGPoint(
          command.getProperties().get(UmlNotationCommandContribution.POSITION_X),
          command.getProperties().get(UmlNotationCommandContribution.POSITION_Y));
+
+      if (command.getProperties().containsKey(PARENT_SEMANTIC_URI_FRAGMENT)) {
+         String parentUri = command.getProperties().get(PARENT_SEMANTIC_URI_FRAGMENT);
+         return new AddCommentCompoundCommand(domain, modelUri, commentPosition, parentUri);
+      }
 
       return new AddCommentCompoundCommand(domain, modelUri, commentPosition);
    }

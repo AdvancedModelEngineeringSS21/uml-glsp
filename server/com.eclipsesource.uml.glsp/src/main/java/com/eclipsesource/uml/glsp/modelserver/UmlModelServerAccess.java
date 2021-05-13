@@ -368,8 +368,11 @@ public class UmlModelServerAccess {
       return this.edit(addUsecaseCompoundCommand);
    }
 
-   public CompletableFuture<Response<Boolean>> addUsecaseInPackage(final UmlModelState modelState,
-      final Package parent, final Optional<GPoint> newPosition) {
+   public CompletableFuture<Response<Boolean>> addUsecaseInParent(final UmlModelState modelState,
+      final Classifier parent, final Optional<GPoint> newPosition) throws Exception {
+      if (!(parent instanceof Package || parent instanceof Component)) {
+         throw new Exception("Element not valid as a parent for usecase");
+      }
       CCommand addUseCaseCompoundCommand = AddUsecaseCommandContribution.create(
          newPosition.orElse(GraphUtil.point(0, 0)),
          getSemanticUriFragment(parent));

@@ -19,6 +19,8 @@ import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.operations.CreateNodeOperation;
 import org.eclipse.glsp.server.operations.Operation;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
@@ -129,7 +131,16 @@ public class CreateClassifierNodeOperationHandler
                   });
             } else if (container instanceof Package) {
                modelAccess
-                  .addUsecaseInPackage(UmlModelState.getModelState(modelState), (Package) container,
+                  .addUsecaseInParent(UmlModelState.getModelState(modelState), (Classifier) container,
+                     operation.getLocation())
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException("Could not execute create operation on new nested Usecase node");
+                     }
+                  });
+            } else if (container instanceof Component) {
+               modelAccess
+                  .addUsecaseInParent(UmlModelState.getModelState(modelState), (Classifier) container,
                      operation.getLocation())
                   .thenAccept(response -> {
                      if (!response.body()) {

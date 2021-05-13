@@ -71,21 +71,22 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
    public List<ShapeTypeHint> getNodeTypeHints() {
       List<ShapeTypeHint> hints = new ArrayList<>();
       hints.add(new ShapeTypeHint(DefaultTypes.GRAPH, false, false, false, false,
-         List.of(Types.COMPONENT, Types.PACKAGE, Types.ACTOR, Types.USECASE, Types.COMMENT)));
+         List.of(Types.COMPONENT, Types.PACKAGE, Types.ACTOR, Types.USECASE)));
       hints.add(
-         new ShapeTypeHint(Types.CLASS, true, true, false, false, List.of(Types.PROPERTY, Types.USECASE)));
+         new ShapeTypeHint(Types.CLASS, true, true, false, false,
+            List.of(Types.PROPERTY, Types.USECASE, Types.COMMENT)));
       hints.add(new ShapeTypeHint(Types.PROPERTY, false, true, false, true));
 
       // UML USE CASE DIAGRAM
       // Packages may contain sub packages as well!
       hints.add(new ShapeTypeHint(Types.PACKAGE, true, true, true, false,
-         List.of(Types.ACTOR, Types.USECASE, Types.PACKAGE, Types.COMPONENT)));
+         List.of(Types.ACTOR, Types.USECASE, Types.PACKAGE, Types.COMPONENT, Types.COMMENT)));
       hints.add(new ShapeTypeHint(Types.COMPONENT, true, true, true, false,
-         List.of(Types.USECASE)));
-      hints.add(new ShapeTypeHint(Types.USECASE, true, true, false, false));
-      hints.add(new ShapeTypeHint(Types.ACTOR, true, true, false, false)); // TODO: LUKAS: Check Values!
-      hints.add(new ShapeTypeHint(Types.COMMENT, true, true, false, false));
-
+         List.of(Types.USECASE, Types.COMMENT)));
+      hints.add(new ShapeTypeHint(Types.USECASE, true, true, false, false, List.of(Types.COMMENT)));
+      hints.add(new ShapeTypeHint(Types.ACTOR, true, true, false, false, List.of(Types.COMMENT))); // TODO: LUKAS: Check
+      // Values!
+      hints.add(new ShapeTypeHint(Types.COMMENT, true, true, false, false, List.of(Types.ASSOCIATION)));
       return hints;
    }
 
