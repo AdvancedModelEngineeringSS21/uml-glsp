@@ -17,5 +17,6 @@ public abstract class UmlCompoundCommandContribution extends BasicCommandContrib
 
    public static final String SEMANTIC_URI_FRAGMENT = "semanticUriFragment";
    public static final String PARENT_SEMANTIC_URI_FRAGMENT = "parentSemanticUriFragment";
+   public static final String ANNOTATED_ELEMENT_URI_FRAGMENT = "annoatedElementUriFragment";
 
 }

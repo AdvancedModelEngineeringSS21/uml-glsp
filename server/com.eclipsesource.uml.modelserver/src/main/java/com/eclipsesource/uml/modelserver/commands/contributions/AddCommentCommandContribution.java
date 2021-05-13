@@ -34,6 +34,22 @@ public class AddCommentCommandContribution extends UmlCompoundCommandContributio
       return addCommentCommand;
    }
 
+   /**
+    * Add a new Comment directly to annotated element
+    *
+    * @param position
+    * @param annoatedElementSmanticUri
+    * @return
+    */
+   public static CCompoundCommand create(final GPoint position, final String annoatedElementSmanticUri) {
+      CCompoundCommand addCommentCommand = CCommandFactory.eINSTANCE.createCompoundCommand();
+      addCommentCommand.setType(TYPE);
+      addCommentCommand.getProperties().put(UmlNotationCommandContribution.POSITION_X, String.valueOf(position.getX()));
+      addCommentCommand.getProperties().put(UmlNotationCommandContribution.POSITION_Y, String.valueOf(position.getY()));
+      addCommentCommand.getProperties().put(PARENT_SEMANTIC_URI_FRAGMENT, annoatedElementSmanticUri);
+      return addCommentCommand;
+   }
+
    @Override
    protected CompoundCommand toServer(final URI modelUri, final EditingDomain domain, final CCommand command)
       throws DecodingException {

@@ -22,10 +22,24 @@ import com.eclipsesource.uml.modelserver.commands.notation.AddCommentShapeComman
 import com.eclipsesource.uml.modelserver.commands.semantic.AddCommentCommand;
 
 public class AddCommentCompoundCommand extends CompoundCommand {
+
    public AddCommentCompoundCommand(final EditingDomain domain, final URI modelUri, final GPoint commentPosition) {
 
       // Chain semantic and notation command
       AddCommentCommand command = new AddCommentCommand(domain, modelUri);
+      this.append(command);
+      Supplier<Comment> semanticResultSupplier = () -> command.getNewComment();
+      this.append(new AddCommentShapeCommand(domain, modelUri, commentPosition, semanticResultSupplier));
+   }
+
+   /**
+    * Adding Comment directly to other element
+    *
+    */
+   public AddCommentCompoundCommand(final EditingDomain domain, final URI modelUri, final GPoint commentPosition,
+      final String annotatedElementSemanticUri) {
+      // Chain semantic and notation command
+      AddCommentCommand command = new AddCommentCommand(domain, modelUri, annotatedElementSemanticUri);
       this.append(command);
       Supplier<Comment> semanticResultSupplier = () -> command.getNewComment();
       this.append(new AddCommentShapeCommand(domain, modelUri, commentPosition, semanticResultSupplier));
