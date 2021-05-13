@@ -142,7 +142,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
       applyShapeData(umlComponent, b);
 
-      GCompartment classHeader = buildHeader(umlComponent);
+      GCompartment classHeader = buildHeaderWithOutIcon(umlComponent);
       b.add(classHeader);
 
       ArrayList<Classifier> childELements = new ArrayList<>();
@@ -265,6 +265,19 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       GCompartment classHeaderIcon = new GCompartmentBuilder(Types.ICON_CLASS)
          .id(UmlIDUtil.createHeaderIconId(toId(classifier))).build();
       classHeaderBuilder.add(classHeaderIcon);
+
+      GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
+         .id(UmlIDUtil.createHeaderLabelId(toId(classifier)))
+         .text(classifier.getName()).build();
+      classHeaderBuilder.add(classHeaderLabel);
+
+      return classHeaderBuilder.build();
+   }
+
+   protected GCompartment buildHeaderWithOutIcon(final Classifier classifier) {
+      GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
+         .layout(GConstants.Layout.HBOX)
+         .id(UmlIDUtil.createHeaderId(toId(classifier)));
 
       GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
          .id(UmlIDUtil.createHeaderLabelId(toId(classifier)))
