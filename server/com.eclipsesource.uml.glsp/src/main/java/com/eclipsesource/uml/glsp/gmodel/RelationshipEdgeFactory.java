@@ -36,6 +36,7 @@ import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 import com.eclipsesource.uml.glsp.util.UmlIDUtil;
 import com.eclipsesource.uml.glsp.util.UmlLabelUtil;
 import com.eclipsesource.uml.modelserver.unotation.Edge;
+import com.eclipsesource.uml.modelserver.unotation.Representation;
 
 public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship, GEdge> {
 
@@ -71,16 +72,21 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
          .targetId(toId(target.getType()))
          .routerKind(GConstants.RouterKind.MANHATTAN);
 
-      // TODO: Remove lable edge in use case diagram
-      GLabel sourceNameLabel = createEdgeNameLabel(source.getName(), UmlIDUtil.createLabelNameId(sourceId), 0.1d);
-      builder.add(sourceNameLabel);
+      Representation diagramType = modelState.getUmlFacade().getDiagram().getDiagramType();
+
+      if (diagramType != Representation.USECASE) {
+         GLabel sourceNameLabel = createEdgeNameLabel(source.getName(), UmlIDUtil.createLabelNameId(sourceId), 0.1d);
+         builder.add(sourceNameLabel);
+      }
 
       GLabel sourceMultiplicityLabel = createEdgeMultiplicityLabel(UmlLabelUtil.getMultiplicity(source),
          UmlIDUtil.createLabelMultiplicityId(sourceId), 0.1d);
       builder.add(sourceMultiplicityLabel);
 
-      GLabel targetNameLabel = createEdgeNameLabel(target.getName(), UmlIDUtil.createLabelNameId(targetId), 0.9d);
-      builder.add(targetNameLabel);
+      if (diagramType != Representation.USECASE) {
+         GLabel targetNameLabel = createEdgeNameLabel(target.getName(), UmlIDUtil.createLabelNameId(targetId), 0.9d);
+         builder.add(targetNameLabel);
+      }
 
       GLabel targetMultiplicityLabel = createEdgeMultiplicityLabel(UmlLabelUtil.getMultiplicity(target),
          UmlIDUtil.createLabelMultiplicityId(targetId), 0.9d);
