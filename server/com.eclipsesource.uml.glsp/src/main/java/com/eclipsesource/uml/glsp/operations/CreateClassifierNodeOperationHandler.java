@@ -19,6 +19,7 @@ import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.operations.CreateNodeOperation;
 import org.eclipse.glsp.server.operations.Operation;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 
@@ -138,13 +139,34 @@ public class CreateClassifierNodeOperationHandler
             }
             break;
          }
+
          case Types.COMMENT: {
-            modelAccess.addComment(UmlModelState.getModelState(modelState), operation.getLocation())
-               .thenAccept(response -> {
-                  if (!response.body()) {
-                     throw new GLSPServerException("Could not execute create operation on new Comment node");
-                  }
-               });
+            Element annotatedElement = null;
+            try {
+               annotatedElement = getOrThrow(
+                  UmlModelState.getModelState(modelState).getIndex().getSemantic(operation.getContainerId()),
+                  Element.class, "No valid container with id " + operation.getContainerId() + " found");
+            } catch (GLSPServerException ex) {
+               LOGGER.error("Could not find container", ex);
+            }
+
+            if (annotatedElement != null && annotatedElement instanceof org.eclipse.uml2.uml.internal.impl.ModelImpl) {
+               modelAccess.addComment(UmlModelState.getModelState(modelState), operation.getLocation())
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException("Could not execute create operation on new Comment node");
+                     }
+                  });
+            } else {
+               modelAccess.addCommentToElement(UmlModelState.getModelState(modelState), annotatedElement,
+                  operation.getLocation())
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException(
+                           "Could not execute create operation on element to be annotated by a comment");
+                     }
+                  });
+            }
             break;
          }
       }

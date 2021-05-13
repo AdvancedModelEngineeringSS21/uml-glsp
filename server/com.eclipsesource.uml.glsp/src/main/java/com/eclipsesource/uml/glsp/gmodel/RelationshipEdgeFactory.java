@@ -180,7 +180,6 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
          }
       });
       return builder.build();
-      // TODO: Implement
    }
 
    // end region

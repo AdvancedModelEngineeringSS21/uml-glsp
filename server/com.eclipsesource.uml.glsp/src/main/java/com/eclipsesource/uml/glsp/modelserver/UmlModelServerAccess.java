@@ -37,6 +37,7 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Component;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Extend;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Include;
@@ -408,6 +409,14 @@ public class UmlModelServerAccess {
 
       CCompoundCommand addCommentCompoundCommand = AddCommentCommandContribution
          .create(newPosition.orElse(GraphUtil.point(0, 0)));
+      return this.edit(addCommentCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> addCommentToElement(final UmlModelState modelState,
+      final Element annoatedElement, final Optional<GPoint> newPosition) {
+      CCommand addCommentCompoundCommand = AddCommentCommandContribution.create(
+         newPosition.orElse(GraphUtil.point(0, 0)),
+         getSemanticUriFragment(annoatedElement));
       return this.edit(addCommentCompoundCommand);
    }
 

@@ -18,10 +18,12 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.glsp.graph.GCompartment;
+import org.eclipse.glsp.graph.GEdge;
 import org.eclipse.glsp.graph.GLabel;
 import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.glsp.graph.GNode;
 import org.eclipse.glsp.graph.builder.impl.GCompartmentBuilder;
+import org.eclipse.glsp.graph.builder.impl.GEdgeBuilder;
 import org.eclipse.glsp.graph.builder.impl.GEdgePlacementBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLabelBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLayoutOptions;
@@ -225,6 +227,13 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
       b.add(commentHeaderBuilder.build());
 
+      if (!umlComment.getAnnotatedElements().isEmpty()) {
+         for (Element annotatedElement : umlComment.getAnnotatedElements()) {
+            GEdge annotatedEdge = createCommentEdge(umlComment, annotatedElement);
+            b.add(annotatedEdge);
+         }
+      }
+
       applyShapeData(umlComment, b);
       return b.build();
    }
@@ -345,4 +354,22 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .id(id)
          .text(name).build();
    }
+
+   protected GEdge createCommentEdge(final Comment comment, final Element annotatedElement) {
+
+      Element source = comment;
+      String sourceId = toId(source);
+      Element target = annotatedElement;
+      String targetId = toId(target);
+
+      GEdgeBuilder builder = new GEdgeBuilder(Types.ASSOCIATION)
+         .id(sourceId + "_" + targetId + "_commentEdge")
+         .addCssClass(CSS.EDGE)
+         .sourceId(sourceId)
+         .targetId(targetId)
+         .routerKind(GConstants.RouterKind.MANHATTAN);
+
+      return builder.build();
+   }
+
 }

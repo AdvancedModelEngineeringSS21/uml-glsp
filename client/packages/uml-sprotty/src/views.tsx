@@ -13,7 +13,18 @@
 import { injectable } from "inversify";
 import { svg } from "snabbdom-jsx";
 import { VNode } from "snabbdom/vnode";
-import { getSubType, IView, PolylineEdgeView, RectangularNodeView, RenderingContext, setAttr, ShapeView, SLabelView, SEdge, Point } from "sprotty/lib";
+import {
+    getSubType,
+    IView,
+    Point,
+    PolylineEdgeView,
+    RectangularNodeView,
+    RenderingContext,
+    SEdge,
+    setAttr,
+    ShapeView,
+    SLabelView
+} from "sprotty/lib";
 
 import { Icon, LabeledNode, SLabelNode } from "./model";
 
@@ -47,7 +58,6 @@ export class IconView implements IView {
         if (element.iconImageName) {
             image = require("../images/" + element.iconImageName);
         }
-
         return <g>
             <image class-sprotty-icon={true} href={image} x={-2} y={-1} width={20} height={20}></image>
             {context.renderChildren(element)}
