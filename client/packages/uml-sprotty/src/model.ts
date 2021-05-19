@@ -11,8 +11,11 @@
 import { SChildElement } from "@eclipse-glsp/client";
 import {
     boundsFeature,
+    Connectable,
+    connectableFeature,
     deletableFeature,
     EditableLabel,
+    editFeature,
     editLabelFeature,
     fadeFeature,
     hoverFeedbackFeature,
@@ -23,8 +26,10 @@ import {
     nameFeature,
     popupFeature,
     RectangularNode,
+    SEdge,
     selectFeature,
     SLabel,
+    SRoutableElement,
     SShapeElement,
     WithEditableLabel,
     withEditLabelFeature
@@ -52,6 +57,20 @@ export class LabeledNode extends RectangularNode implements WithEditableLabel, N
     hasFeature(feature: symbol): boolean {
         return super.hasFeature(feature) || feature === nameFeature || feature === withEditLabelFeature;
     }
+}
+
+export class ConnectableEdge extends SEdge implements Connectable {
+    canConnect(routable: SRoutableElement, role: "source" | "target"): boolean {
+        return true;
+        // TODO: FIXME: HELP?
+    }
+
+    static readonly DEFAULT_FEATURES = [editFeature, deletableFeature, selectFeature, fadeFeature,
+        hoverFeedbackFeature, connectableFeature];
+
+    selected = false;
+    hoverFeedback = false;
+    opacity = 1;
 }
 
 export class SEditableLabel extends SLabel implements EditableLabel {

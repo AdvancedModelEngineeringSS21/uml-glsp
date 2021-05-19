@@ -186,8 +186,8 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       GNodeBuilder b = new GNodeBuilder(Types.USECASE) //
          .id(toId(umlUseCase)) //
          .layout(GConstants.Layout.VBOX) //
-         .addCssClass(CSS.NODE)
-         .addCssClass(CSS.ELLIPSE)
+         .addCssClass(CSS.NODE) //
+         .addCssClass(CSS.ELLIPSE) //
          .add(buildHeader(umlUseCase));
 
       if (umlUseCase.getExtensionPoints().size() > 0) {
