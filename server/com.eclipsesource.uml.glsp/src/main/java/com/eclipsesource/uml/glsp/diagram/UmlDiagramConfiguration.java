@@ -40,7 +40,7 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
       List<String> allowed;
       switch (elementId) {
          case Types.ASSOCIATION:
-            allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE);
+            allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE, Types.EXTEND);
             return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
          case Types.EXTEND:
             allowed = Lists.newArrayList(Types.USECASE);
@@ -51,6 +51,9 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
          case Types.GENERALIZATION:
             allowed = Lists.newArrayList(Types.USECASE, Types.ACTOR);
             return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
+         // case Types.COMMENT_EDGE:
+         // allowed = Lists.newArrayList(Types.USECASE, Types.ACTOR);
+         // return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
          default:
             allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE);
             return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
@@ -71,7 +74,7 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
    public List<ShapeTypeHint> getNodeTypeHints() {
       List<ShapeTypeHint> hints = new ArrayList<>();
       hints.add(new ShapeTypeHint(DefaultTypes.GRAPH, false, false, false, false,
-         List.of(Types.COMPONENT, Types.PACKAGE, Types.ACTOR, Types.USECASE)));
+         List.of(Types.COMPONENT, Types.PACKAGE, Types.ACTOR, Types.USECASE, Types.COMMENT)));
       hints.add(
          new ShapeTypeHint(Types.CLASS, true, true, false, false,
             List.of(Types.PROPERTY, Types.USECASE, Types.COMMENT)));
@@ -85,8 +88,6 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
          List.of(Types.USECASE, Types.COMMENT)));
       hints.add(new ShapeTypeHint(Types.USECASE, true, true, false, false, List.of(Types.COMMENT)));
       hints.add(new ShapeTypeHint(Types.ACTOR, true, true, false, false, List.of(Types.COMMENT))); // TODO: LUKAS: Check
-      // Values!
-      hints.add(new ShapeTypeHint(Types.COMMENT, true, true, false, false, List.of(Types.ASSOCIATION)));
       return hints;
    }
 

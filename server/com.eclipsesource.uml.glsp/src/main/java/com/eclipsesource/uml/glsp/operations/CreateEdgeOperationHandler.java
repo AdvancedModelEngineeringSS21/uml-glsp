@@ -14,6 +14,7 @@ import static org.eclipse.glsp.server.protocol.GLSPServerException.getOrThrow;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.operations.CreateEdgeOperation;
 import org.eclipse.glsp.server.operations.Operation;
@@ -21,6 +22,8 @@ import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Comment;
+import org.eclipse.uml2.uml.Extend;
 import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.glsp.model.UmlModelIndex;
@@ -36,7 +39,7 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
    }
 
    private static List<String> handledElementTypeIds = Lists.newArrayList(Types.ASSOCIATION, Types.EXTEND,
-      Types.INCLUDE, Types.GENERALIZATION);
+      Types.INCLUDE, Types.GENERALIZATION, Types.COMMENT_EDGE);
 
    @Override
    public boolean handles(final Operation execAction) {
@@ -56,7 +59,7 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
     * @param target
     * @return
     */
-   private boolean isLinkableUCD(final String edgeType, final Classifier source, final Classifier target) {
+   private boolean isLinkableUCD(final String edgeType, final EObject source, final EObject target) {
 
       if (source.equals(target)) {
          return false;
@@ -74,6 +77,10 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
          case Types.GENERALIZATION:
             return (source instanceof UseCase && target instanceof UseCase)
                || (source instanceof Actor && target instanceof Actor);
+         case Types.COMMENT_EDGE:
+            return (source instanceof Comment && target instanceof Extend) ||
+               (source instanceof Comment && target instanceof Classifier);
+         // TODO: Check Classifier or other Type
          default:
             return false;
       }
@@ -87,10 +94,13 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       UmlModelState modelState = UmlModelState.getModelState(graphicalModelState);
       UmlModelIndex modelIndex = modelState.getIndex();
 
-      Classifier sourceClassifier = getOrThrow(modelIndex.getSemantic(operation.getSourceElementId(), Classifier.class),
+      EObject sourceClassifier = getOrThrow(modelIndex.getSemantic(operation.getSourceElementId()),
          "No semantic Element found for source element with id " + operation.getSourceElementId());
-      Classifier targetClassifier = getOrThrow(modelIndex.getSemantic(operation.getTargetElementId(), Classifier.class),
+      EObject targetClassifier = getOrThrow(modelIndex.getSemantic(operation.getTargetElementId()),
          "No semantic Element found for target element with id" + operation.getTargetElementId());
+      // Classifier targetClassifier = getOrThrow(modelIndex.getSemantic(operation.getTargetElementId(),
+      // Classifier.class),
+      // "No semantic Element found for target element with id" + operation.getTargetElementId());
 
       if (elementTypeId.equals(Types.ASSOCIATION)) {
          // Case Base Class diagram implementation
@@ -102,7 +112,7 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
                   }
                });
          } else if (isLinkableUCD(Types.ASSOCIATION, sourceClassifier, targetClassifier)) {
-            modelAccess.addAssociation(modelState, sourceClassifier, targetClassifier)
+            modelAccess.addAssociation(modelState, (Class) sourceClassifier, (Class) targetClassifier)
                .thenAccept(response -> {
                   if (!response.body()) {
                      throw new GLSPServerException("Could not execute create operation on new UCD Association edge");
@@ -138,7 +148,18 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
             throw new GLSPServerException(
                "Could not execute create operation on new UCD Generalization edge - source and target need to be different elements of the same type!");
          }
-         modelAccess.addGeneralization(modelState, sourceClassifier, targetClassifier)
+         modelAccess.addGeneralization(modelState, (Classifier) sourceClassifier, (Classifier) targetClassifier)
+            .thenAccept(response -> {
+               if (!response.body()) {
+                  throw new GLSPServerException("Could not execute create operation on new UCD Generalization edge");
+               }
+            });
+      } else if (elementTypeId.equals(Types.COMMENT_EDGE)) {
+         if (!(isLinkableUCD(Types.COMMENT_EDGE, sourceClassifier, targetClassifier))) {
+            throw new GLSPServerException(
+               "Could not execute create operation on new UCD Generalization edge - source and target need to be different elements of the same type!");
+         }
+         modelAccess.addCommentEdge(modelState, (Comment) sourceClassifier, targetClassifier)
             .thenAccept(response -> {
                if (!response.body()) {
                   throw new GLSPServerException("Could not execute create operation on new UCD Generalization edge");

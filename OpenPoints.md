@@ -1,36 +1,30 @@
 # Open Points regarding our implementation
 
-## ToDos Heute:
-- [x] Remove Generalization Impl
-- [x] Make use case visible when placed initially 
-- [ ] Make Package have body to show stuff in it
-- [ ] Strichlierte Lines mit Pfeilspitze
+## ToDos:
+- [ ] Add Extensions directly to extension points
+- [ ] Comments relation edge (either directly or as extra edge via palette)
+- [ ] Make Package / Component render according to elements in it
+- [ ] Order in which elements are displayed (e.g. parent always last)
+
+- [ ] Abgabe Paper
+
+## Nice to have: 
+- [ ] multiline comments
+- [ ] Package shape -> box with small box at right top corner
+- [ ] Rendering of text from actors where to place it
+- [ ] Palette Icons
+- [ ] Manual Resizing
+
+## If time allows (i.e. never)
+- [ ] Improve pattern matcher for multiplicity regex
+
+------------
 
 ## Questions
-- **Package vs Component for Subsystem?** -> - ownedUseCase vs packagedElement
-- With which other elements can actors be linked up? 
-    - Especially Associations? Can they link two actors? According to the OMG UML doku not, but in papyrus this is possible
-- Association -> Class vs. Classifier
 - why do we need to have new java classes for every element even if they all do exactly the same
 - ```yarn start``` always tries to start the glsp server even if it is already running from eclipse
-
 
 ## Open Issues
 - Saving not always consistent / consequent
 - Palette is not always rendered
-
-
-## ToDos: 
-### Must Have
-- Visual feedback for association creation (Currently it seems okay, if hovering over second actor)
-- Implememt Subsystem as Component instead of as Class
-- Extend: 
-    - How handle creation of extension points?
-    - Add extension to existing Extension point if exisitng extions point is clicked, else add new extension point
-    - disallow extension loops (extending the extended usecase  with the extending usecase)
-    - Validate Extension points
-    - 
-### Nice To Have
-- Improve pattern matcher for multiplicity regex
-
 

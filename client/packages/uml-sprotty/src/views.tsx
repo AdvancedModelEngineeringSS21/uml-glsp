@@ -14,6 +14,7 @@ import { injectable } from "inversify";
 import { svg } from "snabbdom-jsx";
 import { VNode } from "snabbdom/vnode";
 import {
+    Connectable,
     getSubType,
     IView,
     Point,
@@ -21,6 +22,7 @@ import {
     RectangularNodeView,
     RenderingContext,
     SEdge,
+    Selectable,
     setAttr,
     ShapeView,
     SLabelView
@@ -204,9 +206,10 @@ export class DirectedEdgeView extends PolylineEdgeView {
         }
         return <path d={path} />;
     }
-    render(edge: Readonly<SEdge>, context: RenderingContext): VNode | undefined {
+    render(edge: Readonly<SEdge & Connectable & Selectable>, context: RenderingContext): VNode | undefined {
         const router = this.edgeRouterRegistry.get(edge.routerKind);
         const route = router.route(edge);
+
         if (route.length === 0) {
             return this.renderDanglingEdge("Cannot compute route", edge, context);
         }

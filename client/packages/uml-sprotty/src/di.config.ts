@@ -48,7 +48,6 @@ import {
     saveModule,
     SCompartment,
     SCompartmentView,
-    SEdge,
     SGraphView,
     SLabel,
     SLabelView,
@@ -68,7 +67,15 @@ import { EditLabelUI } from "sprotty/lib";
 import { EditLabelUIAutocomplete } from "./features/edit-label";
 import umlToolPaletteModule from "./features/tool-palette/di.config";
 import { LabelSelectionFeedback } from "./feedback";
-import { IconActor, IconClass, IconUseCase, LabeledNode, SEditableLabel, SLabelNodeProperty } from "./model";
+import {
+    ConnectableEdge,
+    IconActor,
+    IconClass,
+    IconUseCase,
+    LabeledNode,
+    SEditableLabel,
+    SLabelNodeProperty
+} from "./model";
 import { BaseTypes, UmlTypes } from "./utils";
 import {
     ActorNodeView,
@@ -104,7 +111,7 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.LABEL_ICON, SLabel, SLabelView);
         configureModelElement(context, BaseTypes.ROUTING_POINT, SRoutingHandle, SRoutingHandleView);
         configureModelElement(context, BaseTypes.VOLATILE_ROUTING_POINT, SRoutingHandle, SRoutingHandleView);
-        configureModelElement(context, UmlTypes.ASSOCIATION, SEdge, PolylineEdgeView);
+        configureModelElement(context, UmlTypes.ASSOCIATION, ConnectableEdge, PolylineEdgeView);
 
         // #region UML USE CASE DIAGRAM
         configureModelElement(context, UmlTypes.PACKAGE, LabeledNode, PackageNodeView);
@@ -117,9 +124,9 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.USECASE, LabeledNode, UseCaseNodeView);
         configureModelElement(context, UmlTypes.ICON_USECASE, IconUseCase, IconView);
         configureModelElement(context, UmlTypes.EXTENSIONPOINT, SEditableLabel, SLabelView);
-        configureModelElement(context, UmlTypes.INCLUDE, SEdge, DirectedEdgeView);
-        configureModelElement(context, UmlTypes.EXTEND, SEdge, DirectedEdgeView);
-        configureModelElement(context, UmlTypes.GENERALIZATION, SEdge, DirectedEdgeView);
+        configureModelElement(context, UmlTypes.INCLUDE, ConnectableEdge, DirectedEdgeView);
+        configureModelElement(context, UmlTypes.EXTEND, ConnectableEdge, DirectedEdgeView);
+        configureModelElement(context, UmlTypes.GENERALIZATION, ConnectableEdge, DirectedEdgeView);
         // #endregion
 
         configureViewerOptions(context, {
