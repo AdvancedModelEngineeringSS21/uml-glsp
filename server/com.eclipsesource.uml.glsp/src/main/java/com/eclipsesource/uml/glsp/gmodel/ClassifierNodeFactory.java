@@ -142,7 +142,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
       applyShapeData(umlComponent, b);
 
-      GCompartment classHeader = buildHeaderWithOutIcon(umlComponent);
+      GCompartment classHeader = buildHeaderWithoutIcon(umlComponent);
       b.add(classHeader);
 
       ArrayList<Classifier> childELements = new ArrayList<>();
@@ -166,7 +166,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
       applyShapeData(umlPackage, b);
 
-      GCompartment classHeader = buildHeader(umlPackage);
+      GCompartment classHeader = buildHeaderWithoutIcon(umlPackage);
       b.add(classHeader);
 
       ArrayList<Classifier> childELements = new ArrayList<>();
@@ -188,7 +188,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .layout(GConstants.Layout.VBOX) //
          .addCssClass(CSS.NODE)
          .addCssClass(CSS.ELLIPSE)
-         .add(buildHeader(umlUseCase));
+         .add(buildHeaderWithoutIcon(umlUseCase));
 
       if (umlUseCase.getExtensionPoints().size() > 0) {
          GCompartment extensionPointCompartment = buildUsecaseExtensionPointCompartment(umlUseCase);
@@ -204,7 +204,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .id(toId(umlActor)) //
          .layout(GConstants.Layout.VBOX) //
          .addCssClass(CSS.NODE) //
-         .add(buildHeader(umlActor));
+         .add(buildHeaderWithoutIcon(umlActor));
 
       applyShapeData(umlActor, b);
       return b.build();
@@ -240,14 +240,10 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
    // endregion
 
-   protected GCompartment buildHeader(final Package classifier) {
+   protected GCompartment buildHeaderWithoutIcon(final Package classifier) {
       GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
          .layout(GConstants.Layout.HBOX)
          .id(UmlIDUtil.createHeaderId(toId(classifier)));
-
-      GCompartment classHeaderIcon = new GCompartmentBuilder(Types.ICON_CLASS)
-         .id(UmlIDUtil.createHeaderIconId(toId(classifier))).build();
-      classHeaderBuilder.add(classHeaderIcon);
 
       GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
          .id(UmlIDUtil.createHeaderLabelId(toId(classifier)))
@@ -274,7 +270,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return classHeaderBuilder.build();
    }
 
-   protected GCompartment buildHeaderWithOutIcon(final Classifier classifier) {
+   protected GCompartment buildHeaderWithoutIcon(final Classifier classifier) {
       GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
          .layout(GConstants.Layout.HBOX)
          .id(UmlIDUtil.createHeaderId(toId(classifier)));
