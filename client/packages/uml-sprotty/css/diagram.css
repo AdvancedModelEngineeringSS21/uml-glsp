@@ -151,3 +151,7 @@ svg {
 .bold {
     font-weight: bold;
 }
+
+.label-transparent {
+    fill: transparent;
+}

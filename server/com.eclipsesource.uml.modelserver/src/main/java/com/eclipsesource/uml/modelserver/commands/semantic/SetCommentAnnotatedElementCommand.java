@@ -17,12 +17,12 @@ import org.eclipse.uml2.uml.Element;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public class setCommentAnnotatedElementCommand extends UmlSemanticElementCommand {
+public class SetCommentAnnotatedElementCommand extends UmlSemanticElementCommand {
 
    protected String commentSemanticUriFragment;
    protected String annotatedElementSemanticUriFragement;
 
-   public setCommentAnnotatedElementCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
+   public SetCommentAnnotatedElementCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
       final String annotatedElementUriFragement) {
       super(domain, modelUri);
       this.commentSemanticUriFragment = semanticUriFragment;

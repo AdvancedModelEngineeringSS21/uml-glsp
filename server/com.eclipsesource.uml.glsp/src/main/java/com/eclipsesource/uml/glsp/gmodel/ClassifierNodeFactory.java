@@ -39,6 +39,7 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
@@ -370,6 +371,24 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       String sourceId = toId(source);
       Element target = annotatedElement;
       String targetId = toId(target);
+
+      // NO WORK
+      if (target instanceof Relationship) {
+         // Relationship r = (Relationship) target;
+         // GModelElement g = this.getElementById(targetId);
+         // GLabel label = g.getChildren()
+         // .stream()
+         // .filter(elem -> elem instanceof GLabel)
+         // .map(l -> (GLabel) l)
+         // .filter(l -> l.getText() == "<<extends>>")
+         // .collect(Collectors.toList())
+         // .get(0);
+
+         // modelState.getIndex().getNotation(r).ifPresent(edge -> {
+         // // edge
+         // });
+         targetId = targetId + "_anchor";
+      }
 
       GEdgeBuilder builder = new GEdgeBuilder(Types.ASSOCIATION)
          .id(sourceId + "_" + targetId + "_commentEdge")

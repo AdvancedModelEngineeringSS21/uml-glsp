@@ -18,11 +18,11 @@ import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 
-import com.eclipsesource.uml.modelserver.commands.semantic.setCommentAnnotatedElementCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.SetCommentAnnotatedElementCommand;
 
 public class AddCommentEdgeCommandContribution extends UmlCompoundCommandContribution {
 
-   public static final String TYPE = "addAssociationContributuion";
+   public static final String TYPE = "addCommentEdge";
    public static final String SOURCE_COMMENT_URI_FRAGMENT = "sourceCommentUriFragment";
    public static final String TARGET_CLASS_URI_FRAGMENT = "targetClassUriFragment";
 
@@ -45,7 +45,7 @@ public class AddCommentEdgeCommandContribution extends UmlCompoundCommandContrib
 
       setCommentAnnotatedElementCommand
          .append(
-            new setCommentAnnotatedElementCommand(domain, modelUri, sourceCommentUriFragment, targetClassUriFragment));
+            new SetCommentAnnotatedElementCommand(domain, modelUri, sourceCommentUriFragment, targetClassUriFragment));
 
       return setCommentAnnotatedElementCommand;
 

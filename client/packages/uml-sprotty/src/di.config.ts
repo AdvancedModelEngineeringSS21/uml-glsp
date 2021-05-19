@@ -105,6 +105,7 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.LABEL_EDGE_MULTIPLICITY, SEditableLabel, SLabelView);
         configureModelElement(context, UmlTypes.PROPERTY, SLabelNodeProperty, LabelNodeView);
         configureModelElement(context, UmlTypes.LABEL_TEXT, SLabel, SLabelView);
+        configureModelElement(context, UmlTypes.LABEL_TRANSPARENT, SLabel, SLabelView);
         configureModelElement(context, BaseTypes.COMPARTMENT, SCompartment, SCompartmentView);
         configureModelElement(context, BaseTypes.COMPARTMENT_HEADER, SCompartment, SCompartmentView);
         configureModelElement(context, UmlTypes.ICON_CLASS, IconClass, IconView);

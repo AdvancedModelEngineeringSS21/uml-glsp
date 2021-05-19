@@ -20,6 +20,7 @@ import org.eclipse.glsp.graph.builder.impl.GEdgeBuilder;
 import org.eclipse.glsp.graph.builder.impl.GEdgePlacementBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLabelBuilder;
 import org.eclipse.glsp.graph.util.GConstants;
+import org.eclipse.glsp.graph.util.GConstants.EdgeSide;
 import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
@@ -123,6 +124,17 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
       GLabel extendLable = createEdgeNameLabel("<<extends>>", targetId + "_" + sourceId + "_" + toId(extend) + "_label",
          0.5d);
       builder.add(extendLable);
+
+      builder.add(new GLabelBuilder(Types.LABEL_TRANSPARENT)
+         .addCssClass(CSS.LABEL_TRANSPARENT)
+         .edgePlacement(new GEdgePlacementBuilder()
+            .side(EdgeSide.TOP)
+            .position(0.5d)
+            .offset(2d)
+            .rotate(false)
+            .build())
+         .id(toId(extend) + "_anchor")
+         .build());
 
       modelState.getIndex().getNotation(extend, Edge.class).ifPresent(edge -> {
          if (edge.getBendPoints() != null) {

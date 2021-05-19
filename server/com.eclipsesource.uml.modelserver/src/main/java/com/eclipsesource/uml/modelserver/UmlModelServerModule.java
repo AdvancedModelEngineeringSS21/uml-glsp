@@ -24,6 +24,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandC
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddCommentCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddCommentEdgeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddGeneralizationCommandContribution;
@@ -116,6 +117,7 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       binding.put(AddCommentCommandContribution.TYPE, AddCommentCommandContribution.class);
       binding.put(RemoveCommentCommandContribution.TYPE, RemoveCommentCommandContribution.class);
       binding.put(SetCommentBodyCommandContribution.TYPE, SetCommentBodyCommandContribution.class);
+      binding.put(AddCommentEdgeCommandContribution.TYPE, AddCommentEdgeCommandContribution.class);
 
       // UML Extend
       binding.put(AddExtendCommandContribution.TYPE, AddExtendCommandContribution.class);

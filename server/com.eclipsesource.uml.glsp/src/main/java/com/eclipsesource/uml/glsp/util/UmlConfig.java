@@ -17,6 +17,7 @@ public final class UmlConfig {
       public static final String LABEL_NAME = "label:name";
       public static final String LABEL_TEXT = "label:text";
       public static final String LABEL_EDGE_NAME = "label:edge-name";
+      public static final String LABEL_TRANSPARENT = "label:transparent";
       public static final String LABEL_EDGE_MULTIPLICITY = "label:edge-multiplicity";
       public static final String COMP = "comp:comp";
       public static final String COMP_HEADER = "comp:header";
@@ -65,6 +66,8 @@ public final class UmlConfig {
       public static final String EDGE_DIRECTED_END_TENT = "uml-edge-directed-end-tent";
       public static final String EDGE_DIRECTED_START_EMPTY = "uml-edge-directed-start-empty";
       public static final String EDGE_DIRECTED_END_EMPTY = "uml-edge-directed-end-empty";
+
+      public static final String LABEL_TRANSPARENT = "label-transparent";
 
       // region USE CASE DIAGRAM CSS classes
       // TODO: FELIX Check if needed

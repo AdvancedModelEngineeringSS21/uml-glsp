@@ -53,10 +53,10 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
          result = classifierNodeFactory.create((Actor) semanticElement);
       } else if (semanticElement instanceof Class) {
          result = classifierNodeFactory.create((Class) semanticElement);
-      } else if (semanticElement instanceof Comment) {
-         result = classifierNodeFactory.create((Comment) semanticElement);
       } else if (semanticElement instanceof Relationship) {
          result = relationshipEdgeFactory.create((Relationship) semanticElement);
+      } else if (semanticElement instanceof Comment) {
+         result = classifierNodeFactory.create((Comment) semanticElement);
       } else if (semanticElement instanceof NamedElement) {
          result = labelFactory.create((NamedElement) semanticElement);
       }
@@ -140,5 +140,4 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
       return graph;
 
    }
-
 }
