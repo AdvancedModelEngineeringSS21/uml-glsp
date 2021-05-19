@@ -53,6 +53,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.AddActorCommandC
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddCommentCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddCommentEdgeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddGeneralizationCommandContribution;
@@ -439,6 +440,22 @@ public class UmlModelServerAccess {
          getSemanticUriFragment(comment),
          newBody);
       return this.edit(setCommentBodyCommandContribution);
+   }
+
+   public CompletableFuture<Response<Boolean>> addCommentEdge(final UmlModelState modelState,
+      final Comment sourceClass, final EObject targetClass) {
+
+      CCompoundCommand addCommentEdgeCompoundCommand = AddCommentEdgeCommandContribution
+         .create(getSemanticUriFragment(sourceClass), getSemanticUriFragment(targetClass));
+      return this.edit(addCommentEdgeCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> removeCommentEdge(final UmlModelState modelState,
+      final Association associationToRemove) {
+
+      // TODO:
+
+      return null;
    }
 
    /*
