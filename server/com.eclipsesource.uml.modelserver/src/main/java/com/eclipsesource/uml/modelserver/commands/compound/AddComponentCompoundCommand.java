@@ -32,4 +32,14 @@ public class AddComponentCompoundCommand extends CompoundCommand {
       this.append(new AddComponentShapeCommand(domain, modelUri, classPosition, semanticResultSupplier));
    }
 
+   public AddComponentCompoundCommand(final EditingDomain domain, final URI modelUri, final GPoint classPosition,
+      final String parentUri) {
+
+      // Chain semantic and notation command
+      AddComponentCommand command = new AddComponentCommand(domain, modelUri, parentUri);
+      this.append(command);
+      Supplier<Component> semanticResultSupplier = () -> command.getNewComponent();
+      this.append(new AddComponentShapeCommand(domain, modelUri, classPosition, semanticResultSupplier));
+   }
+
 }

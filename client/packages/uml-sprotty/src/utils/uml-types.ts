@@ -16,7 +16,6 @@ export namespace UmlTypes {
     export const LABEL_TEXT = `${BaseTypes.LABEL}:text`;
     export const LABEL_EDGE_NAME = `${BaseTypes.LABEL}:edge-name`;
     export const LABEL_EDGE_MULTIPLICITY = `${BaseTypes.LABEL}:edge-multiplicity`;
-    export const LABEL_TRANSPARENT = `${BaseTypes.LABEL}:transparent`;
     export const ICON_CLASS = `${BaseTypes.ICON}:class`;
     export const LABEL_ICON = `${BaseTypes.LABEL}:${BaseTypes.ICON}`;
     export const CLASS = `${BaseTypes.NODE}:class`;
@@ -37,7 +36,7 @@ export namespace UmlTypes {
     export const GENERALIZATION = `${BaseTypes.EDGE}:generalization`;
     export const COMMENT = `${BaseTypes.NODE}:comment`;
     export const COMMENT_BODY = `${BaseTypes.LABEL}:commentbody`;
-
+    export const CONNECTIONPOINT = `${BaseTypes.LABEL}:connectionpoint`;
     // #endregion
 
 }

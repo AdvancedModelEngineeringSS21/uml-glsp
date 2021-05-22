@@ -84,7 +84,7 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
       // Packages may contain sub packages as well!
       hints.add(new ShapeTypeHint(Types.PACKAGE, true, true, true, false,
          List.of(Types.ACTOR, Types.USECASE, Types.PACKAGE, Types.COMPONENT, Types.COMMENT)));
-      hints.add(new ShapeTypeHint(Types.COMPONENT, true, true, true, false,
+      hints.add(new ShapeTypeHint(Types.COMPONENT, true, true, false, false,
          List.of(Types.USECASE, Types.COMMENT)));
       hints.add(new ShapeTypeHint(Types.USECASE, true, true, false, false, List.of(Types.COMMENT)));
       hints.add(new ShapeTypeHint(Types.ACTOR, true, true, false, false, List.of(Types.COMMENT))); // TODO: LUKAS: Check
@@ -130,6 +130,8 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
       mappings.put(Types.EXTEND, GraphPackage.Literals.GEDGE);
       mappings.put(Types.INCLUDE, GraphPackage.Literals.GEDGE);
       mappings.put(Types.GENERALIZATION, GraphPackage.Literals.GEDGE);
+
+      mappings.put(Types.CONNECTIONPOINT, GraphPackage.Literals.GLABEL);
 
       return mappings;
    }

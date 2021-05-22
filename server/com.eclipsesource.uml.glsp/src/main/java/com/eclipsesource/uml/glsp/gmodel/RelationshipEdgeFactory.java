@@ -125,7 +125,7 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
          0.5d);
       builder.add(extendLable);
 
-      builder.add(new GLabelBuilder(Types.LABEL_TRANSPARENT)
+      builder.add(new GLabelBuilder(Types.CONNECTIONPOINT)
          .addCssClass(CSS.LABEL_TRANSPARENT)
          .edgePlacement(new GEdgePlacementBuilder()
             .side(EdgeSide.TOP)

@@ -296,6 +296,15 @@ public class UmlModelServerAccess {
       return this.edit(addComponentCompoundCommand);
    }
 
+   public CompletableFuture<Response<Boolean>> addComponentInPackage(final UmlModelState modelState,
+      final Package parent,
+      final Optional<GPoint> newPosition) {
+
+      CCompoundCommand addComponentCompoundCommand = AddComponentCommandContribution
+         .create(newPosition.orElse(GraphUtil.point(0, 0)), getSemanticUriFragment(parent));
+      return this.edit(addComponentCompoundCommand);
+   }
+
    public CompletableFuture<Response<Boolean>> removeComponent(final UmlModelState modelState,
       final Component componentToRemove) {
       String semanticProxyUri = getSemanticUriFragment(componentToRemove);
@@ -370,7 +379,7 @@ public class UmlModelServerAccess {
    }
 
    public CompletableFuture<Response<Boolean>> addUsecaseInParent(final UmlModelState modelState,
-      final Classifier parent, final Optional<GPoint> newPosition) throws Exception {
+      final EObject parent, final Optional<GPoint> newPosition) throws Exception {
       if (!(parent instanceof Package || parent instanceof Component)) {
          throw new Exception("Element not valid as a parent for usecase");
       }

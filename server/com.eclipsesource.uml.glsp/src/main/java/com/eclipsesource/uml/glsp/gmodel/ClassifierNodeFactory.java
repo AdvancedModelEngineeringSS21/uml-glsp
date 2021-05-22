@@ -18,10 +18,12 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.glsp.graph.GCompartment;
+import org.eclipse.glsp.graph.GDimension;
 import org.eclipse.glsp.graph.GEdge;
 import org.eclipse.glsp.graph.GLabel;
 import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.glsp.graph.GNode;
+import org.eclipse.glsp.graph.GPoint;
 import org.eclipse.glsp.graph.builder.impl.GCompartmentBuilder;
 import org.eclipse.glsp.graph.builder.impl.GEdgeBuilder;
 import org.eclipse.glsp.graph.builder.impl.GEdgePlacementBuilder;
@@ -64,7 +66,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       } else if (classifier instanceof Package) {
          return create((Package) classifier);
       } else if (classifier instanceof Component) {
-         return create(classifier);
+         return create((Component) classifier);
       } else if (classifier instanceof Actor) {
          return create((Actor) classifier);
       } else if (classifier instanceof UseCase) {
@@ -109,24 +111,37 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       modelState.getIndex().getNotation(classifier, Shape.class).ifPresent(shape -> {
          if (shape.getPosition() != null) {
             builder.position(GraphUtil.copy(shape.getPosition()));
-         } else if (shape.getSize() != null) {
-            double minX = shape.getPosition().getX();
-            double maxX = 0;
-            double minY = shape.getPosition().getY();
-            double maxY = 0;
-            for (PackageableElement e : classifier.getPackagedElements()) {
-               Optional<Shape> cso = modelState.getIndex().getNotation(e, Shape.class);
-               if (cso.isPresent()) {
-                  Shape cs = cso.get();
-                  double currentX = cs.getPosition().getX() + cs.getSize().getWidth();
-                  double currentY = cs.getPosition().getY() + cs.getSize().getHeight();
+         }
+         GDimension size = shape.getSize();
+         double minX = shape.getPosition().getX();
+         double maxX = 0;
+         double minY = shape.getPosition().getY();
+         double maxY = 0;
+         boolean posChanged = false;
+         for (PackageableElement e : classifier.getPackagedElements()) {
+            Optional<Shape> cso = modelState.getIndex().getNotation(e, Shape.class);
+            if (cso.isPresent()) {
+               Shape cs = cso.get();
+               double currentMinX = cs.getPosition().getX();
+               double currentMinY = cs.getPosition().getY();
+               double currentMaxX = currentMinX;
+               double currentMaxY = currentMinY;
+               if (cs.getSize() != null) {
+                  currentMaxX = currentMinX + cs.getSize().getWidth();
+                  currentMaxY = currentMinY + cs.getSize().getHeight();
+               } else
 
-                  if (currentX > maxX) {
-                     maxX = currentX;
-                  }
-                  if (currentY > maxY) {
-                     maxY = currentY;
-                  }
+               if (currentMaxX > maxX) {
+                  maxX = currentMaxX;
+               }
+               if (currentMaxY > maxY) {
+                  maxY = currentMaxY;
+               }
+               if (currentMinX < minX) {
+                  minX = currentMinX;
+               }
+               if (currentMinY < minY) {
+                  minY = currentMinY;
                }
             }
             builder.size(GraphUtil.dimension(maxX - minX, maxY - minY));
@@ -136,12 +151,26 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
    }
 
    protected GNode create(final Component umlComponent) {
+      System.out.println("Creating COmponent " + umlComponent.getLabel());
       GNodeBuilder b = new GNodeBuilder(Types.COMPONENT)
          .id(toId(umlComponent))
          .layout(GConstants.Layout.VBOX)
          .addCssClass(CSS.NODE);
 
       applyShapeData(umlComponent, b);
+
+      EObject container = umlComponent.eContainer();
+      if (container != null && !(container instanceof org.eclipse.uml2.uml.internal.impl.ModelImpl)) {
+         if (container instanceof Package) {
+            modelState.getIndex().getNotation(container, Shape.class).ifPresent(shape -> {
+               GPoint pos = shape.getPosition();
+               GDimension size = shape.getSize();
+               if (pos != null && size != null) {
+                  shape.setSize(GraphUtil.dimension(20, 20));
+               }
+            });
+         }
+      }
 
       GCompartment classHeader = buildHeaderWithoutIcon(umlComponent);
       b.add(classHeader);
@@ -165,20 +194,20 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .layout(GConstants.Layout.VBOX)
          .addCssClass(CSS.NODE);
 
-      applyShapeData(umlPackage, b);
-
       GCompartment classHeader = buildHeaderWithoutIcon(umlPackage);
       b.add(classHeader);
 
       ArrayList<Classifier> childELements = new ArrayList<>();
 
       childELements.addAll(umlPackage.getPackagedElements().stream()
-         .filter(pe -> (pe instanceof Actor || pe instanceof UseCase))
+         .filter(pe -> (pe instanceof Actor || pe instanceof UseCase || pe instanceof Component))
          .map(Classifier.class::cast)
          .collect(Collectors.toList()));
 
       GCompartment packageChildCompartment = buildPackageOrComponentChildCompartment(childELements, umlPackage);
       b.add(packageChildCompartment);
+
+      applyShapeData(umlPackage, b);
 
       return b.build();
    }
@@ -320,9 +349,9 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
    protected GCompartment buildPackageOrComponentChildCompartment(final Collection<Classifier> childNodes,
       final EObject parent) {
-
       GCompartmentBuilder packageElementsBuilder = new GCompartmentBuilder(Types.COMP)
-         .id(UmlIDUtil.createChildCompartmentId(toId(parent))).layout(GConstants.Layout.VBOX);
+         .id(UmlIDUtil.createChildCompartmentId(toId(parent)))
+         .layout(GConstants.Layout.VBOX);
 
       List<GModelElement> childNodeGModelElements = childNodes.stream()
          .map(node -> this.create(node))

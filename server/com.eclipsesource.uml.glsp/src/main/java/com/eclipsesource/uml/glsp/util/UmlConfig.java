@@ -17,7 +17,7 @@ public final class UmlConfig {
       public static final String LABEL_NAME = "label:name";
       public static final String LABEL_TEXT = "label:text";
       public static final String LABEL_EDGE_NAME = "label:edge-name";
-      public static final String LABEL_TRANSPARENT = "label:transparent";
+
       public static final String LABEL_EDGE_MULTIPLICITY = "label:edge-multiplicity";
       public static final String COMP = "comp:comp";
       public static final String COMP_HEADER = "comp:header";
@@ -50,6 +50,8 @@ public final class UmlConfig {
       public static final String EXTEND = "edge:extend";
       public static final String INCLUDE = "edge:include";
       public static final String GENERALIZATION = "edge:generalization";
+
+      public static final String CONNECTIONPOINT = "label:connectionpoint";
 
       private Types() {}
    }

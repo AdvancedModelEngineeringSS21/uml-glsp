@@ -62,13 +62,14 @@ import {
 } from "@eclipse-glsp/client/lib";
 import executeCommandModule from "@eclipse-glsp/client/lib/features/execute/di.config";
 import { Container, ContainerModule } from "inversify";
-import { EditLabelUI } from "sprotty/lib";
+import { EditLabelUI, RectangularNodeView } from "sprotty/lib";
 
 import { EditLabelUIAutocomplete } from "./features/edit-label";
 import umlToolPaletteModule from "./features/tool-palette/di.config";
 import { LabelSelectionFeedback } from "./feedback";
 import {
     ConnectableEdge,
+    ConnectionPoint,
     IconActor,
     IconClass,
     IconUseCase,
@@ -105,7 +106,6 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.LABEL_EDGE_MULTIPLICITY, SEditableLabel, SLabelView);
         configureModelElement(context, UmlTypes.PROPERTY, SLabelNodeProperty, LabelNodeView);
         configureModelElement(context, UmlTypes.LABEL_TEXT, SLabel, SLabelView);
-        configureModelElement(context, UmlTypes.LABEL_TRANSPARENT, SLabel, SLabelView);
         configureModelElement(context, BaseTypes.COMPARTMENT, SCompartment, SCompartmentView);
         configureModelElement(context, BaseTypes.COMPARTMENT_HEADER, SCompartment, SCompartmentView);
         configureModelElement(context, UmlTypes.ICON_CLASS, IconClass, IconView);
@@ -128,6 +128,8 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.INCLUDE, ConnectableEdge, DirectedEdgeView);
         configureModelElement(context, UmlTypes.EXTEND, ConnectableEdge, DirectedEdgeView);
         configureModelElement(context, UmlTypes.GENERALIZATION, ConnectableEdge, DirectedEdgeView);
+        configureModelElement(context, UmlTypes.CONNECTIONPOINT, ConnectionPoint, RectangularNodeView);
+
         // #endregion
 
         configureViewerOptions(context, {

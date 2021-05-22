@@ -36,7 +36,6 @@ import {
 } from "sprotty/lib";
 
 export class LabeledNode extends RectangularNode implements WithEditableLabel, Nameable {
-
     get editableLabel(): (SChildElement & EditableLabel) | undefined {
         const headerComp = this.children.find(element => element.type === "comp:header");
         if (headerComp) {
@@ -60,6 +59,20 @@ export class LabeledNode extends RectangularNode implements WithEditableLabel, N
 }
 
 export class ConnectableEdge extends SEdge implements Connectable {
+    canConnect(routable: SRoutableElement, role: "source" | "target"): boolean {
+        return true;
+        // TODO: FIXME: HELP?
+    }
+
+    static readonly DEFAULT_FEATURES = [editFeature, deletableFeature, selectFeature, fadeFeature,
+        hoverFeedbackFeature, connectableFeature];
+
+    selected = false;
+    hoverFeedback = false;
+    opacity = 1;
+}
+
+export class ConnectionPoint extends SLabel implements Connectable {
     canConnect(routable: SRoutableElement, role: "source" | "target"): boolean {
         return true;
         // TODO: FIXME: HELP?

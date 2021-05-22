@@ -19,7 +19,6 @@ import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.operations.CreateNodeOperation;
 import org.eclipse.glsp.server.operations.Operation;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
@@ -75,12 +74,31 @@ public class CreateClassifierNodeOperationHandler
             break;
          }
          case Types.COMPONENT: {
-            modelAccess.addComponent(UmlModelState.getModelState(modelState), operation.getLocation())
-               .thenAccept(response -> {
-                  if (!response.body()) {
-                     throw new GLSPServerException("Could not execute create operation on new Component node");
-                  }
-               });
+            PackageableElement container = null;
+            try {
+               container = getOrThrow(
+                  UmlModelState.getModelState(modelState).getIndex().getSemantic(operation.getContainerId()),
+                  PackageableElement.class, "No valid container with id " + operation.getContainerId() + " found");
+            } catch (GLSPServerException ex) {
+               LOGGER.error("Could not find container", ex);
+            }
+            if (container != null && container instanceof org.eclipse.uml2.uml.internal.impl.ModelImpl) {
+               modelAccess.addComponent(UmlModelState.getModelState(modelState), operation.getLocation())
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException("Could not execute create operation on new Component node");
+                     }
+                  });
+            } else if (container instanceof Package) {
+               modelAccess
+                  .addComponentInPackage(UmlModelState.getModelState(modelState), (Package) container,
+                     operation.getLocation())
+                  .thenAccept(response -> {
+                     if (!response.body()) {
+                        throw new GLSPServerException("Could not execute create operation on new Component node");
+                     }
+                  });
+            }
             break;
          }
          case Types.ACTOR: {
@@ -131,7 +149,7 @@ public class CreateClassifierNodeOperationHandler
                   });
             } else if (container instanceof Package) {
                modelAccess
-                  .addUsecaseInParent(UmlModelState.getModelState(modelState), (Classifier) container,
+                  .addUsecaseInParent(UmlModelState.getModelState(modelState), container,
                      operation.getLocation())
                   .thenAccept(response -> {
                      if (!response.body()) {
@@ -140,7 +158,7 @@ public class CreateClassifierNodeOperationHandler
                   });
             } else if (container instanceof Component) {
                modelAccess
-                  .addUsecaseInParent(UmlModelState.getModelState(modelState), (Classifier) container,
+                  .addUsecaseInParent(UmlModelState.getModelState(modelState), container,
                      operation.getLocation())
                   .thenAccept(response -> {
                      if (!response.body()) {
