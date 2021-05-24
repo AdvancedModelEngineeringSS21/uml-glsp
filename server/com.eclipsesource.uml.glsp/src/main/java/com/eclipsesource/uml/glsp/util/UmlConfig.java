@@ -28,7 +28,6 @@ public final class UmlConfig {
       public static final String ASSOCIATION = "edge:association";
 
       /* region USE CASE DIAGRAM ELEMENTS */
-
       public static final String ICON_USECASE = "icon:usecase";
       public static final String USECASE = "node:usecase";
       public static final String EXTENSIONPOINT = "node:extensionpoint";
