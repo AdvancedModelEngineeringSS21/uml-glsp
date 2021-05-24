@@ -8,11 +8,12 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-import { SChildElement } from "@eclipse-glsp/client";
+import { alignFeature, edgeLayoutFeature, SChildElement } from "@eclipse-glsp/client";
 import {
     boundsFeature,
     Connectable,
     connectableFeature,
+    DEFAULT_EDGE_PLACEMENT,
     deletableFeature,
     EditableLabel,
     editFeature,
@@ -68,8 +69,23 @@ export class ConnectableEdge extends SEdge implements Connectable {
         hoverFeedbackFeature, connectableFeature];
 
     selected = false;
-    hoverFeedback = false;
+    hoverFeedback = true;
     opacity = 1;
+}
+
+export class ConnectableEditableLabel extends SLabel implements EditableLabel, Connectable {
+    constructor() {
+        super()
+        ConnectableEditableLabel.DEFAULT_FEATURES.push(connectableFeature)
+    }
+    canConnect(routable: SRoutableElement, role: "source" | "target"): boolean {
+        return true;
+        // TODO: FIXME: HELP?
+    }
+
+    hasFeature(feature: symbol): boolean {
+        return feature === editLabelFeature || super.hasFeature(feature);
+    }
 }
 
 export class ConnectionPoint extends SLabel implements Connectable {
@@ -77,10 +93,6 @@ export class ConnectionPoint extends SLabel implements Connectable {
         return true;
         // TODO: FIXME: HELP?
     }
-
-    static readonly DEFAULT_FEATURES = [editFeature, deletableFeature, selectFeature, fadeFeature,
-        hoverFeedbackFeature, connectableFeature];
-
     selected = false;
     hoverFeedback = false;
     opacity = 1;

@@ -69,6 +69,7 @@ import umlToolPaletteModule from "./features/tool-palette/di.config";
 import { LabelSelectionFeedback } from "./feedback";
 import {
     ConnectableEdge,
+    ConnectableEditableLabel,
     ConnectionPoint,
     IconActor,
     IconClass,
@@ -124,11 +125,11 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.ICON_ACTOR, IconActor, IconView);
         configureModelElement(context, UmlTypes.USECASE, LabeledNode, UseCaseNodeView);
         configureModelElement(context, UmlTypes.ICON_USECASE, IconUseCase, IconView);
-        configureModelElement(context, UmlTypes.EXTENSIONPOINT, SEditableLabel, SLabelView);
+        configureModelElement(context, UmlTypes.EXTENSIONPOINT, ConnectableEditableLabel, SLabelView);
         configureModelElement(context, UmlTypes.INCLUDE, ConnectableEdge, DirectedEdgeView);
         configureModelElement(context, UmlTypes.EXTEND, ConnectableEdge, DirectedEdgeView);
         configureModelElement(context, UmlTypes.GENERALIZATION, ConnectableEdge, DirectedEdgeView);
-        configureModelElement(context, UmlTypes.CONNECTIONPOINT, ConnectionPoint, RectangularNodeView);
+        configureModelElement(context, UmlTypes.CONNECTIONPOINT, ConnectionPoint, SLabelView);
 
         // #endregion
 

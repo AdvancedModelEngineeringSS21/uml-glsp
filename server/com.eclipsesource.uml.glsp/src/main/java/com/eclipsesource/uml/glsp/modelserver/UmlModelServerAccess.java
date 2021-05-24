@@ -39,6 +39,7 @@ import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.ExtensionPoint;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Include;
 import org.eclipse.uml2.uml.Package;
@@ -485,6 +486,14 @@ public class UmlModelServerAccess {
     */
    public CompletableFuture<Response<Boolean>> addExtend(final UmlModelState modelState,
       final UseCase extendingUseCase, final UseCase extendedUseCase) {
+
+      CCompoundCommand addExtensionCompoundCommand = AddExtendCommandContribution
+         .create(getSemanticUriFragment(extendingUseCase), getSemanticUriFragment(extendedUseCase));
+      return this.edit(addExtensionCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> addExtend(final UmlModelState modelState,
+      final UseCase extendingUseCase, final ExtensionPoint extendedUseCase) {
 
       CCompoundCommand addExtensionCompoundCommand = AddExtendCommandContribution
          .create(getSemanticUriFragment(extendingUseCase), getSemanticUriFragment(extendedUseCase));

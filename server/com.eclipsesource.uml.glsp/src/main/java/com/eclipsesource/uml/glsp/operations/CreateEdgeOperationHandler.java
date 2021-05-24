@@ -24,6 +24,7 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.ExtensionPoint;
 import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.glsp.model.UmlModelIndex;
@@ -71,7 +72,8 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
                && (target instanceof Actor || target instanceof UseCase)
                && !(source instanceof Actor && target instanceof Actor);
          case Types.EXTEND:
-            return (source instanceof UseCase && target instanceof UseCase);
+            return ((source instanceof UseCase && target instanceof UseCase)
+               || (target instanceof ExtensionPoint && source instanceof UseCase));
          case Types.INCLUDE:
             return (source instanceof UseCase && target instanceof UseCase);
          case Types.GENERALIZATION:
@@ -123,14 +125,23 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       } else if (elementTypeId.equals(Types.EXTEND)) {
          if (!(isLinkableUCD(Types.EXTEND, sourceClassifier, targetClassifier))) {
             throw new GLSPServerException(
-               "Could not execute create operation on new UCD Extend edge - source and target need to be different Usecases!");
+               "Could not execute create operation on new UCD Extend edge - source and target need to be different Usecases or a usecase and an existing extension point!");
          }
-         modelAccess.addExtend(modelState, (UseCase) sourceClassifier, (UseCase) targetClassifier)
-            .thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException("Could not execute create operation on new UCD Extend edge");
-               }
-            });
+         if (targetClassifier instanceof ExtensionPoint) {
+            modelAccess.addExtend(modelState, (UseCase) sourceClassifier, (ExtensionPoint) targetClassifier)
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not execute create operation on new UCD Extend edge");
+                  }
+               });
+         } else {
+            modelAccess.addExtend(modelState, (UseCase) sourceClassifier, (UseCase) targetClassifier)
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not execute create operation on new UCD Extend edge");
+                  }
+               });
+         }
 
       } else if (elementTypeId.equals(Types.INCLUDE)) {
          if (!(isLinkableUCD(Types.INCLUDE, sourceClassifier, targetClassifier))) {
