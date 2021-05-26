@@ -13,6 +13,8 @@ package com.eclipsesource.uml.glsp.operations;
 import static org.eclipse.glsp.server.protocol.GLSPServerException.getOrThrow;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.glsp.server.model.GModelState;
@@ -96,10 +98,25 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       UmlModelState modelState = UmlModelState.getModelState(graphicalModelState);
       UmlModelIndex modelIndex = modelState.getIndex();
 
+      String target = operation.getTargetElementId();
+      if (target.endsWith("_anchor")) {
+         String pattern = "(.*)_anchor";
+
+         // Create a Pattern object
+         Pattern r = Pattern.compile(pattern);
+
+         // Now create matcher object.
+         Matcher m = r.matcher(target);
+
+         if (m.find()) {
+            target = m.group(1);
+         }
+      }
+
       EObject sourceClassifier = getOrThrow(modelIndex.getSemantic(operation.getSourceElementId()),
          "No semantic Element found for source element with id " + operation.getSourceElementId());
-      EObject targetClassifier = getOrThrow(modelIndex.getSemantic(operation.getTargetElementId()),
-         "No semantic Element found for target element with id" + operation.getTargetElementId());
+      EObject targetClassifier = getOrThrow(modelIndex.getSemantic(target),
+         "No semantic Element found for target element with id " + operation.getTargetElementId());
       // Classifier targetClassifier = getOrThrow(modelIndex.getSemantic(operation.getTargetElementId(),
       // Classifier.class),
       // "No semantic Element found for target element with id" + operation.getTargetElementId());
