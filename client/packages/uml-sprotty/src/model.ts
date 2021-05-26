@@ -8,12 +8,11 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-import { alignFeature, edgeLayoutFeature, SChildElement } from "@eclipse-glsp/client";
+import { SChildElement } from "@eclipse-glsp/client";
 import {
     boundsFeature,
     Connectable,
     connectableFeature,
-    DEFAULT_EDGE_PLACEMENT,
     deletableFeature,
     EditableLabel,
     editFeature,
@@ -75,8 +74,8 @@ export class ConnectableEdge extends SEdge implements Connectable {
 
 export class ConnectableEditableLabel extends SLabel implements EditableLabel, Connectable {
     constructor() {
-        super()
-        ConnectableEditableLabel.DEFAULT_FEATURES.push(connectableFeature)
+        super();
+        ConnectableEditableLabel.DEFAULT_FEATURES.push(connectableFeature);
     }
     canConnect(routable: SRoutableElement, role: "source" | "target"): boolean {
         return true;
@@ -102,6 +101,13 @@ export class SEditableLabel extends SLabel implements EditableLabel {
     hasFeature(feature: symbol): boolean {
         return feature === editLabelFeature || super.hasFeature(feature);
     }
+}
+
+export class SMultilineEditableLabel extends SLabel implements EditableLabel {
+    hasFeature(feature: symbol): boolean {
+        return feature === editLabelFeature || super.hasFeature(feature);
+    }
+    isMultiLine = true;
 }
 
 export class Icon extends SShapeElement {
