@@ -15,6 +15,7 @@ import { svg } from "snabbdom-jsx";
 import { VNode } from "snabbdom/vnode";
 import {
     Connectable,
+    EditableLabel,
     getSubType,
     IView,
     Point,
