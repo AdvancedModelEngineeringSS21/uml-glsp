@@ -38,6 +38,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorComma
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveCommentCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveCommentEdgeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveGeneralizationCommandContribution;
@@ -116,6 +117,7 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       // Comment
       binding.put(AddCommentCommandContribution.TYPE, AddCommentCommandContribution.class);
       binding.put(RemoveCommentCommandContribution.TYPE, RemoveCommentCommandContribution.class);
+      binding.put(RemoveCommentEdgeCommandContribution.TYPE, RemoveCommentEdgeCommandContribution.class);
       binding.put(SetCommentBodyCommandContribution.TYPE, SetCommentBodyCommandContribution.class);
       binding.put(AddCommentEdgeCommandContribution.TYPE, AddCommentEdgeCommandContribution.class);
 
