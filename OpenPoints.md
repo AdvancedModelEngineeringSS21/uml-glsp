@@ -5,7 +5,7 @@
 - [x] Comments relation edge (extra edge via palette)
 - [x] Make Package / Component render according to elements in it
 - [ ] Actors behave a bit stupidly
-- [ ] Adding Use Cases to Components is only possible if component is outside of package (only rendinering, adding to uml file works)
+- [ ] Adding Use Cases to Components is only possible if component is outside of package (only rendendering, adding to uml file works)
 - [ ] Abgabe Paper
 
 ## Nice to have: 
