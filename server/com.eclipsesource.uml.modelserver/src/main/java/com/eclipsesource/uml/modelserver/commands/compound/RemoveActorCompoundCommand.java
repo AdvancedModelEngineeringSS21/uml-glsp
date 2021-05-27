@@ -21,26 +21,31 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.modelserver.commands.notation.RemoveActorShapeCommand;
 import com.eclipsesource.uml.modelserver.commands.semantic.RemoveActorCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.RemoveCommentEdgeCommand;
 import com.eclipsesource.uml.modelserver.commands.semantic.SetPropertyTypeCommand;
+import com.eclipsesource.uml.modelserver.commands.util.UmlCommentEdgeRemoveUtil;
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
 public class RemoveActorCompoundCommand extends CompoundCommand {
 
    public RemoveActorCompoundCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment) {
-      this.append(new RemoveActorCommand(domain, modelUri, semanticUriFragment));
-      this.append(new RemoveActorShapeCommand(domain, modelUri, semanticUriFragment));
-
       Model umlModel = UmlSemanticCommandUtil.getModel(modelUri, domain);
       Actor actorToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Actor.class);
 
+      for (RemoveCommentEdgeCommand c : UmlCommentEdgeRemoveUtil.removeIncomingCommentEdge(modelUri, domain,
+         semanticUriFragment)) {
+         this.append(c);
+      }
       Collection<Setting> usagesClass = UsageCrossReferencer.find(actorToRemove, umlModel.eResource());
       for (Setting setting : usagesClass) {
          EObject eObject = setting.getEObject();
@@ -51,8 +56,15 @@ public class RemoveActorCompoundCommand extends CompoundCommand {
             String associationUriFragment = UmlNotationCommandUtil
                .getSemanticProxyUri((Relationship) eObject.eContainer());
             this.append(new RemoveAssociationCompoundCommand(domain, modelUri, associationUriFragment));
+         } else if (isGeneralizationTypeUsage(setting, eObject)) {
+            String extendUriFragment = UmlSemanticCommandUtil
+               .getSemanticUriFragment((Relationship) eObject);
+            this.append(new RemoveGeneralizationCompoundCommand(domain, modelUri, extendUriFragment));
          }
       }
+      this.append(new RemoveActorCommand(domain, modelUri, semanticUriFragment));
+      this.append(new RemoveActorShapeCommand(domain, modelUri, semanticUriFragment));
+
    }
 
    protected boolean isPropertyTypeUsage(final Setting setting, final EObject eObject, final Actor classToRemove) {
@@ -66,6 +78,12 @@ public class RemoveActorCompoundCommand extends CompoundCommand {
       return eObject instanceof Property
          && eObject.eContainer() instanceof Association
          && ((Property) eObject).getAssociation() != null;
+   }
+
+   protected boolean isGeneralizationTypeUsage(final Setting setting, final EObject eObject) {
+      return eObject instanceof Generalization
+         && ((Generalization) eObject).eContainer() instanceof UseCase
+         && ((Generalization) eObject).getSpecific() != null;
    }
 
 }

@@ -19,7 +19,9 @@ import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.modelserver.commands.notation.RemoveComponentShapeCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.RemoveCommentEdgeCommand;
 import com.eclipsesource.uml.modelserver.commands.semantic.RemoveComponentCommand;
+import com.eclipsesource.uml.modelserver.commands.util.UmlCommentEdgeRemoveUtil;
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
@@ -27,11 +29,14 @@ public class RemoveComponentCompoundCommand extends CompoundCommand {
 
    public RemoveComponentCompoundCommand(final EditingDomain domain, final URI modelUri,
       final String semanticUriFragment) {
-      this.append(new RemoveComponentCommand(domain, modelUri, semanticUriFragment));
-      this.append(new RemoveComponentShapeCommand(domain, modelUri, semanticUriFragment));
 
       Model umlModel = UmlSemanticCommandUtil.getModel(modelUri, domain);
       Component componentToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Component.class);
+
+      for (RemoveCommentEdgeCommand c : UmlCommentEdgeRemoveUtil.removeIncomingCommentEdge(modelUri, domain,
+         semanticUriFragment)) {
+         this.append(c);
+      }
 
       for (PackageableElement elem : componentToRemove.getPackagedElements()) {
          if (elem instanceof UseCase) {
@@ -39,5 +44,9 @@ public class RemoveComponentCompoundCommand extends CompoundCommand {
             this.append(new RemoveUsecaseCompoundCommand(domain, modelUri, uri));
          }
       }
+
+      this.append(new RemoveComponentCommand(domain, modelUri, semanticUriFragment));
+      this.append(new RemoveComponentShapeCommand(domain, modelUri, semanticUriFragment));
+
    }
 }

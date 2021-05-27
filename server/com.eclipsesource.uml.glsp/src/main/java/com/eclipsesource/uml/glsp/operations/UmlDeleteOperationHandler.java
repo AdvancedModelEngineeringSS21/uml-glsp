@@ -44,95 +44,103 @@ public class UmlDeleteOperationHandler extends ModelServerAwareBasicOperationHan
       UmlModelState modelState = UmlModelState.getModelState(graphicalModelState);
       operation.getElementIds().forEach(elementId -> {
 
-         EObject semanticElement = getOrThrow(modelState.getIndex().getSemantic(elementId),
-            EObject.class, "Could not find element for id '" + elementId + "', no delete operation executed.");
+         // Comment Edges are not Model elements per se but only an attribute of the comment.
+         // Therefore, the getSemantic call would fail for it.
+         if (elementId.contains("commentEdge")) {
+            modelAccess.removeCommentEdge(modelState, elementId);
+         } else {
 
-         if (semanticElement instanceof Component) {
-            modelAccess.removeComponent(modelState, (Component) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on Component: " + semanticElement.toString());
-               }
-            });
-         } else if (semanticElement instanceof Class) {
-            modelAccess.removeClass(modelState, (Class) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on Class: " + semanticElement.toString());
-               }
-            });
-         } else if (semanticElement instanceof Comment) {
-            modelAccess.removeComment(modelState, (Comment) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on Comment: " + semanticElement.toString());
-               }
-            });
-         } else if (semanticElement instanceof Property) {
-            modelAccess.removeProperty(modelState, (Property) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on Property: " + semanticElement.toString());
-               }
-            });
-         } else if (semanticElement instanceof Association) {
-            modelAccess.removeAssociation(modelState, (Association) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on Property: " + semanticElement.toString());
-               }
-            });
-         } else if (semanticElement instanceof Package) {
-            modelAccess.removePackage(modelState, (Package) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on Package: " + semanticElement.toString());
-               }
-            });
-         } else if (semanticElement instanceof Actor) {
-            modelAccess.removeActor(modelState, (Actor) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on Actor: " + semanticElement.toString());
-               }
-            });
-         } else if (semanticElement instanceof UseCase) {
-            modelAccess.removeUsecase(modelState, (UseCase) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on UseCase: " + semanticElement.toString());
-               }
-            });
-         } else if (semanticElement instanceof ExtensionPoint) {
-            modelAccess.removeExtensionPoint(modelState, (ExtensionPoint) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on ExtensionPoint: " + semanticElement.toString());
-               }
-            });
-         } else if (semanticElement instanceof Extend) {
-            modelAccess.removeExtend(modelState, (Extend) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on Extend: " + semanticElement.toString());
-               }
-            });
-         } else if (semanticElement instanceof Include) {
-            modelAccess.removeInclude(modelState, (Include) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on Include: " + semanticElement.toString());
-               }
-            });
-         } else if (semanticElement instanceof Generalization) {
-            modelAccess.removeGeneralization(modelState, (Generalization) semanticElement).thenAccept(response -> {
-               if (!response.body()) {
-                  throw new GLSPServerException(
-                     "Could not execute delete operation on Generalization: " + semanticElement.toString());
-               }
-            });
+            EObject semanticElement = getOrThrow(modelState.getIndex().getSemantic(elementId),
+               EObject.class, "Could not find element for id '" + elementId + "', no delete operation executed.");
+
+            if (semanticElement instanceof Component) {
+               modelAccess.removeComponent(modelState, (Component) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on Component: " + semanticElement.toString());
+                  }
+               });
+            } else if (semanticElement instanceof Class) {
+               modelAccess.removeClass(modelState, (Class) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on Class: " + semanticElement.toString());
+                  }
+               });
+            } else if (semanticElement instanceof Comment) {
+               modelAccess.removeComment(modelState, (Comment) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on Comment: " + semanticElement.toString());
+                  }
+               });
+            } else if (semanticElement instanceof Property) {
+               modelAccess.removeProperty(modelState, (Property) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on Property: " + semanticElement.toString());
+                  }
+               });
+            } else if (semanticElement instanceof Association) {
+               modelAccess.removeAssociation(modelState, (Association) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on Property: " + semanticElement.toString());
+                  }
+               });
+            } else if (semanticElement instanceof Package) {
+               modelAccess.removePackage(modelState, (Package) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on Package: " + semanticElement.toString());
+                  }
+               });
+            } else if (semanticElement instanceof Actor) {
+               modelAccess.removeActor(modelState, (Actor) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on Actor: " + semanticElement.toString());
+                  }
+               });
+            } else if (semanticElement instanceof UseCase) {
+               modelAccess.removeUsecase(modelState, (UseCase) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on UseCase: " + semanticElement.toString());
+                  }
+               });
+            } else if (semanticElement instanceof ExtensionPoint) {
+               modelAccess.removeExtensionPoint(modelState, (ExtensionPoint) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on ExtensionPoint: " + semanticElement.toString());
+                  }
+               });
+            } else if (semanticElement instanceof Extend) {
+               modelAccess.removeExtend(modelState, (Extend) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on Extend: " + semanticElement.toString());
+                  }
+               });
+            } else if (semanticElement instanceof Include) {
+               modelAccess.removeInclude(modelState, (Include) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on Include: " + semanticElement.toString());
+                  }
+               });
+            } else if (semanticElement instanceof Generalization) {
+               modelAccess.removeGeneralization(modelState, (Generalization) semanticElement).thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on Generalization: " + semanticElement.toString());
+                  }
+               });
+            }
          }
       });
+
    }
 
 }

@@ -30,8 +30,10 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.modelserver.commands.notation.RemoveUsecaseShapeCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.RemoveCommentEdgeCommand;
 import com.eclipsesource.uml.modelserver.commands.semantic.RemoveUsecaseCommand;
 import com.eclipsesource.uml.modelserver.commands.semantic.SetPropertyTypeCommand;
+import com.eclipsesource.uml.modelserver.commands.util.UmlCommentEdgeRemoveUtil;
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
@@ -39,11 +41,13 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
 
    public RemoveUsecaseCompoundCommand(final EditingDomain domain, final URI modelUri,
       final String semanticUriFragment) {
-      this.append(new RemoveUsecaseCommand(domain, modelUri, semanticUriFragment));
-      this.append(new RemoveUsecaseShapeCommand(domain, modelUri, semanticUriFragment));
-
       Model umlModel = UmlSemanticCommandUtil.getModel(modelUri, domain);
       UseCase usecaseToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, UseCase.class);
+
+      for (RemoveCommentEdgeCommand c : UmlCommentEdgeRemoveUtil.removeIncomingCommentEdge(modelUri, domain,
+         semanticUriFragment)) {
+         this.append(c);
+      }
 
       Collection<Setting> usagesClass = UsageCrossReferencer.find(usecaseToRemove, umlModel.eResource());
       for (Setting setting : usagesClass) {
@@ -68,6 +72,9 @@ public class RemoveUsecaseCompoundCommand extends CompoundCommand {
                .getSemanticUriFragment((Relationship) eObject);
             this.append(new RemoveGeneralizationCompoundCommand(domain, modelUri, extendUriFragment));
          }
+
+         this.append(new RemoveUsecaseCommand(domain, modelUri, semanticUriFragment));
+         this.append(new RemoveUsecaseShapeCommand(domain, modelUri, semanticUriFragment));
       }
 
    }
