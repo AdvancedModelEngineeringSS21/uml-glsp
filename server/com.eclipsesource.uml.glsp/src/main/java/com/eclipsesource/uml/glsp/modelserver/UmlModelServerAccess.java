@@ -70,6 +70,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassComma
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveCommentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtensionPointCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveGeneralizationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveIncludeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePackageCommandContribution;
@@ -80,6 +81,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEn
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetCommentBodyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetExtensionPointNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPackageNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetUsecaseNameCommandContribution;
@@ -412,6 +414,23 @@ public class UmlModelServerAccess {
       CCommand setUsecaseNameCommand = SetUsecaseNameCommandContribution.create(getSemanticUriFragment(useCaseToRename),
          newName);
       return this.edit(setUsecaseNameCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> removeExtensionPoint(final UmlModelState modelState,
+      final ExtensionPoint epToRemove) {
+
+      String semanticProxyUri = getSemanticUriFragment(epToRemove);
+      CCompoundCommand compoundCommand = RemoveExtensionPointCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> setExtensionPointName(final UmlModelState modelState,
+      final ExtensionPoint epToRename, final String newName) {
+
+      CCommand setExtensionPointNameCommand = SetExtensionPointNameCommandContribution.create(
+         getSemanticUriFragment(epToRename),
+         newName);
+      return this.edit(setExtensionPointNameCommand);
    }
 
    /*

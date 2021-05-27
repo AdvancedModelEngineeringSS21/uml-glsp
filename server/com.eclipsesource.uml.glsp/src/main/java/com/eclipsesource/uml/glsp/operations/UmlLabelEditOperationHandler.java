@@ -22,6 +22,7 @@ import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Comment;
+import org.eclipse.uml2.uml.ExtensionPoint;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
@@ -81,6 +82,19 @@ public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperation
                      }
                   });
             }
+            break;
+
+         case Types.EXTENSIONPOINT:
+            ExtensionPoint ep = getOrThrow(modelIndex.getSemantic(graphicalElementId),
+               ExtensionPoint.class, "No valid container with id " + graphicalElementId + " found");
+
+            modelAccess.setExtensionPointName(modelState, ep, inputText)
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not change ExtensionPoint Name to: " + inputText);
+                  }
+               });
+
             break;
 
          case Types.PROPERTY:
