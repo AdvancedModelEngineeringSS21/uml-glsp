@@ -1,19 +1,20 @@
 # Open Points regarding our implementation
 
 ## ToDos:
-- [ ] Add Extensions directly to extension points
-- [ ] Comments relation edge (either directly or as extra edge via palette)
-- [ ] Make Package / Component render according to elements in it
-- [ ] Order in which elements are displayed (e.g. parent always last)
-
+- [x] Add Extensions directly to extension points
+- [x] Comments relation edge (extra edge via palette)
+- [x] Make Package / Component render according to elements in it
+- [ ] Actors behave a bit stupidly
+- [ ] Adding Use Cases to Components is only possible if component is outside of package (only rendinering, adding to uml file works)
 - [ ] Abgabe Paper
 
 ## Nice to have: 
-- [ ] multiline comments
+- [x] multiline comments
 - [ ] Package shape -> box with small box at right top corner
 - [ ] Rendering of text from actors where to place it
 - [ ] Palette Icons
 - [ ] Manual Resizing
+- [ ] Order in which elements are displayed (e.g. parent always last)
 
 ## If time allows (i.e. never)
 - [ ] Improve pattern matcher for multiplicity regex
@@ -27,4 +28,9 @@
 ## Open Issues
 - Saving not always consistent / consequent
 - Palette is not always rendered
+
+## Annoying Stuff
+
+- yarn is to picky
+- 
 
