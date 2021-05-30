@@ -43,7 +43,7 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
             allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE, Types.EXTEND);
             return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
          case Types.EXTEND:
-            allowed = Lists.newArrayList(Types.USECASE);
+            allowed = Lists.newArrayList(Types.USECASE, Types.EXTENSIONPOINT);
             return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
          case Types.INCLUDE:
             allowed = Lists.newArrayList(Types.USECASE);
