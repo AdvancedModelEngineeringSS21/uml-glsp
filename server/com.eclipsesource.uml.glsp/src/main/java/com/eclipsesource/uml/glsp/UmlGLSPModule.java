@@ -16,6 +16,7 @@ import org.eclipse.glsp.server.actions.DisposeClientSessionActionHandler;
 import org.eclipse.glsp.server.actions.SaveModelActionHandler;
 import org.eclipse.glsp.server.di.DefaultGLSPModule;
 import org.eclipse.glsp.server.diagram.DiagramConfiguration;
+import org.eclipse.glsp.server.features.core.model.ComputedBoundsActionHandler;
 import org.eclipse.glsp.server.features.core.model.ModelFactory;
 import org.eclipse.glsp.server.features.directediting.ApplyLabelEditOperationHandler;
 import org.eclipse.glsp.server.features.toolpalette.ToolPaletteItemProvider;
@@ -42,6 +43,7 @@ import com.eclipsesource.uml.glsp.actions.UmlUndoRedoActionHandler;
 import com.eclipsesource.uml.glsp.diagram.UmlDiagramConfiguration;
 import com.eclipsesource.uml.glsp.layout.UmlLayoutEngine;
 import com.eclipsesource.uml.glsp.layout.UmlServerLayoutConfiguration;
+import com.eclipsesource.uml.glsp.model.CustomComputedBoundsActionHandler;
 import com.eclipsesource.uml.glsp.model.UmlModelFactory;
 import com.eclipsesource.uml.glsp.model.UmlModelStateProvider;
 import com.eclipsesource.uml.glsp.modelserver.ModelServerClientProvider;
@@ -65,6 +67,7 @@ public class UmlGLSPModule extends DefaultGLSPModule {
       bindings.rebind(OperationActionHandler.class, UmlOperationActionHandler.class);
       bindings.rebind(UndoRedoActionHandler.class, UmlUndoRedoActionHandler.class);
       bindings.rebind(DisposeClientSessionActionHandler.class, UmlDisposeClientSessionActionHandler.class);
+      bindings.rebind(ComputedBoundsActionHandler.class, CustomComputedBoundsActionHandler.class);
    }
 
    @Override
