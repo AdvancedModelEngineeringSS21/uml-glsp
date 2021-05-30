@@ -11,7 +11,10 @@
 package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.uml2.uml.Component;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.UseCase;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
@@ -28,7 +31,14 @@ public class RemoveUsecaseCommand extends UmlSemanticElementCommand {
    @Override
    protected void doExecute() {
       UseCase useCaseToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, UseCase.class);
-      umlModel.getPackagedElements().remove(useCaseToRemove);
+      EObject container = useCaseToRemove.eContainer();
+      if (container == null || container instanceof org.eclipse.uml2.uml.internal.impl.ModelImpl) {
+         umlModel.getPackagedElements().remove(useCaseToRemove);
+      } else if (container instanceof Package) {
+         ((Package) container).getPackagedElements().remove(useCaseToRemove);
+      } else if (container instanceof Component) {
+         ((Component) container).getPackagedElements().remove(useCaseToRemove);
+      }
    }
 
 }

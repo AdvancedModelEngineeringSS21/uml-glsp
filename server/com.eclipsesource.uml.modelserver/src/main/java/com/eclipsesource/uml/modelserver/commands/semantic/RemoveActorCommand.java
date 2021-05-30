@@ -11,8 +11,10 @@
 package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Actor;
+import org.eclipse.uml2.uml.Package;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
@@ -28,7 +30,12 @@ public class RemoveActorCommand extends UmlSemanticElementCommand {
    @Override
    protected void doExecute() {
       Actor actorToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Actor.class);
-      umlModel.getPackagedElements().remove(actorToRemove);
+      EObject container = actorToRemove.eContainer();
+      if (container == null || container instanceof org.eclipse.uml2.uml.internal.impl.ModelImpl) {
+         umlModel.getPackagedElements().remove(actorToRemove);
+      } else if (container instanceof Package) {
+         ((Package) container).getPackagedElements().remove(actorToRemove);
+      }
    }
 
 }
