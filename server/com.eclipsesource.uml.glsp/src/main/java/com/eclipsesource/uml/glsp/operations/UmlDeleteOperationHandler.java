@@ -23,6 +23,7 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Extend;
+import org.eclipse.uml2.uml.ExtensionPoint;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Include;
 import org.eclipse.uml2.uml.Package;
@@ -100,6 +101,13 @@ public class UmlDeleteOperationHandler extends ModelServerAwareBasicOperationHan
                if (!response.body()) {
                   throw new GLSPServerException(
                      "Could not execute delete operation on UseCase: " + semanticElement.toString());
+               }
+            });
+         } else if (semanticElement instanceof ExtensionPoint) {
+            modelAccess.removeExtensionPoint(modelState, (ExtensionPoint) semanticElement).thenAccept(response -> {
+               if (!response.body()) {
+                  throw new GLSPServerException(
+                     "Could not execute delete operation on ExtensionPoint: " + semanticElement.toString());
                }
             });
          } else if (semanticElement instanceof Extend) {

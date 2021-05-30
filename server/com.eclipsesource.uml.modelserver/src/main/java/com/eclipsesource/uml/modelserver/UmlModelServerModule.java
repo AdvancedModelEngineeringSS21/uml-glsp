@@ -41,6 +41,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemoveCommentCom
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveCommentEdgeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtensionPointCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveGeneralizationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveIncludeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePackageCommandContribution;
@@ -113,6 +114,7 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       binding.put(AddUsecaseCommandContribution.TYPE, AddUsecaseCommandContribution.class);
       binding.put(RemoveUsecaseCommandContribution.TYPE, RemoveUsecaseCommandContribution.class);
       binding.put(SetUsecaseNameCommandContribution.TYPE, SetUsecaseNameCommandContribution.class);
+      binding.put(RemoveExtensionPointCommandContribution.TYPE, RemoveExtensionPointCommandContribution.class);
 
       // Comment
       binding.put(AddCommentCommandContribution.TYPE, AddCommentCommandContribution.class);

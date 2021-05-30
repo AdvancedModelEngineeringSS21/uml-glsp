@@ -70,6 +70,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassComma
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveCommentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtensionPointCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveGeneralizationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveIncludeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePackageCommandContribution;
@@ -412,6 +413,14 @@ public class UmlModelServerAccess {
       CCommand setUsecaseNameCommand = SetUsecaseNameCommandContribution.create(getSemanticUriFragment(useCaseToRename),
          newName);
       return this.edit(setUsecaseNameCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> removeExtensionPoint(final UmlModelState modelState,
+      final ExtensionPoint epToRemove) {
+
+      String semanticProxyUri = getSemanticUriFragment(epToRemove);
+      CCompoundCommand compoundCommand = RemoveExtensionPointCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
    }
 
    /*
