@@ -52,6 +52,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEn
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetCommentBodyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetExtensionPointNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPackageNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetUsecaseNameCommandContribution;
@@ -115,6 +116,7 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       binding.put(RemoveUsecaseCommandContribution.TYPE, RemoveUsecaseCommandContribution.class);
       binding.put(SetUsecaseNameCommandContribution.TYPE, SetUsecaseNameCommandContribution.class);
       binding.put(RemoveExtensionPointCommandContribution.TYPE, RemoveExtensionPointCommandContribution.class);
+      binding.put(SetExtensionPointNameCommandContribution.TYPE, SetExtensionPointNameCommandContribution.class);
 
       // Comment
       binding.put(AddCommentCommandContribution.TYPE, AddCommentCommandContribution.class);
