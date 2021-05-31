@@ -82,7 +82,7 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
 
       // UML USE CASE DIAGRAM
       // Packages may contain sub packages as well!
-      hints.add(new ShapeTypeHint(Types.PACKAGE, true, true, true, false,
+      hints.add(new ShapeTypeHint(Types.PACKAGE, true, true, false, false,
          List.of(Types.ACTOR, Types.USECASE, Types.PACKAGE, Types.COMPONENT, Types.COMMENT)));
       hints.add(new ShapeTypeHint(Types.COMPONENT, true, true, false, false,
          List.of(Types.USECASE, Types.COMMENT)));

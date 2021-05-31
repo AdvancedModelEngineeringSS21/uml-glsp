@@ -31,6 +31,9 @@ public class RemoveUsecaseCommand extends UmlSemanticElementCommand {
    @Override
    protected void doExecute() {
       UseCase useCaseToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, UseCase.class);
+      if (useCaseToRemove == null) {
+         return;
+      }
       EObject container = useCaseToRemove.eContainer();
       if (container == null || container instanceof org.eclipse.uml2.uml.internal.impl.ModelImpl) {
          umlModel.getPackagedElements().remove(useCaseToRemove);

@@ -131,7 +131,7 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
                   }
                });
          } else if (isLinkableUCD(Types.ASSOCIATION, sourceClassifier, targetClassifier)) {
-            modelAccess.addAssociation(modelState, (Class) sourceClassifier, (Class) targetClassifier)
+            modelAccess.addAssociation(modelState, (Classifier) sourceClassifier, (Classifier) targetClassifier)
                .thenAccept(response -> {
                   if (!response.body()) {
                      throw new GLSPServerException("Could not execute create operation on new UCD Association edge");
