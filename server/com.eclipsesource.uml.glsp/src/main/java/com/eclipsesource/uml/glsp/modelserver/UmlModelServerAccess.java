@@ -17,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -26,7 +27,10 @@ import org.eclipse.emfcloud.modelserver.client.Response;
 import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
+import org.eclipse.glsp.graph.GModelElement;
+import org.eclipse.glsp.graph.GModelRoot;
 import org.eclipse.glsp.graph.GPoint;
+import org.eclipse.glsp.graph.impl.GEdgeImpl;
 import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.glsp.server.types.ElementAndBounds;
@@ -68,6 +72,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemoveActorComma
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveCommentCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveCommentEdgeCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveComponentCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtendCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveExtensionPointCommandContribution;
@@ -480,10 +485,21 @@ public class UmlModelServerAccess {
    }
 
    public CompletableFuture<Response<Boolean>> removeCommentEdge(final UmlModelState modelState,
-      final Association associationToRemove) {
-
-      // TODO:
-
+      final String commentEdgeUri) {
+      GModelRoot model = modelState.getRoot();
+      TreeIterator iterator = model.eAllContents();
+      while (iterator.hasNext()) {
+         Object next = iterator.next();
+         if (next instanceof GEdgeImpl) {
+            GEdgeImpl cur = ((GEdgeImpl) next);
+            if (cur.getId().equals(commentEdgeUri)) {
+               GModelElement parent = cur.getParent();
+               CCompoundCommand removeCommentEdgeCompoundCommand = RemoveCommentEdgeCommandContribution
+                  .create(parent.getId());
+               return this.edit(removeCommentEdgeCompoundCommand);
+            }
+         }
+      }
       return null;
    }
 

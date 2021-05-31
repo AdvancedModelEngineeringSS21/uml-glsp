@@ -2,8 +2,6 @@
 
 The following tests were performed on the commit tagged 'peer-review'.
 
-- [ ] Marks open Points, also mentioned in the known issues parts
-
 ## Working
 
 - CONTEXT DIAGRAM (without nesting in other elements):
@@ -16,13 +14,10 @@ The following tests were performed on the commit tagged 'peer-review'.
 - CONTEXT COMPONENT (nested inside existing COMPONENT):
     - UseCase: Creating, Renaming and Removing
     - Other nodes are not supposed to be inside a component (according to the UML documentation) and thus are not supported
-    - [ ] Dynamic resizing does not work correctly for component
-    - [ ] Deleting Component when it holds at least one usecase does remove it from the UML file, but it it still drawn => check Compound Command.
 
 - CONTEXT PACKAGE (nested inside existing PACKAGE):
     - USECASE: Creating, Renaming and Removing
     - DELETE Package and also deleting child elements at the same time only for use cases
-    - [ ] DELETE Package fails when also actors or components are children
 - EDGES:
     - Association:
         - CREATE From usecase To Actor and vice versa and between two usecases
@@ -33,7 +28,6 @@ The following tests were performed on the commit tagged 'peer-review'.
     - CommentEdge:
         - Adding from Comment (source) to Extend (target)
         - DELETE when source comment or target extend are removed
-        - [ ] DELETE via tool
     - Extend:
         - CREATE between two usecases (creates Extension Point on target)
         - CREATE from usecase directly onto Extension Point (uses existing extension point)
@@ -42,7 +36,7 @@ The following tests were performed on the commit tagged 'peer-review'.
         - DELETE when target EP is deleted
         - DELETE when target usecase is deleted
     - Generalization:
-        - CREATE between two usecases
+        - CREATE between two usecases or two actors 
         - DELETE via tool
         - DELETE when either source or target is removed
     - Include:
@@ -53,15 +47,20 @@ The following tests were performed on the commit tagged 'peer-review'.
 ## Functionality Issues
   - <<SubSystem>> Text in Component name can be edited and removed which should not be possible
   - DELETING source usecase of Include breaks the model and does not work
-  - DELETING CommentEdge via tool not working
-  - When a Comment is linked to an element that is not an Edge and this element is removed, the annotatedElement attribute is not set to null which causes a question mark to appear on the comment
-  - Deleting Component when it hold at least one usecase does remove it from the UML file, but it it still drawn => check Compound Command.
-  - DELETE Package fails when also actors or components are children
+  - Dragging elements outside of their parent should remove them from the parent ( NOT YET IMPLEMENTED )
+  - Deleting Actors does not work when they are connected via a Generalization edge
 
 ## Visual Issues
-  - Palette Icons missing
   - When a COMPONENT is contained inside a PACKAGE, the USECASES contained inside that COMPONENT are not rendered
   - Edges are NOT Rendered inside Package
   - Dynamic resizing does not work correctly for component
+  - Dynamic resizing for packages with actors inside does not work correctly
+  - Actors are at strange position when added to package
   - DOUBLE click on extend label (which is not editable) shows the "undefined" text from the transparent label behind that we wanted to use as an anchor for the comment edge
   - Edge Creation Tool snaps to parent package when creating edges between two elements inside a package
+
+### Minor Graphic Complaints
+  - Package shape should be adjusted to match UML specification template
+  - Placement of Actor label needs to be adjusted
+  - Palette Icons missing
+

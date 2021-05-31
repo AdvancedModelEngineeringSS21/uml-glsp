@@ -13,25 +13,19 @@ package com.eclipsesource.uml.modelserver.commands.compound;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.uml2.uml.Comment;
-import org.eclipse.uml2.uml.Model;
 
 import com.eclipsesource.uml.modelserver.commands.notation.RemoveExtendEdgeCommand;
 import com.eclipsesource.uml.modelserver.commands.semantic.RemoveCommentEdgeCommand;
 import com.eclipsesource.uml.modelserver.commands.semantic.RemoveExtendCommand;
-import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
+import com.eclipsesource.uml.modelserver.commands.util.UmlCommentEdgeRemoveUtil;
 
 public class RemoveExtendCompoundCommand extends CompoundCommand {
 
    public RemoveExtendCompoundCommand(final EditingDomain domain, final URI modelUri,
       final String semanticUriFragment) {
-      Model umlModel = UmlSemanticCommandUtil.getModel(modelUri, domain);
-      for (Comment c : umlModel.getOwnedComments()) {
-         if (c.getAnnotatedElements().size() > 0 && UmlSemanticCommandUtil
-            .getSemanticUriFragment(c.getAnnotatedElements().get(0)).equals(semanticUriFragment)) {
-            this.append(
-               new RemoveCommentEdgeCommand(domain, modelUri, UmlSemanticCommandUtil.getSemanticUriFragment(c)));
-         }
+      for (RemoveCommentEdgeCommand c : UmlCommentEdgeRemoveUtil.removeIncomingCommentEdge(modelUri, domain,
+         semanticUriFragment)) {
+         this.append(c);
       }
 
       this.append(new RemoveExtendCommand(domain, modelUri, semanticUriFragment));

@@ -185,12 +185,12 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       } else if (elementTypeId.equals(Types.COMMENT_EDGE)) {
          if (!(isLinkableUCD(Types.COMMENT_EDGE, sourceClassifier, targetClassifier))) {
             throw new GLSPServerException(
-               "Could not execute create operation on new UCD Generalization edge - source and target need to be different elements of the same type!");
+               "Could not execute create operation on new UCD Comment Edge edge - source and target need to be different elements of the same type!");
          }
          modelAccess.addCommentEdge(modelState, (Comment) sourceClassifier, targetClassifier)
             .thenAccept(response -> {
                if (!response.body()) {
-                  throw new GLSPServerException("Could not execute create operation on new UCD Generalization edge");
+                  throw new GLSPServerException("Could not execute create operation on new UCD Comment Edge edge");
                }
             });
       }
