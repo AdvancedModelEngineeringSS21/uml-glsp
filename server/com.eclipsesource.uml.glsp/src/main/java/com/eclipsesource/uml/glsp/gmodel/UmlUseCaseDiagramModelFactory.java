@@ -12,6 +12,7 @@ package com.eclipsesource.uml.glsp.gmodel;
 
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.glsp.graph.GGraph;
 import org.eclipse.glsp.graph.GModelElement;
@@ -20,9 +21,6 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Component;
-import org.eclipse.uml2.uml.Extend;
-import org.eclipse.uml2.uml.Generalization;
-import org.eclipse.uml2.uml.Include;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
@@ -115,26 +113,13 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
 
          // ArrayList<PackageableElement> packagedElements = new ArrayList<>(useCaseModel.getPackagedElements());
 
-         graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()
-            .flatMap(pe -> pe.getSourceDirectedRelationships().stream())
-            .filter(Include.class::isInstance)
-            .map(Include.class::cast)
-            .map(r -> create(r))
-            .collect(Collectors.toList()));
-
-         graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()
-            .flatMap(pe -> pe.getSourceDirectedRelationships().stream())
-            .filter(Extend.class::isInstance)
-            .map(Extend.class::cast)
-            .map(r -> create(r))
-            .collect(Collectors.toList()));
-
-         graph.getChildren().addAll(useCaseModel.getPackagedElements().stream()
-            .flatMap(pe -> pe.getSourceDirectedRelationships().stream())
-            .filter(Generalization.class::isInstance)
-            .map(Generalization.class::cast)
-            .map(r -> create(r))
-            .collect(Collectors.toList()));
+         TreeIterator iterator = useCaseModel.eAllContents();
+         while (iterator.hasNext()) {
+            Object next = iterator.next();
+            if (next instanceof Relationship) {
+               graph.getChildren().add(create((Relationship) next));
+            }
+         }
 
       }
       return graph;
