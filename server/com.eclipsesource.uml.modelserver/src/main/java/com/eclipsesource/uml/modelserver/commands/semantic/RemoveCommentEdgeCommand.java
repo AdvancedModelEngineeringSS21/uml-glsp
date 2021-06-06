@@ -11,6 +11,7 @@
 package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Comment;
 
@@ -18,19 +19,22 @@ import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
 public class RemoveCommentEdgeCommand extends UmlSemanticElementCommand {
 
-   protected final String semanticUriFragment;
+   protected final String commentSemanticUriFragment;
+   protected final String otherSemanticUriFragment;
 
    public RemoveCommentEdgeCommand(final EditingDomain domain, final URI modelUri,
-      final String semanticUriFragment) {
+      final String commentSemanticUri, final String otherSemanticUri) {
       super(domain, modelUri);
-      this.semanticUriFragment = semanticUriFragment;
+      this.commentSemanticUriFragment = commentSemanticUri;
+      this.otherSemanticUriFragment = otherSemanticUri;
    }
 
    @Override
    protected void doExecute() {
-      Comment commentToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment,
+      Comment commentToRemove = UmlSemanticCommandUtil.getElement(umlModel, commentSemanticUriFragment,
          Comment.class);
-      commentToRemove.getAnnotatedElements().clear();
+      EObject other = UmlSemanticCommandUtil.getElement(umlModel, otherSemanticUriFragment);
+      commentToRemove.getAnnotatedElements().remove(other);
    }
 
 }

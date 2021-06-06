@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Comment;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 
 import com.eclipsesource.uml.modelserver.commands.semantic.RemoveCommentEdgeCommand;
@@ -29,10 +30,12 @@ public final class UmlCommentEdgeRemoveUtil {
       List<RemoveCommentEdgeCommand> res = new ArrayList<>();
       Model umlModel = UmlSemanticCommandUtil.getModel(modelUri, domain);
       for (Comment c : umlModel.getOwnedComments()) {
-         if (c.getAnnotatedElements().size() > 0 && UmlSemanticCommandUtil
-            .getSemanticUriFragment(c.getAnnotatedElements().get(0)).equals(semanticUri)) {
-            res.add(
-               new RemoveCommentEdgeCommand(domain, modelUri, UmlSemanticCommandUtil.getSemanticUriFragment(c)));
+         for (Element e : c.getAnnotatedElements()) {
+            if (UmlSemanticCommandUtil.getSemanticUriFragment(e).equals(semanticUri)) {
+               res.add(
+                  new RemoveCommentEdgeCommand(domain, modelUri, UmlSemanticCommandUtil.getSemanticUriFragment(c),
+                     UmlSemanticCommandUtil.getSemanticUriFragment(e)));
+            }
          }
       }
       return res;

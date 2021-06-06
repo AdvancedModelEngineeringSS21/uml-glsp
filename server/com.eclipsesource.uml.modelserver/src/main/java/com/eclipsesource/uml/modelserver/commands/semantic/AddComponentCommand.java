@@ -38,7 +38,7 @@ public class AddComponentCommand extends UmlSemanticElementCommand {
 
    @Override
    protected void doExecute() {
-      newComponent.setName("<<Subsystem>> " + UmlSemanticCommandUtil.getNewComponentName(umlModel));
+      newComponent.setName(UmlSemanticCommandUtil.getNewComponentName(umlModel));
       if (parentSemanticUriFragment == null) {
          umlModel.getPackagedElements().add(newComponent);
       } else {

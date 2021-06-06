@@ -23,10 +23,11 @@ import com.eclipsesource.uml.modelserver.commands.semantic.RemoveCommentEdgeComm
 public class RemoveCommentEdgeCommandContribution extends UmlSemanticCommandContribution {
    public static final String TYPE = "removeCommentEdge";
 
-   public static CCompoundCommand create(final String semanticUri) {
+   public static CCompoundCommand create(final String commentSemanticUri, final String otherSemanticUri) {
       CCompoundCommand removeCommentEdgeCommand = CCommandFactory.eINSTANCE.createCompoundCommand();
       removeCommentEdgeCommand.setType(TYPE);
-      removeCommentEdgeCommand.getProperties().put(SEMANTIC_URI_FRAGMENT, semanticUri);
+      removeCommentEdgeCommand.getProperties().put(SEMANTIC_URI_FRAGMENT, commentSemanticUri);
+      removeCommentEdgeCommand.getProperties().put(SEMANTIC_URI_FRAGMENT + "_other", otherSemanticUri);
       return removeCommentEdgeCommand;
    }
 
@@ -34,8 +35,9 @@ public class RemoveCommentEdgeCommandContribution extends UmlSemanticCommandCont
    protected Command toServer(final URI modelUri, final EditingDomain domain, final CCommand command)
       throws DecodingException {
 
-      String semanticUriFragment = command.getProperties().get(SEMANTIC_URI_FRAGMENT);
-      return new RemoveCommentEdgeCommand(domain, modelUri, semanticUriFragment);
+      String commentSemanticUriFragment = command.getProperties().get(SEMANTIC_URI_FRAGMENT);
+      String otherSemanticUriFragment = command.getProperties().get(SEMANTIC_URI_FRAGMENT + "_other");
+      return new RemoveCommentEdgeCommand(domain, modelUri, commentSemanticUriFragment, otherSemanticUriFragment);
    }
 
 }

@@ -494,8 +494,11 @@ public class UmlModelServerAccess {
             GEdgeImpl cur = ((GEdgeImpl) next);
             if (cur.getId().equals(commentEdgeUri)) {
                GModelElement parent = cur.getParent();
+               String targetId = cur.getTargetId() != parent.getId() ? cur.getTargetId() : cur.getSourceId();
+               System.out.println("Parent " + parent.getId());
+               System.out.println("Target " + targetId);
                CCompoundCommand removeCommentEdgeCompoundCommand = RemoveCommentEdgeCommandContribution
-                  .create(parent.getId());
+                  .create(parent.getId().toString(), targetId.toString());
                return this.edit(removeCommentEdgeCompoundCommand);
             }
          }

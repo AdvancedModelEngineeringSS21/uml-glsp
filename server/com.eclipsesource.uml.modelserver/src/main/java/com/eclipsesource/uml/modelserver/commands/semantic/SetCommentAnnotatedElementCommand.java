@@ -22,7 +22,8 @@ public class SetCommentAnnotatedElementCommand extends UmlSemanticElementCommand
    protected String commentSemanticUriFragment;
    protected String annotatedElementSemanticUriFragement;
 
-   public SetCommentAnnotatedElementCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
+   public SetCommentAnnotatedElementCommand(final EditingDomain domain, final URI modelUri,
+      final String semanticUriFragment,
       final String annotatedElementUriFragement) {
       super(domain, modelUri);
       this.commentSemanticUriFragment = semanticUriFragment;
@@ -34,7 +35,7 @@ public class SetCommentAnnotatedElementCommand extends UmlSemanticElementCommand
       Comment comment = UmlSemanticCommandUtil.getElement(umlModel, commentSemanticUriFragment, Comment.class);
       Element annotatedElement = UmlSemanticCommandUtil.getElement(umlModel, annotatedElementSemanticUriFragement,
          Element.class);
-      comment.getAnnotatedElements().clear();
+      // comment.getAnnotatedElements().clear();
       comment.getAnnotatedElements().add(annotatedElement);
    }
 

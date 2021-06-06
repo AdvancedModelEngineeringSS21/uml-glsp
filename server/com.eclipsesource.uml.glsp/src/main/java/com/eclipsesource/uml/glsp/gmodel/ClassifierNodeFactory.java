@@ -151,7 +151,6 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
    }
 
    protected GNode create(final Component umlComponent) {
-      System.out.println("Creating COmponent " + umlComponent.getLabel());
       GNodeBuilder b = new GNodeBuilder(Types.COMPONENT)
          .id(toId(umlComponent))
          .layout(GConstants.Layout.VBOX)
@@ -305,6 +304,12 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .layout(GConstants.Layout.HBOX)
          .id(UmlIDUtil.createHeaderId(toId(classifier)));
 
+      if (classifier instanceof Component) {
+         GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_TEXT)
+            .id(UmlIDUtil.createHeaderLabelId(toId(classifier)) + "_prep")
+            .text("<<SubSystem>> ").build();
+         classHeaderBuilder.add(classHeaderLabel);
+      }
       GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
          .id(UmlIDUtil.createHeaderLabelId(toId(classifier)))
          .text(classifier.getName()).build();
