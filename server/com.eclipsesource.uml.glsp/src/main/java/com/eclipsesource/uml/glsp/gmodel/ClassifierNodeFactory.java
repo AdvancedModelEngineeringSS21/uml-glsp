@@ -61,7 +61,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
    @Override
    public GNode create(final Classifier classifier) {
-      if (classifier instanceof Class) {
+      if (classifier instanceof Class && !(classifier instanceof Component)) {
          return createClassNode((Class) classifier);
       } else if (classifier instanceof Package) {
          return create((Package) classifier);
