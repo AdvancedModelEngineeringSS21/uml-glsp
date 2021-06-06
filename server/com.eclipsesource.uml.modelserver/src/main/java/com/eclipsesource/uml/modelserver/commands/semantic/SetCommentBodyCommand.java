@@ -31,7 +31,9 @@ public class SetCommentBodyCommand extends UmlSemanticElementCommand {
    @Override
    protected void doExecute() {
       Comment comment = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Comment.class);
-      comment.setBody(newBody);
+      if (newBody != null && newBody.length() > 0) {
+         comment.setBody(newBody);
+      }
    }
 
 }

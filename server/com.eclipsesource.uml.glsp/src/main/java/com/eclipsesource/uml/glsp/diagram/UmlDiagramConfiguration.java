@@ -41,7 +41,7 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
       List<String> allowed;
       switch (elementId) {
          case Types.ASSOCIATION:
-            allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE, Types.EXTEND);
+            allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE);
             return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
          case Types.EXTEND:
             allowed = Lists.newArrayList(Types.USECASE, Types.EXTENSIONPOINT);
@@ -59,16 +59,6 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
             allowed = Lists.newArrayList(Types.CLASS, Types.ACTOR, Types.USECASE);
             return new EdgeTypeHint(elementId, true, true, true, allowed, allowed);
       }
-   }
-
-   // TODO: Einbinden irgendwie
-   public List<EdgeTypeHint> getUsecaseEdgeTypeHint(final String elementId) {
-      List<EdgeTypeHint> allowed = new ArrayList<>();
-      allowed.add(new EdgeTypeHint(elementId, true, true, true, Lists.newArrayList(Types.ACTOR),
-         Lists.newArrayList(Types.USECASE)));
-      allowed.add(new EdgeTypeHint(elementId, true, true, true, Lists.newArrayList(Types.USECASE),
-         Lists.newArrayList(Types.ACTOR)));
-      return allowed;
    }
 
    @Override

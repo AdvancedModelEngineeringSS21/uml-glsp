@@ -13,6 +13,7 @@ package com.eclipsesource.uml.modelserver.commands.semantic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.UseCase;
 
@@ -38,6 +39,8 @@ public class RemoveGeneralizationCommand extends UmlSemanticElementCommand {
       EObject container = generalizationToRemove.eContainer();
       if (container instanceof UseCase) {
          ((UseCase) container).getGeneralizations().remove(generalizationToRemove);
+      } else if (container instanceof Actor) {
+         ((Actor) container).getGeneralizations().remove(generalizationToRemove);
       }
    }
 
