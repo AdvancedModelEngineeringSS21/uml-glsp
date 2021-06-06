@@ -17,7 +17,7 @@ import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 
-import com.eclipsesource.uml.modelserver.commands.semantic.SetComponentNameCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.SetNameCommand;
 
 public class SetComponentNameCommandContribution extends UmlSemanticCommandContribution {
 
@@ -39,7 +39,7 @@ public class SetComponentNameCommandContribution extends UmlSemanticCommandContr
       String semanticUriFragment = command.getProperties().get(SEMANTIC_URI_FRAGMENT);
       String newName = command.getProperties().get(NEW_NAME);
 
-      return new SetComponentNameCommand(domain, modelUri, semanticUriFragment, newName);
+      return new SetNameCommand(domain, modelUri, semanticUriFragment, newName);
    }
 
 }

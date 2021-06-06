@@ -12,16 +12,16 @@ package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.uml2.uml.Actor;
+import org.eclipse.uml2.uml.NamedElement;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public class SetActorNameCommand extends UmlSemanticElementCommand {
+public class SetNameCommand extends UmlSemanticElementCommand {
 
    protected String semanticUriFragment;
    protected String newName;
 
-   public SetActorNameCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
+   public SetNameCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
       final String newName) {
       super(domain, modelUri);
       this.semanticUriFragment = semanticUriFragment;
@@ -30,8 +30,11 @@ public class SetActorNameCommand extends UmlSemanticElementCommand {
 
    @Override
    protected void doExecute() {
-      Actor actorToRename = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Actor.class);
-      actorToRename.setName(newName);
+      NamedElement elementToRename = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment,
+         NamedElement.class);
+      if (newName != null && newName.length() > 0) {
+         elementToRename.setName(newName);
+      }
    }
 
 }

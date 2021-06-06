@@ -17,7 +17,7 @@ import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 
-import com.eclipsesource.uml.modelserver.commands.semantic.SetExtensionPointNameCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.SetNameCommand;
 
 public class SetExtensionPointNameCommandContribution extends UmlSemanticCommandContribution {
 
@@ -39,7 +39,7 @@ public class SetExtensionPointNameCommandContribution extends UmlSemanticCommand
       String semanticUriFragment = command.getProperties().get(SEMANTIC_URI_FRAGMENT);
       String newName = command.getProperties().get(NEW_NAME);
 
-      return new SetExtensionPointNameCommand(domain, modelUri, semanticUriFragment, newName);
+      return new SetNameCommand(domain, modelUri, semanticUriFragment, newName);
    }
 
 }
