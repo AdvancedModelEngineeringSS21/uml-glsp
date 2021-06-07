@@ -89,3 +89,9 @@
 .umlgeneralization {
     background-image: var(--uml-icon-generalization);
 }
+
+.actor text{
+    transform: translate(0, 110px);
+    position: relative;
+    width: 100%;
+}

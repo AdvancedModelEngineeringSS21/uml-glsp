@@ -176,7 +176,7 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
             throw new GLSPServerException(
                "Could not execute create operation on new UCD Generalization edge - source and target need to be different elements of the same type!");
          }
-         modelAccess.addGeneralization(modelState, (Classifier) sourceClassifier, (Classifier) targetClassifier)
+         modelAccess.addGeneralization(modelState, (Classifier) targetClassifier, (Classifier) sourceClassifier)
             .thenAccept(response -> {
                if (!response.body()) {
                   throw new GLSPServerException("Could not execute create operation on new UCD Generalization edge");

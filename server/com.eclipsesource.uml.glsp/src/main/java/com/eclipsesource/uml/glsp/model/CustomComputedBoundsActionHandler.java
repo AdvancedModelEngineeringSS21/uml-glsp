@@ -81,6 +81,18 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
                case Types.PACKAGE:
                   adjustComponentOrPackageSize(element);
                   break;
+               case Types.ACTOR:
+                  // TODO: CHECK WHY THIS DOES NOTHING
+                  GModelElement textElement = element.getChildren().get(0).getChildren().get(0);
+                  if (textElement instanceof GBoundsAware) {
+                     GBoundsAware textBae = (GBoundsAware) textElement;
+                     GPoint textPos = textBae.getPosition();
+                     textPos.setX(
+                        bae.getPosition().getX() + bae.getSize().getWidth() / 2 - textBae.getSize().getWidth() / 2);
+                     textPos.getX();
+                     // textPos.setX(bae.getSize().getWidth() / 2 - textBae.getSize().getWidth() / 2);
+                  }
+                  break;
             }
          }
       }
