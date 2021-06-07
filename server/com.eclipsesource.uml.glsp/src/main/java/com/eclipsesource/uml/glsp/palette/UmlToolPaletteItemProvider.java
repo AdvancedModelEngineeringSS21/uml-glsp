@@ -47,7 +47,7 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
 
    private PaletteItem usecase_classifiers() {
       PaletteItem createPackage = node(Types.PACKAGE, "Package", "umlpackage");
-      PaletteItem createComponent = node(Types.COMPONENT, "Component", "umlcomponent");
+      PaletteItem createComponent = node(Types.COMPONENT, "Subsystem", "umlcomponent");
       PaletteItem createActor = node(Types.ACTOR, "Actor", "umlactor");
       PaletteItem createUsecase = node(Types.USECASE, "Usecase", "umlusecase");
       PaletteItem createComment = node(Types.COMMENT, "Comment", "umlcomment");

@@ -125,12 +125,12 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
       boolean changedSize = false;
 
       for (GModelElement packageElement : element.getChildren()) {
-         if (packageElement instanceof GCompartment && !packageElement.getId().contains("header")) {
-            if (packageElement instanceof GCompartment && !packageElement.getId().contains("header")) {
-               GBoundsAware baeCompartment = (GBoundsAware) packageElement;
-               headerHeight = baeCompartment.getSize().getHeight();
-            }
+         // Header Compartment
+         if (packageElement instanceof GCompartment && packageElement.getId().contains("header")) {
+            GBoundsAware baeCompartment = (GBoundsAware) packageElement;
+            headerHeight = baeCompartment.getSize().getHeight();
          }
+         // Child Compartment
          if (packageElement instanceof GCompartment && !packageElement.getId().contains("header")) {
             GBoundsAware baeCompartment = (GBoundsAware) packageElement;
             W = baeCompartment.getSize().getWidth();
@@ -159,8 +159,8 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
                      W = childPos.getX() + childSize.getWidth();
                      changedSize = true;
                   }
-                  if (childPos.getY() + childSize.getHeight() > H) {
-                     H = childPos.getY() + childSize.getHeight();
+                  if (childPos.getY() + childSize.getHeight() + headerHeight > H) {
+                     H = childPos.getY() + childSize.getHeight() + headerHeight;
                      changedSize = true;
                   }
                }
@@ -169,7 +169,7 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
       }
       if (changedSize) {
          compSize.setWidth(W + (-1) * X + MARGIN);
-         compSize.setHeight(H + (-1) * Y + headerHeight + MARGIN);
+         compSize.setHeight(H + MARGIN);
       }
       if (changedPosition) {
          compPosition.setX(compPosition.getX() + X);

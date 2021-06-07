@@ -2,5 +2,13 @@
     --uml-icon-class: url(../../../resources/icons/dark/Class.gif);
     --uml-icon-association: url(../../../resources/icons/dark/Association.gif);
     --uml-icon-property: url(../../../resources/icons/dark/Property.gif);
-    --uml-icon-actor: url(../../../resources/icons/light/Actor.gif);
+    --uml-icon-actor: url(../../../resources/icons/dark/Actor.gif);
+    --uml-icon-usecase: url(../../../resources/icons/dark/UseCase.gif);
+    --uml-icon-package: url(../../../resources/icons/dark/Package.gif);
+    --uml-icon-component: url(../../../resources/icons/dark/Component.gif);
+    --uml-icon-extend: url(../../../resources/icons/dark/Extend.gif);
+    --uml-icon-include: url(../../../resources/icons/dark/Include.gif);
+    --uml-icon-generalization: url(../../../resources/icons/dark/Generalization.gif);
+    --uml-icon-comment: url(../../../resources/icons/dark/Comment.gif);
+
 }

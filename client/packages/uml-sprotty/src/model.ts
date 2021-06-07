@@ -138,13 +138,12 @@ export class SLabelNodeProperty extends SLabelNode {
 
 // #region UML Use Case Diagram
 
-// TODO: FELIX insert correct icon
 export class IconPackage extends Icon {
-    iconImageName = "Class.svg";
+    iconImageName = "Package.gif";
 }
 
 export class IconUseCase extends Icon {
-    iconImageName = "Class.svg";
+    iconImageName = "UseCase.gif";
 }
 
 // TODO: LUKAS insert correct icon

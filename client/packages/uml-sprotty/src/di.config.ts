@@ -73,6 +73,7 @@ import {
     ConnectionPoint,
     IconActor,
     IconClass,
+    IconPackage,
     IconUseCase,
     LabeledNode,
     SEditableLabel,
@@ -118,7 +119,7 @@ export default (containerId: string): Container => {
 
         // #region UML USE CASE DIAGRAM
         configureModelElement(context, UmlTypes.PACKAGE, LabeledNode, PackageNodeView);
-        configureModelElement(context, UmlTypes.ICON_PACKAGE, IconActor, IconView);
+        configureModelElement(context, UmlTypes.ICON_PACKAGE, IconPackage, IconView);
         configureModelElement(context, UmlTypes.COMPONENT, LabeledNode, PackageNodeView);
         configureModelElement(context, UmlTypes.COMMENT, LabeledNode, CommentNodeView);
         configureModelElement(context, UmlTypes.COMMENT_BODY, SMultilineEditableLabel, SLabelView);

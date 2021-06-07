@@ -21,6 +21,7 @@ import org.eclipse.glsp.graph.GPoint;
 
 import com.eclipsesource.uml.modelserver.commands.compound.AddUsecaseCompoundCommand;
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
+import com.eclipsesource.uml.modelserver.commands.util.UmlPositioningAndSizingUtil;
 import com.eclipsesource.uml.modelserver.unotation.Shape;
 
 /**
@@ -74,8 +75,7 @@ public class AddUsecaseCommandContribution extends UmlCompoundCommandContributio
          GPoint usecasePosition = UmlNotationCommandUtil.getGPoint(
             command.getProperties().get(UmlNotationCommandContribution.POSITION_X),
             command.getProperties().get(UmlNotationCommandContribution.POSITION_Y));
-         usecasePosition.setX(usecasePosition.getX() - p.getX());
-         usecasePosition.setY(usecasePosition.getY() - p.getY());
+         usecasePosition = UmlPositioningAndSizingUtil.getRelativePosition(p, usecasePosition);
 
          return new AddUsecaseCompoundCommand(domain, modelUri, usecasePosition, parentUri);
       }
