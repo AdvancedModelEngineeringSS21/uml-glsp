@@ -65,7 +65,6 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
       GModelIndex index = modelState.getIndex();
       GDimension size;
       for (GModelElement el : root.getChildren()) {
-         System.out.println(el.getId());
          GModelElement element = getOrThrow(index.get(el.getId()),
             "Model element not found! ID: " + el.getId());
          if (element instanceof GBoundsAware) {
@@ -131,6 +130,7 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
       double W = compSize.getWidth();
       double H = compSize.getHeight();
       double headerHeight = 38;
+      double headerWidth = 30;
       final double MARGIN = 20;
 
       boolean changedPosition = false;
@@ -138,15 +138,17 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
 
       for (GModelElement packageElement : element.getChildren()) {
          // Header Compartment
-         if (packageElement instanceof GCompartment && packageElement.getId().contains("header")) {
+         if (packageElement instanceof GCompartment && packageElement.getId().endsWith("header")) {
             GBoundsAware baeCompartment = (GBoundsAware) packageElement;
             headerHeight = baeCompartment.getSize().getHeight();
+            headerWidth = baeCompartment.getSize().getWidth();
          }
          // Child Compartment
          if (packageElement instanceof GCompartment && !packageElement.getId().contains("header")) {
             GBoundsAware baeCompartment = (GBoundsAware) packageElement;
             W = baeCompartment.getSize().getWidth();
             H = baeCompartment.getSize().getHeight();
+            // iterate over children to adjust position and size
             for (GModelElement child : packageElement.getChildren()) {
                if (child.getType() == Types.USECASE) {
                   // Adjust also for nested usecases
@@ -159,18 +161,28 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
                   GBoundsAware baeChild = (GBoundsAware) child;
                   GPoint childPos = baeChild.getPosition();
                   GDimension childSize = baeChild.getSize();
+                  // if the leftmost child is left of the parent, move parent X to child X
                   if (childPos.getX() < X) {
                      X = childPos.getX();
                      changedPosition = true;
                   }
+                  // if the topmost child is top of the parent, move parent Y to child Y
                   if (childPos.getY() < Y) {
                      Y = childPos.getY();
                      changedPosition = true;
                   }
+                  // if the rightmost/widest child width plus the relative X position of child is larger than the parent
+                  // width = if the
+                  // child stands out at the right,
+                  // make the width big enough to fit the children
                   if (childPos.getX() + childSize.getWidth() > W) {
                      W = childPos.getX() + childSize.getWidth();
                      changedSize = true;
                   }
+                  // if the highest child height plus the relative Y position of child is larger than the parent height
+                  // = if the
+                  // child stands out at the bottom,
+                  // make the height big enough to fit the children
                   if (childPos.getY() + childSize.getHeight() + headerHeight > H) {
                      H = childPos.getY() + childSize.getHeight() + headerHeight;
                      changedSize = true;
@@ -179,11 +191,18 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
             }
          }
       }
-      if (changedSize) {
-         compSize.setWidth(W + (-1) * X + MARGIN);
-         compSize.setHeight(H + MARGIN);
-      }
-      if (changedPosition) {
+      if (changedSize || changedPosition) {
+         /* START PFUSCH */
+         double adjustment = (headerWidth - 210) * 0.66;
+         if (adjustment < 0) {
+            adjustment = 0;
+         }
+         /* END PFUSCH */
+         compSize.setWidth((W + (-1) * X + MARGIN) + adjustment);
+         if (compSize.getWidth() < headerWidth + MARGIN) {
+            compSize.setWidth(headerWidth + MARGIN);
+         }
+         compSize.setHeight(H + (-1) * Y + MARGIN);
          compPosition.setX(compPosition.getX() + X);
          compPosition.setY(compPosition.getY() + Y);
 
@@ -193,8 +212,10 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
                   if (child instanceof GBoundsAware) {
                      GBoundsAware baeChild = (GBoundsAware) child;
                      GPoint childPos = baeChild.getPosition();
-                     childPos.setX(childPos.getX() - X);
-                     childPos.setY(childPos.getY() - Y);
+                     if (changedPosition) {
+                        childPos.setX(childPos.getX() - X);
+                        childPos.setY(childPos.getY() - Y);
+                     }
 
                   }
                }

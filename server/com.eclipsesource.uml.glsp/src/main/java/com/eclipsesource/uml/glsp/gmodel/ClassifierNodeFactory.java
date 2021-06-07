@@ -13,17 +13,14 @@ package com.eclipsesource.uml.glsp.gmodel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.glsp.graph.GCompartment;
-import org.eclipse.glsp.graph.GDimension;
 import org.eclipse.glsp.graph.GEdge;
 import org.eclipse.glsp.graph.GLabel;
 import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.glsp.graph.GNode;
-import org.eclipse.glsp.graph.GPoint;
 import org.eclipse.glsp.graph.builder.impl.GCompartmentBuilder;
 import org.eclipse.glsp.graph.builder.impl.GEdgeBuilder;
 import org.eclipse.glsp.graph.builder.impl.GEdgePlacementBuilder;
@@ -39,7 +36,6 @@ import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
-import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.UseCase;
@@ -112,41 +108,6 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          if (shape.getPosition() != null) {
             builder.position(GraphUtil.copy(shape.getPosition()));
          }
-         GDimension size = shape.getSize();
-         double minX = shape.getPosition().getX();
-         double maxX = 0;
-         double minY = shape.getPosition().getY();
-         double maxY = 0;
-         boolean posChanged = false;
-         for (PackageableElement e : classifier.getPackagedElements()) {
-            Optional<Shape> cso = modelState.getIndex().getNotation(e, Shape.class);
-            if (cso.isPresent()) {
-               Shape cs = cso.get();
-               double currentMinX = cs.getPosition().getX();
-               double currentMinY = cs.getPosition().getY();
-               double currentMaxX = currentMinX;
-               double currentMaxY = currentMinY;
-               if (cs.getSize() != null) {
-                  currentMaxX = currentMinX + cs.getSize().getWidth();
-                  currentMaxY = currentMinY + cs.getSize().getHeight();
-               } else
-
-               if (currentMaxX > maxX) {
-                  maxX = currentMaxX;
-               }
-               if (currentMaxY > maxY) {
-                  maxY = currentMaxY;
-               }
-               if (currentMinX < minX) {
-                  minX = currentMinX;
-               }
-               if (currentMinY < minY) {
-                  minY = currentMinY;
-               }
-            }
-            builder.size(GraphUtil.dimension(maxX - minX, maxY - minY));
-            // builder.size(GraphUtil.copy(shape.getSize()));
-         }
       });
    }
 
@@ -155,21 +116,6 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .id(toId(umlComponent))
          .layout(GConstants.Layout.VBOX)
          .addCssClass(CSS.NODE);
-
-      applyShapeData(umlComponent, b);
-
-      EObject container = umlComponent.eContainer();
-      if (container != null && !(container instanceof org.eclipse.uml2.uml.internal.impl.ModelImpl)) {
-         if (container instanceof Package) {
-            modelState.getIndex().getNotation(container, Shape.class).ifPresent(shape -> {
-               GPoint pos = shape.getPosition();
-               GDimension size = shape.getSize();
-               if (pos != null && size != null) {
-                  shape.setSize(GraphUtil.dimension(20, 20));
-               }
-            });
-         }
-      }
 
       GCompartment classHeader = buildHeaderWithoutIcon(umlComponent);
       b.add(classHeader);
@@ -183,6 +129,12 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
       GCompartment componentChildCompartment = buildPackageOrComponentChildCompartment(childELements, umlComponent);
       b.add(componentChildCompartment);
+
+      modelState.getIndex().getNotation(umlComponent, Shape.class).ifPresent(shape -> {
+         if (shape.getPosition() != null) {
+            b.position(GraphUtil.copy(shape.getPosition()));
+         }
+      });
 
       return b.build();
    }

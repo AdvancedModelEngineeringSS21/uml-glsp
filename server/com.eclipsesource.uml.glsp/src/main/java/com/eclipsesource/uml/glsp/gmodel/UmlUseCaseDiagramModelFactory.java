@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.glsp.graph.GGraph;
 import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.uml2.uml.Actor;
-import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Component;
@@ -96,12 +95,6 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
             .filter(Actor.class::isInstance)//
             .filter(a -> a.eContainer().equals(useCaseModel))
             .map(Actor.class::cast)//
-            .map(this::create)//
-            .collect(Collectors.toList()));
-
-         graph.getChildren().addAll(useCaseModel.getPackagedElements().stream() //
-            .filter(Association.class::isInstance)//
-            .map(Association.class::cast)//
             .map(this::create)//
             .collect(Collectors.toList()));
 
