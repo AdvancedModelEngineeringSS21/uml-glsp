@@ -17,7 +17,13 @@
 - [ ] Order in which elements are displayed (e.g. parent always last)
 
 ## If time allows (i.e. never)
+- [ ] Clean up code, e.g. generalize methods like set name or create shape
 - [ ] Improve pattern matcher for multiplicity regex
+- [ ] It is a very nice idea to have multiline possibility for comments and to make a new line using `CTRL`+`ENTER`. Thus, afterwards it is still rendered in a single line.
+- [ ]There is a type hint for the creation of an association between a usecase and a comment, but when the user tries to create such an association, nothing happens (which is correct, as it should not be possible). So I'd recommend to just remove this type hint.
+- Package Name Label has a big indent after adding subsystems / components
+- The name of an actor goes through its head. I think it would be a good solution to render the label below the stick figure.
+- If a element with a comment is inside a container and the container is moved, the comment stays at the same position. You could just render the comment as well inside the container, so it moves with it.
 
 ------------
 
