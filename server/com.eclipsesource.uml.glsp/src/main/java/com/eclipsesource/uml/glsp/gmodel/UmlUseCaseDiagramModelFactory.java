@@ -41,19 +41,19 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
       if (semanticElement instanceof Model) {
          result = create(semanticElement);
       } else if (semanticElement instanceof Package) {
-         result = classifierNodeFactory.create((Package) semanticElement);
+         result = classifierNodeFactory.createPackage((Package) semanticElement);
       } else if (semanticElement instanceof Component) {
-         result = classifierNodeFactory.create((Component) semanticElement);
+         result = classifierNodeFactory.createComponent((Component) semanticElement);
       } else if (semanticElement instanceof UseCase) {
-         result = classifierNodeFactory.create((UseCase) semanticElement);
+         result = classifierNodeFactory.createUseCase((UseCase) semanticElement);
       } else if (semanticElement instanceof Actor) {
-         result = classifierNodeFactory.create((Actor) semanticElement);
+         result = classifierNodeFactory.createActor((Actor) semanticElement);
       } else if (semanticElement instanceof Class) {
          result = classifierNodeFactory.create((Class) semanticElement);
       } else if (semanticElement instanceof Relationship) {
          result = relationshipEdgeFactory.create((Relationship) semanticElement);
       } else if (semanticElement instanceof Comment) {
-         result = classifierNodeFactory.create((Comment) semanticElement);
+         result = classifierNodeFactory.createComment((Comment) semanticElement);
       } else if (semanticElement instanceof NamedElement) {
          result = labelFactory.create((NamedElement) semanticElement);
       }

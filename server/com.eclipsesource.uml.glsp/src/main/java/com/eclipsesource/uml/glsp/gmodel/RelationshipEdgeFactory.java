@@ -178,8 +178,6 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
    }
 
    protected GEdge createGeneralizationEdge(final Generalization generalization) {
-
-      // temporary! please check types
       Classifier source = (Classifier) generalization.eContainer();
       String sourceId = toId(source);
       Classifier target = generalization.getGeneral();

@@ -23,7 +23,6 @@ import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.glsp.graph.GNode;
 import org.eclipse.glsp.graph.builder.impl.GCompartmentBuilder;
 import org.eclipse.glsp.graph.builder.impl.GEdgeBuilder;
-import org.eclipse.glsp.graph.builder.impl.GEdgePlacementBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLabelBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLayoutOptions;
 import org.eclipse.glsp.graph.builder.impl.GNodeBuilder;
@@ -35,6 +34,7 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Relationship;
@@ -55,33 +55,36 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       this.labelFactory = labelFactory;
    }
 
+   /**
+    * Entry point for the rendering process of all classifier nodes
+    *
+    * Special Notice for Use Case diagram: Comments are not Classifiers, thus the specific create method below must be
+    * called directly.
+    */
    @Override
    public GNode create(final Classifier classifier) {
       if (classifier instanceof Class && !(classifier instanceof Component)) {
          return createClassNode((Class) classifier);
       } else if (classifier instanceof Package) {
-         return create((Package) classifier);
+         return createPackage((Package) classifier);
       } else if (classifier instanceof Component) {
-         return create((Component) classifier);
+         return createComponent((Component) classifier);
       } else if (classifier instanceof Actor) {
-         return create((Actor) classifier);
+         return createActor((Actor) classifier);
       } else if (classifier instanceof UseCase) {
-         return create((UseCase) classifier);
+         return createUseCase((UseCase) classifier);
       }
 
       return null;
    }
 
-   protected void applyShapeData(final Element element, final GNodeBuilder builder) {
-      modelState.getIndex().getNotation(element, Shape.class).ifPresent(shape -> {
-         if (shape.getPosition() != null) {
-            builder.position(GraphUtil.copy(shape.getPosition()));
-         } else if (shape.getSize() != null) {
-            builder.size(GraphUtil.copy(shape.getSize()));
-         }
-      });
-   }
-
+   // region specific create methods
+   /**
+    * creates the GNode for a Class element
+    *
+    * @param umClass
+    * @return
+    */
    protected GNode createClassNode(final Class umClass) {
       GNodeBuilder classNodeBuilder = new GNodeBuilder(Types.CLASS)
          .id(toId(umClass))
@@ -90,7 +93,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
       applyShapeData(umClass, classNodeBuilder);
 
-      GCompartment classHeader = buildHeader(umClass);
+      GCompartment classHeader = buildClassHeader(umClass);
       classNodeBuilder.add(classHeader);
 
       GCompartment classPropertiesCompartment = buildClassPropertiesCompartment(umClass.getAttributes(), umClass);
@@ -99,17 +102,14 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return classNodeBuilder.build();
    }
 
-   // region Use Case Diagram
-
-   protected void applyShapeData(final Package classifier, final GNodeBuilder builder) {
-      modelState.getIndex().getNotation(classifier, Shape.class).ifPresent(shape -> {
-         if (shape.getPosition() != null) {
-            builder.position(GraphUtil.copy(shape.getPosition()));
-         }
-      });
-   }
-
-   protected GNode create(final Component umlComponent) {
+   /**
+    * Creates the GNode for a Component element.
+    * This also builds the packagedElements (in this case only UseCases) and the owned comments.
+    *
+    * @param umlComponent
+    * @return The GNode that can be added to the graph in the ModelFactory.
+    */
+   protected GNode createComponent(final Component umlComponent) {
       GNodeBuilder b = new GNodeBuilder(Types.COMPONENT)
          .id(toId(umlComponent))
          .layout(GConstants.Layout.VBOX)
@@ -121,7 +121,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       ArrayList<Element> childElements = new ArrayList<>();
 
       childElements.addAll(umlComponent.getPackagedElements().stream()
-         .filter(pe -> (pe instanceof UseCase) || (pe instanceof Comment))
+         .filter(pe -> (pe instanceof UseCase))
          .map(Classifier.class::cast)
          .collect(Collectors.toList()));
 
@@ -139,7 +139,14 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return b.build();
    }
 
-   protected GNode create(final Package umlPackage) {
+   /**
+    * Creates the GNode for a Package element.
+    * This also builds the packagedElements (in this case UseCases, Actors and Components) and the owned comments.
+    *
+    * @param umlComponent
+    * @return The GNode that can be added to the graph in the ModelFactory.
+    */
+   protected GNode createPackage(final Package umlPackage) {
       GNodeBuilder b = new GNodeBuilder(Types.PACKAGE)
          .id(toId(umlPackage))
          .layout(GConstants.Layout.VBOX)
@@ -166,7 +173,14 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return b.build();
    }
 
-   protected GNode create(final UseCase umlUseCase) {
+   /**
+    * Creates the GNode for a UseCase element.
+    * This also creates the Extension Point compartment of the UseCase if it has Extension Points.
+    *
+    * @param umlUseCase
+    * @return The GNode that can be added to the graph in the ModelFactory.
+    */
+   protected GNode createUseCase(final UseCase umlUseCase) {
       GNodeBuilder b = new GNodeBuilder(Types.USECASE) //
          .id(toId(umlUseCase)) //
          .layout(GConstants.Layout.VBOX) //
@@ -183,7 +197,13 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return b.build();
    }
 
-   protected GNode create(final Actor umlActor) {
+   /**
+    * Creates the GNode for an Actor element.
+    *
+    * @param umlActor
+    * @return The GNode that can be added to the graph in the ModelFactory.
+    */
+   protected GNode createActor(final Actor umlActor) {
       GNodeBuilder b = new GNodeBuilder(Types.ACTOR) //
          .id(toId(umlActor)) //
          .layout(GConstants.Layout.VBOX) //
@@ -194,7 +214,14 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return b.build();
    }
 
-   protected GNode create(final Comment umlComment) {
+   /**
+    * Creates the GNode for a Comment element.
+    * Also creates the edge to the annotated elements.
+    *
+    * @param umlComment
+    * @return The GNode that can be added to the graph in the ModelFactory.
+    */
+   protected GNode createComment(final Comment umlComment) {
       GNodeBuilder b = new GNodeBuilder(Types.COMMENT) //
          .id(toId(umlComment)) //
          .layout(GConstants.Layout.VBOX) //
@@ -222,22 +249,64 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return b.build();
    }
 
+   /**
+    * Creates the Edge from a Comment to its annotatedElement.
+    * Since this method is only called from within the createComment method,
+    * it is not included in the RelationshipEdgeFactory.
+    *
+    * @param comment
+    * @param annotatedElement
+    * @return
+    */
+   protected GEdge createCommentEdge(final Comment comment, final Element annotatedElement) {
+
+      Element source = comment;
+      String sourceId = toId(source);
+      Element target = annotatedElement;
+      String targetId = toId(target);
+
+      if (target instanceof Relationship) {
+         targetId = targetId + "_anchor";
+      }
+
+      GEdgeBuilder builder = new GEdgeBuilder(Types.ASSOCIATION)
+         .id(sourceId + "_" + targetId + "_commentEdge")
+         .addCssClass(CSS.EDGE)
+         .sourceId(sourceId)
+         .targetId(targetId)
+         .routerKind(GConstants.RouterKind.MANHATTAN);
+
+      return builder.build();
+   }
    // endregion
 
-   protected GCompartment buildHeaderWithoutIcon(final Package classifier) {
-      GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
-         .layout(GConstants.Layout.HBOX)
-         .id(UmlIDUtil.createHeaderId(toId(classifier)));
+   // region HELPERS
 
-      GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
-         .id(UmlIDUtil.createHeaderLabelId(toId(classifier)))
-         .text(classifier.getName()).build();
-      classHeaderBuilder.add(classHeaderLabel);
-
-      return classHeaderBuilder.build();
+   protected void applyShapeData(final Element element, final GNodeBuilder builder) {
+      modelState.getIndex().getNotation(element, Shape.class).ifPresent(shape -> {
+         if (shape.getPosition() != null) {
+            builder.position(GraphUtil.copy(shape.getPosition()));
+         } else if (shape.getSize() != null) {
+            builder.size(GraphUtil.copy(shape.getSize()));
+         }
+      });
    }
 
-   protected GCompartment buildHeader(final Classifier classifier) {
+   protected void applyShapeData(final Package classifier, final GNodeBuilder builder) {
+      modelState.getIndex().getNotation(classifier, Shape.class).ifPresent(shape -> {
+         if (shape.getPosition() != null) {
+            builder.position(GraphUtil.copy(shape.getPosition()));
+         }
+      });
+   }
+
+   /**
+    * Builds the Header compartment containing the name for a Class element.
+    *
+    * @param classifier
+    * @return
+    */
+   protected GCompartment buildClassHeader(final Classifier classifier) {
       GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
          .layout(GConstants.Layout.HBOX)
          .id(UmlIDUtil.createHeaderId(toId(classifier)));
@@ -254,41 +323,13 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return classHeaderBuilder.build();
    }
 
-   protected GCompartment buildHeaderWithoutIcon(final Classifier classifier) {
-      GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
-         .layout(GConstants.Layout.HBOX)
-         .id(UmlIDUtil.createHeaderId(toId(classifier)));
-
-      if (classifier instanceof Component) {
-         GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_TEXT)
-            .id(UmlIDUtil.createHeaderLabelId(toId(classifier)) + "_prep")
-            .text("<<SubSystem>> ").build();
-         classHeaderBuilder.add(classHeaderLabel);
-      }
-      GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
-         .id(UmlIDUtil.createHeaderLabelId(toId(classifier)))
-         .text(classifier.getName()).build();
-      classHeaderBuilder.add(classHeaderLabel);
-
-      return classHeaderBuilder.build();
-   }
-
-   protected static String getType(final Classifier classifier) {
-      if (classifier instanceof Class) {
-         return Types.ICON_CLASS;
-      } else if (classifier instanceof Actor) {
-         return Types.ICON_ACTOR;
-      } else if (classifier instanceof UseCase) {
-         return Types.ICON_USECASE;
-      }
-
-      return "Classifier not found";
-   }
-
-   protected static String getType(final Package p) {
-      return Types.ICON_PACKAGE;
-   }
-
+   /**
+    * Builds the properties compartment of a Class element.
+    *
+    * @param properties
+    * @param parent
+    * @return
+    */
    protected GCompartment buildClassPropertiesCompartment(final Collection<? extends Property> properties,
       final Classifier parent) {
       GCompartmentBuilder classPropertiesBuilder = new GCompartmentBuilder(Types.COMP)
@@ -307,6 +348,40 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return classPropertiesBuilder.build();
    }
 
+   /**
+    * Builds the Header compartment without adding an icon.
+    * This is used for Actors, Components, Packages and UseCases in the Use Case diagram.
+    *
+    * @param classifier
+    * @return
+    */
+   protected GCompartment buildHeaderWithoutIcon(final NamedElement classifier) {
+      GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
+         .layout(GConstants.Layout.HBOX)
+         .id(UmlIDUtil.createHeaderId(toId(classifier)));
+
+      if (classifier instanceof Component) {
+         GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_TEXT)
+            .id(UmlIDUtil.createHeaderLabelId(toId(classifier)) + "_prep")
+            .text("<<SubSystem>> ").build();
+         classHeaderBuilder.add(classHeaderLabel);
+      }
+      GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
+         .id(UmlIDUtil.createHeaderLabelId(toId(classifier)))
+         .text(classifier.getName()).build();
+      classHeaderBuilder.add(classHeaderLabel);
+
+      return classHeaderBuilder.build();
+   }
+
+   /**
+    * Builds the child compartment for a Package or Component.
+    * This includes rendering the child elements.
+    *
+    * @param childNodes
+    * @param parent
+    * @return
+    */
    protected GCompartment buildPackageOrComponentChildCompartment(final Collection<Element> childNodes,
       final EObject parent) {
       GCompartmentBuilder packageElementsBuilder = new GCompartmentBuilder(Types.COMP)
@@ -320,7 +395,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
       childNodeGModelElements.addAll(childNodes.stream()
          .filter(el -> el instanceof Comment)
-         .map(node -> this.create((Comment) node))
+         .map(node -> this.createComment((Comment) node))
          .collect(Collectors.toList()));
 
       packageElementsBuilder.addAll(childNodeGModelElements);
@@ -328,6 +403,13 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return packageElementsBuilder.build();
    }
 
+   /**
+    * Builds the Extension Point Compartment of a UseCase.
+    * This method should be called when a UseCase has at least one Extension Point.
+    *
+    * @param parent
+    * @return
+    */
    protected GCompartment buildUsecaseExtensionPointCompartment(final UseCase parent) {
       GCompartmentBuilder extensionPointBuilder = new GCompartmentBuilder(Types.COMP)
          .id(UmlIDUtil.createChildCompartmentId(toId(parent))).layout(GConstants.Layout.VBOX);
@@ -346,54 +428,6 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       extensionPointBuilder.addAll(extensionPointsLabel);
 
       return extensionPointBuilder.build();
-   }
-
-   protected GLabel createLabel(final String name, final double position, final String id, final String type,
-      final String side) {
-      return new GLabelBuilder(type)
-         .edgePlacement(new GEdgePlacementBuilder()
-            .side(side)
-            .position(position)
-            .offset(2d)
-            .rotate(false)
-            .build())
-         .id(id)
-         .text(name).build();
-   }
-
-   protected GEdge createCommentEdge(final Comment comment, final Element annotatedElement) {
-
-      Element source = comment;
-      String sourceId = toId(source);
-      Element target = annotatedElement;
-      String targetId = toId(target);
-
-      // NO WORK
-      if (target instanceof Relationship) {
-         // Relationship r = (Relationship) target;
-         // GModelElement g = this.getElementById(targetId);
-         // GLabel label = g.getChildren()
-         // .stream()
-         // .filter(elem -> elem instanceof GLabel)
-         // .map(l -> (GLabel) l)
-         // .filter(l -> l.getText() == "<<extends>>")
-         // .collect(Collectors.toList())
-         // .get(0);
-
-         // modelState.getIndex().getNotation(r).ifPresent(edge -> {
-         // // edge
-         // });
-         targetId = targetId + "_anchor";
-      }
-
-      GEdgeBuilder builder = new GEdgeBuilder(Types.ASSOCIATION)
-         .id(sourceId + "_" + targetId + "_commentEdge")
-         .addCssClass(CSS.EDGE)
-         .sourceId(sourceId)
-         .targetId(targetId)
-         .routerKind(GConstants.RouterKind.MANHATTAN);
-
-      return builder.build();
    }
 
 }
