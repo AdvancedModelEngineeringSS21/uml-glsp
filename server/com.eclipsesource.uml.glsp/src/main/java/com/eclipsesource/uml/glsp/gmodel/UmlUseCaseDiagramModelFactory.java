@@ -29,12 +29,22 @@ import org.eclipse.uml2.uml.UseCase;
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.modelserver.unotation.Diagram;
 
+/**
+ * The UmlUseCaseDiagramModelFactory maps all elements that are contained DIRECTLY in the Model.
+ * That means that nested elements (elements that were added as child to another model element) are not iterated over in
+ * the create method.
+ * The only exception to that are Relationships, which are deliberately all rendered directly by this class to keep the
+ * classifierNodeFactory leaner.
+ */
 public class UmlUseCaseDiagramModelFactory extends GModelFactory {
 
    public UmlUseCaseDiagramModelFactory(final UmlModelState modelState) {
       super(modelState);
    }
 
+   /**
+    * Maps an EObject to the corresponding create method.
+    */
    @Override
    public GModelElement create(final EObject semanticElement) {
       GModelElement result = null;
@@ -63,6 +73,10 @@ public class UmlUseCaseDiagramModelFactory extends GModelFactory {
       return result;
    }
 
+   /**
+    * Iterates over the model elements and calls the create method for all found elements that are direct children to
+    * the model.
+    */
    @Override
    public GGraph create(final Diagram useCaseDiagram) {
       GGraph graph = getOrCreateRoot();

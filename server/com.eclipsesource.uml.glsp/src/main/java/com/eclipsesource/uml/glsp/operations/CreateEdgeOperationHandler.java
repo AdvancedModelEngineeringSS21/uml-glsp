@@ -41,6 +41,10 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       super(handledElementTypeIds);
    }
 
+   /**
+    * The Types specified in this list will be processed by this file.
+    * If a type is not mentioned here, the request for that type will not be redirected here.
+    */
    private static List<String> handledElementTypeIds = Lists.newArrayList(Types.ASSOCIATION, Types.EXTEND,
       Types.INCLUDE, Types.GENERALIZATION, Types.COMMENT_EDGE);
 

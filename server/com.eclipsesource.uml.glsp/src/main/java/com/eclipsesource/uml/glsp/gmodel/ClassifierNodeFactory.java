@@ -46,6 +46,13 @@ import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 import com.eclipsesource.uml.glsp.util.UmlIDUtil;
 import com.eclipsesource.uml.modelserver.unotation.Shape;
 
+/**
+ * The ClassifierNodeFactory is responsible for creating GNode elements (Elements in the SVG representation)
+ * for all Classifiers, which most of the "boxes" in the diagram belong to.
+ * In here, you can find methods that are responsible for the display instruction that the client receives for each
+ * Model element.
+ *
+ */
 public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNode> {
 
    private final LabelFactory labelFactory;

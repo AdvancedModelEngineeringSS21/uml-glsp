@@ -39,6 +39,11 @@ import com.eclipsesource.uml.glsp.util.UmlLabelUtil;
 import com.eclipsesource.uml.modelserver.unotation.Edge;
 import com.eclipsesource.uml.modelserver.unotation.Representation;
 
+/**
+ * The RelationshipEdgeFactory is tasked with creating the GEdges for each Relationship in the model.
+ * GEdges correspond to the lines rendered in the SVG diagram in the client.
+ *
+ */
 public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship, GEdge> {
 
    public RelationshipEdgeFactory(final UmlModelState modelState) {
@@ -59,6 +64,12 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
       return null;
    }
 
+   /**
+    * Creates the GEdge for an Association including the labels on the line.
+    *
+    * @param association
+    * @return
+    */
    protected GEdge createAssociationEdge(final Association association) {
       EList<Property> memberEnds = association.getMemberEnds();
       Property source = memberEnds.get(0);
@@ -104,8 +115,13 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
    }
 
    // region Use Case Diagram
-   // TODO: Lukas Changes made here
 
+   /**
+    * Creates the GEdge for an Extend including the labels on the line.
+    *
+    * @param extend
+    * @return
+    */
    protected GEdge createExtendEdge(final Extend extend) {
       UseCase source = extend.getExtension();
       String sourceId = toId(source);
@@ -147,6 +163,12 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
       return builder.build();
    }
 
+   /**
+    * Creates the GEdge for an Include including the labels on the line.
+    *
+    * @param include
+    * @return
+    */
    protected GEdge createIncludeEdge(final Include include) {
       UseCase source = include.getIncludingCase();
       String sourceId = toId(source);
@@ -177,6 +199,12 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
       return builder.build();
    }
 
+   /**
+    * Creates the GEdge for a Generalization.
+    *
+    * @param generalization
+    * @return
+    */
    protected GEdge createGeneralizationEdge(final Generalization generalization) {
       Classifier source = (Classifier) generalization.eContainer();
       String sourceId = toId(source);
@@ -203,14 +231,42 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
 
    // end region
 
+   // region HELPERS
+
+   /**
+    * Creates a GLabel for the multiplicity of a Relationship
+    *
+    * @param value
+    * @param id
+    * @param position
+    * @return The GLabel that can be added to the graph.
+    */
    protected GLabel createEdgeMultiplicityLabel(final String value, final String id, final double position) {
       return createEdgeLabel(value, position, id, Types.LABEL_EDGE_MULTIPLICITY, GConstants.EdgeSide.BOTTOM);
    }
 
+   /**
+    * Creates a name Label for a GEdge.
+    *
+    * @param name
+    * @param id
+    * @param position
+    * @return The GLabel that can be added to the graph.
+    */
    protected GLabel createEdgeNameLabel(final String name, final String id, final double position) {
       return createEdgeLabel(name, position, id, Types.LABEL_EDGE_NAME, GConstants.EdgeSide.TOP);
    }
 
+   /**
+    * Generic method for creating Labels on Edges.
+    *
+    * @param name
+    * @param position
+    * @param id
+    * @param type
+    * @param side
+    * @return A GLabel that can be added to the graph.
+    */
    protected GLabel createEdgeLabel(final String name, final double position, final String id, final String type,
       final String side) {
       return new GLabelBuilder(type)
@@ -223,5 +279,7 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
          .id(id)
          .text(name).build();
    }
+
+   // endregion
 
 }

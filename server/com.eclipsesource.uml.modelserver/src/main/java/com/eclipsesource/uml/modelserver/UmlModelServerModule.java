@@ -71,6 +71,9 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       binding.add(UnotationPackageConfiguration.class);
    }
 
+   /**
+    * CommandContributions bound in this method will be accessible from the GLSP server.
+    */
    @Override
    protected void configureCommandCodecs(final MapBinding<String, CommandContribution> binding) {
       super.configureCommandCodecs(binding);

@@ -32,13 +32,20 @@ import com.eclipsesource.uml.glsp.gmodel.GModelFactory;
 import com.eclipsesource.uml.glsp.gmodel.GModelFactoryProvider;
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 
+/**
+ * The CustomComputedBoundsActionHandler hooks into the request pipeline that is triggered at each model change.
+ * We use it to make changes to the size and/or position of various model elements, for example Packages, in
+ * consideration of
+ * the respective sizes of their child elements.
+ *
+ * @author Lukas Genssler
+ * @author Felix Winterleitner
+ *
+ */
 public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandler {
 
    @Override
    public List<Action> executeAction(final ComputedBoundsAction action, final GModelState modelState) {
-
-      System.out.println("CustomComputedBoundsActionHandler");
-
       synchronized (submissionHandler.getModelLock()) {
          GModelRoot model = modelState.getRoot();
          if (model != null && model.getRevision() == action.getRevision()) {
@@ -59,6 +66,11 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
       modelState.setRoot(gmodelRoot);
    }
 
+   /**
+    * Iterates over the Model child Elements and performs resizing and repositioning if necessary.
+    *
+    * @param modelState
+    */
    public void modifyModelRoot(final GModelState modelState) {
       UmlModelState state = UmlModelState.getModelState(modelState);
       GModelRoot root = state.getRoot();
@@ -97,8 +109,10 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
       }
    }
 
-   /*
-    * Adjusts the Size of usecase ellipses to reduce the number of occurences of text overflow.
+   /**
+    * Adjusts the Size of UseCase ellipses to reduce the number of occurrences of text overflow.
+    *
+    * @param element
     */
    public void adjustUseCaseSize(final GModelElement element) {
       // Make use case bigger to reduce possibility for text overflow
@@ -120,6 +134,11 @@ public class CustomComputedBoundsActionHandler extends ComputedBoundsActionHandl
       }
    }
 
+   /**
+    * Adjusts the size and/or position of a Component or Package depeding on size and position of the child elements.
+    *
+    * @param element
+    */
    public void adjustComponentOrPackageSize(final GModelElement element) {
 
       GBoundsAware bae = (GBoundsAware) element;

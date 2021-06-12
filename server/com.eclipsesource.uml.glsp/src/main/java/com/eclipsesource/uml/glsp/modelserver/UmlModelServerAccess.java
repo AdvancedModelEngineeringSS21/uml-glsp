@@ -94,6 +94,13 @@ import com.eclipsesource.uml.modelserver.unotation.Edge;
 import com.eclipsesource.uml.modelserver.unotation.Shape;
 import com.google.common.base.Preconditions;
 
+/**
+ * The UmlModelServerAccess maps operations performed on the client, e.g. Creating Nodes and Edges
+ * to the corresponding Commands on the model server.
+ * One important thing to note is that the CommandContributions used here MUST be added on the model server in the
+ * UmlModelServerModule via bindings.put(...) in order for the calls to work.
+ *
+ */
 public class UmlModelServerAccess {
 
    private static Logger LOGGER = Logger.getLogger(UmlModelServerAccess.class);

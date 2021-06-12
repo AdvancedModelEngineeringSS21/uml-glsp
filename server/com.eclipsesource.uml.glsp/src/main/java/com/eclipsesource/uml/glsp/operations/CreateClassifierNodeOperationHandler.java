@@ -38,6 +38,10 @@ public class CreateClassifierNodeOperationHandler
       super(handledElementTypeIds);
    }
 
+   /**
+    * The Types specified in this list will be processed by this file.
+    * If a type is not mentioned here, the request for that type will not be redirected here.
+    */
    private static List<String> handledElementTypeIds = Lists.newArrayList(Types.COMPONENT, Types.PACKAGE, Types.ACTOR,
       Types.USECASE, Types.COMMENT);
 
