@@ -67,8 +67,6 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          return create((Actor) classifier);
       } else if (classifier instanceof UseCase) {
          return create((UseCase) classifier);
-      } else if (classifier instanceof Comment) {
-         return create((Comment) classifier);
       }
 
       return null;
@@ -120,14 +118,16 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       GCompartment classHeader = buildHeaderWithoutIcon(umlComponent);
       b.add(classHeader);
 
-      ArrayList<Classifier> childELements = new ArrayList<>();
+      ArrayList<Element> childElements = new ArrayList<>();
 
-      childELements.addAll(umlComponent.getPackagedElements().stream()
-         .filter(pe -> (pe instanceof UseCase))
+      childElements.addAll(umlComponent.getPackagedElements().stream()
+         .filter(pe -> (pe instanceof UseCase) || (pe instanceof Comment))
          .map(Classifier.class::cast)
          .collect(Collectors.toList()));
 
-      GCompartment componentChildCompartment = buildPackageOrComponentChildCompartment(childELements, umlComponent);
+      childElements.addAll(umlComponent.getOwnedComments());
+
+      GCompartment componentChildCompartment = buildPackageOrComponentChildCompartment(childElements, umlComponent);
       b.add(componentChildCompartment);
 
       modelState.getIndex().getNotation(umlComponent, Shape.class).ifPresent(shape -> {
@@ -148,14 +148,17 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       GCompartment classHeader = buildHeaderWithoutIcon(umlPackage);
       b.add(classHeader);
 
-      ArrayList<Classifier> childELements = new ArrayList<>();
+      ArrayList<Element> childElements = new ArrayList<>();
 
-      childELements.addAll(umlPackage.getPackagedElements().stream()
-         .filter(pe -> (pe instanceof Actor || pe instanceof UseCase || pe instanceof Component))
+      childElements.addAll(umlPackage.getPackagedElements().stream()
+         .filter(
+            pe -> (pe instanceof Actor || pe instanceof UseCase || pe instanceof Component))
          .map(Classifier.class::cast)
          .collect(Collectors.toList()));
 
-      GCompartment packageChildCompartment = buildPackageOrComponentChildCompartment(childELements, umlPackage);
+      childElements.addAll(umlPackage.getOwnedComments());
+
+      GCompartment packageChildCompartment = buildPackageOrComponentChildCompartment(childElements, umlPackage);
       b.add(packageChildCompartment);
 
       applyShapeData(umlPackage, b);
@@ -304,15 +307,22 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return classPropertiesBuilder.build();
    }
 
-   protected GCompartment buildPackageOrComponentChildCompartment(final Collection<Classifier> childNodes,
+   protected GCompartment buildPackageOrComponentChildCompartment(final Collection<Element> childNodes,
       final EObject parent) {
       GCompartmentBuilder packageElementsBuilder = new GCompartmentBuilder(Types.COMP)
          .id(UmlIDUtil.createChildCompartmentId(toId(parent)))
          .layout(GConstants.Layout.VBOX);
 
       List<GModelElement> childNodeGModelElements = childNodes.stream()
-         .map(node -> this.create(node))
+         .filter(el -> el instanceof Classifier)
+         .map(node -> this.create((Classifier) node))
          .collect(Collectors.toList());
+
+      childNodeGModelElements.addAll(childNodes.stream()
+         .filter(el -> el instanceof Comment)
+         .map(node -> this.create((Comment) node))
+         .collect(Collectors.toList()));
+
       packageElementsBuilder.addAll(childNodeGModelElements);
 
       return packageElementsBuilder.build();

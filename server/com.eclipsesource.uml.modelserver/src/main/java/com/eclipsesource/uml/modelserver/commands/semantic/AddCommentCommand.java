@@ -11,11 +11,13 @@
 package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.UMLFactory;
+import org.eclipse.uml2.uml.internal.impl.ComponentImpl;
+import org.eclipse.uml2.uml.internal.impl.ModelImpl;
+import org.eclipse.uml2.uml.internal.impl.PackageImpl;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
@@ -49,10 +51,19 @@ public class AddCommentCommand extends UmlSemanticElementCommand {
    @Override
    protected void doExecute() {
       newComment.setBody("newComment");
-      umlModel.getOwnedComments().add(newComment);
       if (annotatedElementSemanticUri != null) {
-         EObject annotatedElement = UmlSemanticCommandUtil.getElement(umlModel, annotatedElementSemanticUri);
-         newComment.getAnnotatedElements().add((Element) annotatedElement); // TODO: I dont know if this cast works
+         Element annotatedElement = UmlSemanticCommandUtil.getElement(umlModel, annotatedElementSemanticUri,
+            Element.class);
+         newComment.getAnnotatedElements().add(annotatedElement);
+         Element container = annotatedElement;
+         while (!(container instanceof ModelImpl || container instanceof PackageImpl
+            || container instanceof ComponentImpl)) {
+            container = (Element) annotatedElement.eContainer();
+         }
+         container.getOwnedComments().add(newComment);
+
+      } else {
+         umlModel.getOwnedComments().add(newComment);
       }
    }
 

@@ -451,10 +451,10 @@ public class UmlModelServerAccess {
    }
 
    public CompletableFuture<Response<Boolean>> addCommentToElement(final UmlModelState modelState,
-      final Element annoatedElement, final Optional<GPoint> newPosition) {
+      final Element annotatedElement, final Optional<GPoint> newPosition) {
       CCommand addCommentCompoundCommand = AddCommentCommandContribution.create(
          newPosition.orElse(GraphUtil.point(0, 0)),
-         getSemanticUriFragment(annoatedElement));
+         getSemanticUriFragment(annotatedElement));
       return this.edit(addCommentCompoundCommand);
    }
 
