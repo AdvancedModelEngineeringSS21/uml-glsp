@@ -11,8 +11,12 @@
 package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Comment;
+import org.eclipse.uml2.uml.Component;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Package;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
@@ -28,6 +32,10 @@ public class RemoveCommentCommand extends UmlSemanticElementCommand {
    @Override
    protected void doExecute() {
       Comment commentToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Comment.class);
+      EObject container = commentToRemove.eContainer();
+      if (container instanceof Package || container instanceof Component) {
+         ((Element) container).getOwnedComments().remove(commentToRemove);
+      }
       umlModel.getOwnedComments().remove(commentToRemove);
    }
 

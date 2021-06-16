@@ -166,7 +166,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
       childElements.addAll(umlPackage.getPackagedElements().stream()
          .filter(
-            pe -> (pe instanceof Actor || pe instanceof UseCase || pe instanceof Component))
+            pe -> (pe instanceof Actor || pe instanceof UseCase || pe instanceof Component || pe instanceof Package))
          .map(Classifier.class::cast)
          .collect(Collectors.toList()));
 

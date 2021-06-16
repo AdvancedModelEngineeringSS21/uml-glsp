@@ -151,16 +151,7 @@ public class CreateClassifierNodeOperationHandler
                         throw new GLSPServerException("Could not execute create operation on new Usecase node");
                      }
                   });
-            } else if (container instanceof Package) {
-               modelAccess
-                  .addUsecaseInParent(UmlModelState.getModelState(modelState), container,
-                     operation.getLocation())
-                  .thenAccept(response -> {
-                     if (!response.body()) {
-                        throw new GLSPServerException("Could not execute create operation on new nested Usecase node");
-                     }
-                  });
-            } else if (container instanceof Component) {
+            } else if (container instanceof Package || container instanceof Component) {
                modelAccess
                   .addUsecaseInParent(UmlModelState.getModelState(modelState), container,
                      operation.getLocation())
