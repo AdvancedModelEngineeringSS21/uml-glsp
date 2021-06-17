@@ -12,15 +12,15 @@ A new diagram can be created via:
 
 Afterwards the diagram needs to be named: 
 
-![ScreenShotNaming](figures_for_readme\ScreenShotNaming.jpeg)
+![ScreenShotNaming](https://user-images.githubusercontent.com/45531943/122419372-24d0ce80-cf8b-11eb-9df9-f0ff9217ec4b.jpeg)
 
 and the type of the diagram needs to be specified. In the case of Use Case diagrams `usecase` needs to be entered
 
-![ScreenShotNaming](figures_for_readme\ScreenShotTypeSelection.jpeg)
+![ScreenShotTypeSelection](https://user-images.githubusercontent.com/45531943/122419403-29958280-cf8b-11eb-9065-770809155395.jpeg)
 
 Afterwards an empty modelling canvas will be displayed. 
 
-![ScreenShotNaming](figures_for_readme\ScreenShotCanvas.jpeg)
+![ScreenShotCanvas](https://user-images.githubusercontent.com/45531943/122419429-2e5a3680-cf8b-11eb-8996-d069bb618c63.jpeg)
 
 ## Starting to model
 
