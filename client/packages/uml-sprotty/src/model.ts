@@ -61,7 +61,7 @@ export class LabeledNode extends RectangularNode implements WithEditableLabel, N
 export class ConnectableEdge extends SEdge implements Connectable {
     canConnect(routable: SRoutableElement, role: "source" | "target"): boolean {
         return true;
-        // TODO: FIXME: HELP?
+        // TODO: If neccessary return false under some conditions
     }
 
     static readonly DEFAULT_FEATURES = [editFeature, deletableFeature, selectFeature, fadeFeature,
@@ -79,7 +79,7 @@ export class ConnectableEditableLabel extends SLabel implements EditableLabel, C
     }
     canConnect(routable: SRoutableElement, role: "source" | "target"): boolean {
         return true;
-        // TODO: FIXME: HELP?
+        // TODO: If neccessary return false under some conditions
     }
 
     hasFeature(feature: symbol): boolean {
@@ -90,7 +90,7 @@ export class ConnectableEditableLabel extends SLabel implements EditableLabel, C
 export class ConnectionPoint extends SLabel implements Connectable {
     canConnect(routable: SRoutableElement, role: "source" | "target"): boolean {
         return true;
-        // TODO: FIXME: HELP?
+        // TODO: If neccessary return false under some conditions
     }
     selected = false;
     hoverFeedback = false;
