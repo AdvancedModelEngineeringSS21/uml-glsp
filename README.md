@@ -1,77 +1,34 @@
-# UML Editor based on GLSP
+# UML Use Case Diagram Editor based on GLSP
 
-Uml GLSP provides a web-based editor for UML Models (including Diagrams), integrated with Eclipse Theia. It contains three components: one [Model Server](https://github.com/eclipse-emfcloud/emfcloud-modelserver) (Server-side, written in Java), one [GLSP](https://github.com/eclipse-glsp/glsp) language server (Server-side, written in Java), and one [GLSP client](https://github.com/eclipse-glsp/glsp-client) extension to actually present the diagrams (using [Sprotty](https://github.com/eclipse/sprotty-theia)). 
+Using the UML Use Case Diagram Editor is quite simple. After creating a new file you can add any element to the canvas by selecting the corresponding  tool from the tool pallet. 
 
-Uml GLSP can display an existing UML model as a class diagram. The diagram layout will be persisted in an `.unotation` file next to the `.uml` file. The diagram editor also supports creation of new elements (Classes, Properties and Associations), as well as partial support for editing existing elements (Renaming, deleting...).
+## Creating a new Use Case Diagram
 
+A new diagram can be created via:
 
-![animated course class diagram](./documentation/uml-glsp-animated-classdiagram.gif)
-
-
-## Prerequisites
-
-The following libraries/frameworks need to be installed on your system:
-
-| | |
-|-|-|
-|[Node.js](https://nodejs.org/en/)|`>= 12.14.1 AND < 13`|
-|[Yarn](https://classic.yarnpkg.com/en/docs/install#debian-stable)|`>=1.7.0`|
-|[Java](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)|`11`|
-|[Maven](https://maven.apache.org/)|`>=3.6.0`|
-|[Git](https://git-scm.com/downloads)|`>= 2.11.0`|
-
-<br/>
-
-The editor is heavily interweaved with Eclipse Theia, so please also check the [prerequisites of Theia](https://github.com/eclipse-theia/theia/blob/master/doc/Developing.md#prerequisites).
-
-The web-based/client part of the editor has been developed using [Visual Studio Code](https://code.visualstudio.com/) and the server/java part has been developed with the [Eclipse IDE](https://www.eclipse.org/ide/).
-Settings for codestyle are provided for both IDEs, however, it's of course also possible to use any other IDE or text editor.
-
-## Getting started
-
-Clone the uml-glsp editor:
-
-    git clone https://github.com/eclipsesource/uml-glsp.git
-
-### Build
-The server components have to be built using Maven, the client component has to be built using yarn. This can be done via CLI:
-
-    cd server && mvn clean install && cd ..
-    cd client && yarn && cd ..
-
-#### Resolving build issues under Windows/MacOS
-
-- Missing build tools result in following error: <br/>
-  `gyp err! stack error: could not find any visual studio installation to use`
-  - Windows: <br/>
-    - Install via `npm install --global --vs2015 windows-build-tools`
-    - Check that `npm config get msvs_version` returns `2015`
-  - Mac OS: <br/>
-    - Install [Xcode](https://developer.apple.com/xcode/) developer tools
-
-### Run
-
-    cd client && yarn start
-
-Start your browser on [http://localhost:3000](http://localhost:3000).
-
-<br/>
-
-#### Open diagrams (`*.uml`)
-- Add/Delete/Rename support for the following UML Elements: `Class`, `Property`, `Association`
-
-#### Create new diagrams
 - via menu entry `File -> New UML Class Diagram`
 - via explorer context menu entry `New UML Class Diagram`
 - via command palette `File: New UML Class Diagram`
 
-<br/>
+Afterwards the diagram needs to be named: 
 
-For detailed information on running and debugging the [server](./server/README.md) and [client](./client/README.md) components, please see their respective READMEs.
+![ScreenShotNaming](https://user-images.githubusercontent.com/45531943/122419372-24d0ce80-cf8b-11eb-9df9-f0ff9217ec4b.jpeg)
 
-<br/>
+and the type of the diagram needs to be specified. In the case of Use Case diagrams `usecase` needs to be entered
 
-## More information
+![ScreenShotTypeSelection](https://user-images.githubusercontent.com/45531943/122419403-29958280-cf8b-11eb-9065-770809155395.jpeg)
 
-For more information, please visit the [EMF.cloud Website](https://www.eclipse.org/emfcloud/). If you have questions, contact us on our [spectrum chat](https://spectrum.chat/emfcloud/) and have a look at our [communication and support options](https://www.eclipse.org/emfcloud/contact/).
+Afterwards an empty modelling canvas will be displayed. 
+
+![ScreenShotCanvas](https://user-images.githubusercontent.com/45531943/122419429-2e5a3680-cf8b-11eb-8996-d069bb618c63.jpeg)
+
+## Starting to model
+
+To build your first model just click on the tool in the pallet for the element you want to add and click on the canvas. 
+
+For creating edges between to elements, first select a relation tool, second select the source element and last select the target element. The cursor will change depending on whether creating a relationship between the two elements is allowed. 
+
+Comments can be either added to the canvas or directly to the element to be annotated, depending on whether it is clicked on the canvas or on the element to be annotated. Comments can be added to classifiers but also to extend edges (note there is an existing bug regarding the rendering of the edge between the comment and the extend edge)
+
+Subsystems and Packages have child compartments to which element can be added by selecting them and clicking on the parent (Subsystem or Package). Subsystems can only take use cases as children, packages can take any classifier. 
 
