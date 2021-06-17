@@ -35,8 +35,9 @@ public class RemoveCommentCommand extends UmlSemanticElementCommand {
       EObject container = commentToRemove.eContainer();
       if (container instanceof Package || container instanceof Component) {
          ((Element) container).getOwnedComments().remove(commentToRemove);
+      } else {
+         umlModel.getOwnedComments().remove(commentToRemove);
       }
-      umlModel.getOwnedComments().remove(commentToRemove);
    }
 
    // TODO: should also be triggered, when element to whcih the comment is pointing is removed

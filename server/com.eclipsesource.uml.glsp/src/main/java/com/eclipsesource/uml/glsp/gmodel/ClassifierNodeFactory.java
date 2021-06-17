@@ -279,6 +279,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       GEdgeBuilder builder = new GEdgeBuilder(Types.ASSOCIATION)
          .id(sourceId + "_" + targetId + "_commentEdge")
          .addCssClass(CSS.EDGE)
+         .addCssClass(CSS.EDGE_DASHED)
          .sourceId(sourceId)
          .targetId(targetId)
          .routerKind(GConstants.RouterKind.MANHATTAN);

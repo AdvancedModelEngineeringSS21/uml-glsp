@@ -44,7 +44,6 @@ public final class UmlConfig {
       public static final String ICON_COMMENT = "icon:comment";
       public static final String COMMENT = "node:comment";
       public static final String COMMENT_BODY = "label:commentbody";
-      public static final String COMMENT_EDGE = "edge:comment_edge";
 
       public static final String EXTEND = "edge:extend";
       public static final String INCLUDE = "edge:include";

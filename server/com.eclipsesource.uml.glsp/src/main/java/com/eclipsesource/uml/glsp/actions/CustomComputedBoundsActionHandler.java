@@ -8,7 +8,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.glsp.model;
+package com.eclipsesource.uml.glsp.actions;
 
 import static org.eclipse.glsp.server.protocol.GLSPServerException.getOrThrow;
 
@@ -30,6 +30,7 @@ import org.eclipse.glsp.server.utils.LayoutUtil;
 
 import com.eclipsesource.uml.glsp.gmodel.GModelFactory;
 import com.eclipsesource.uml.glsp.gmodel.GModelFactoryProvider;
+import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 
 /**

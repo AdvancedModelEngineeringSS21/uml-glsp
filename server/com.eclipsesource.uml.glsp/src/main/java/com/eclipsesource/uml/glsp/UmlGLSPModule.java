@@ -35,6 +35,7 @@ import org.eclipse.glsp.server.operations.gmodel.LayoutOperationHandler;
 import org.eclipse.glsp.server.protocol.GLSPServer;
 import org.eclipse.glsp.server.utils.MultiBinding;
 
+import com.eclipsesource.uml.glsp.actions.CustomComputedBoundsActionHandler;
 import com.eclipsesource.uml.glsp.actions.ReturnTypesAction;
 import com.eclipsesource.uml.glsp.actions.UmlDisposeClientSessionActionHandler;
 import com.eclipsesource.uml.glsp.actions.UmlGetTypesActionHandler;
@@ -43,7 +44,6 @@ import com.eclipsesource.uml.glsp.actions.UmlUndoRedoActionHandler;
 import com.eclipsesource.uml.glsp.diagram.UmlDiagramConfiguration;
 import com.eclipsesource.uml.glsp.layout.UmlLayoutEngine;
 import com.eclipsesource.uml.glsp.layout.UmlServerLayoutConfiguration;
-import com.eclipsesource.uml.glsp.model.CustomComputedBoundsActionHandler;
 import com.eclipsesource.uml.glsp.model.UmlModelFactory;
 import com.eclipsesource.uml.glsp.model.UmlModelStateProvider;
 import com.eclipsesource.uml.glsp.modelserver.ModelServerClientProvider;
